@@ -274,6 +274,7 @@ PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroEnergySurplusVariable
 PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroEnergyShortageVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_level_shortage_cost(cost)
 PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroWaterSurplusVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_level_surplus_cost(cost)
 PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroWaterShortageVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_level_shortage_cost(cost)
+PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::WaterSpillageVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_spillage_cost(cost)
 
 PSI.objective_function_multiplier(::PSI.ActivePowerVariable, ::AbstractHydroFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 PSI.objective_function_multiplier(::ActivePowerPumpVariable, ::AbstractHydroFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
@@ -2314,6 +2315,7 @@ function PSI.objective_function!(
 ) where {T <: PSY.HydroReservoir, U <: HydroEnergyModelReservoir}
     PSI.add_proportional_cost!(container, HydroEnergySurplusVariable(), devices, U())
     PSI.add_proportional_cost!(container, HydroEnergyShortageVariable(), devices, U())
+    PSI.add_proportional_cost!(container, WaterSpillageVariable(), devices, U())
     return
 end
 
@@ -2325,6 +2327,7 @@ function PSI.objective_function!(
 ) where {T <: PSY.HydroReservoir, U <: HydroWaterModelReservoir}
     PSI.add_proportional_cost!(container, HydroWaterSurplusVariable(), devices, U())
     PSI.add_proportional_cost!(container, HydroWaterShortageVariable(), devices, U())
+    PSI.add_proportional_cost!(container, WaterSpillageVariable(), devices, U())
     return
 end
 
@@ -2346,7 +2349,8 @@ function PSI.add_proportional_cost!(
     ::V,
 ) where {
     T <: PSY.Component,
-    U <: Union{HydroEnergySurplusVariable, HydroEnergyShortageVariable},
+    U <:
+    Union{HydroEnergySurplusVariable, HydroEnergyShortageVariable, WaterSpillageVariable},
     V <: PSI.AbstractDeviceFormulation,
 }
     base_p = PSI.get_base_power(container)
@@ -2375,7 +2379,8 @@ function PSI.add_proportional_cost!(
     ::V,
 ) where {
     T <: PSY.HydroReservoir,
-    U <: Union{HydroEnergySurplusVariable, HydroEnergyShortageVariable},
+    U <:
+    Union{HydroEnergySurplusVariable, HydroEnergyShortageVariable, WaterSpillageVariable},
     V <: HydroEnergyModelReservoir,
 }
     base_p = PSI.get_base_power(container)
