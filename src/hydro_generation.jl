@@ -283,7 +283,7 @@ PSI.objective_function_multiplier(::HydroEnergySurplusVariable, ::AbstractHydroR
 PSI.objective_function_multiplier(::HydroEnergyShortageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 PSI.objective_function_multiplier(::HydroWaterSurplusVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_NEGATIVE
 PSI.objective_function_multiplier(::HydroWaterShortageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
-
+PSI.objective_function_multiplier(::WaterSpillageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 # PSI.objective_function_multiplier(::PSI.ActivePowerOutVariable, ::HydroWaterFactorModel)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 
 PSI.sos_status(::PSY.HydroGen, ::AbstractHydroReservoirFormulation)=PSI.SOSStatusVariable.NO_VARIABLE
