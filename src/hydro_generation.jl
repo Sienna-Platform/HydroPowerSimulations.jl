@@ -1807,7 +1807,7 @@ function PSI.add_constraints!(
                 sum(
                     (
                         fraction_max_head * (
-                            PSY.storage_level_limits(res).max -
+                            PSY.get_storage_level_limits(res).max -
                             PSY.get_intake_elevation(res)
                         ) +
                         PSY.get_intake_elevation(res) -
