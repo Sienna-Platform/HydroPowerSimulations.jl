@@ -427,6 +427,13 @@ function PSI.get_default_attributes(
 end
 
 function PSI.get_default_attributes(
+    ::Type{T},
+    ::Type{D},
+) where {T <: PSY.HydroTurbine, D <: HydroTurbineWaterLinearDispatch}
+    return Dict{String, Any}("head_fraction_usage" => 0.0)
+end
+
+function PSI.get_default_attributes(
     ::Type{PSY.HydroReservoir},
     ::Type{HydroWaterFactorModel},
 )
@@ -1749,8 +1756,7 @@ function PSI.add_constraints!(
                 GRAVITATIONAL_CONSTANT * WATER_DENSITY * conversion_factor *
                 sum(
                     (
-                        head[PSY.get_name(res), t] + PSY.get_intake_elevation(res) -
-                        powerhouse_elevation
+                        head[PSY.get_name(res), t] - powerhouse_elevation
                     ) * flow[name, PSY.get_name(res), t] for res in reservoirs
                 ) / (1e6 * base_power)
             )
@@ -1787,6 +1793,7 @@ function PSI.add_constraints!(
         )
     power = PSI.get_variable(container, PSI.ActivePowerVariable(), V)
     flow = PSI.get_variable(container, HydroTurbineFlowRateVariable(), V)
+    fraction_max_head = PSI.get_attribute(model, "head_fraction_usage")
     for d in devices
         name = PSY.get_name(d)
         conversion_factor = PSY.get_conversion_factor(d)
@@ -1799,6 +1806,10 @@ function PSI.add_constraints!(
                 GRAVITATIONAL_CONSTANT * WATER_DENSITY * conversion_factor *
                 sum(
                     (
+                        fraction_max_head * (
+                            PSY.storage_level_limits(res).max -
+                            PSY.get_intake_elevation(res)
+                        ) +
                         PSY.get_intake_elevation(res) -
                         powerhouse_elevation
                     ) * flow[name, PSY.get_name(res), t] for res in reservoirs
