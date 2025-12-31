@@ -77,6 +77,3 @@ energy =
     read_variable(res, "EnergyVariable__HydroReservoir"; table_format = TableFormat.WIDE)
 
 # Note that since we have ignored the energy targets in the reservoir model, the optimal solution decides to deplete the reservoir.
-
-
-

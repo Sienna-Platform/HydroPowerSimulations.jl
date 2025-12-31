@@ -82,6 +82,3 @@ hydraulic_head = read_variable(
 )
 
 # Note that since the water outflow limit of the turbine is limited on 30 m³/s, the optimal solution decides to flow as much water as possible producing power around 190 MW with that flow and hydraulic head.
-
-
-

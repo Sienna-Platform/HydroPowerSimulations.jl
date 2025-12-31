@@ -95,6 +95,3 @@ var = read_variable(
 
 var =
     read_variable(res, "EnergyVariable__HydroPumpTurbine"; table_format = TableFormat.WIDE)
-
-
-

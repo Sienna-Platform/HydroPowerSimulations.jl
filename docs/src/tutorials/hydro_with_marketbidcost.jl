@@ -147,6 +147,3 @@ show(hy_p; allrows = true)
 dual_price =
     read_dual(res, "CopperPlateBalanceConstraint__System"; table_format = TableFormat.WIDE);
 show(dual_price; allrows = true)
-
-
-

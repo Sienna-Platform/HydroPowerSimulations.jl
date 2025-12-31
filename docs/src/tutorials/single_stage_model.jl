@@ -53,6 +53,3 @@ res = OptimizationProblemResults(model)
 # Use [`read_variable`](@extref InfrastructureSystems.Optimization.read_variable) to read in the dispatch variable results for the hydro:
 
 var = read_variable(res, "ActivePowerVariable__HydroDispatch")
-
-
-
