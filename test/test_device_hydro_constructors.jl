@@ -404,6 +404,90 @@ end
     @test abs(hydro_power_sum - hydro_budget) <= eps
 end
 
+@testset "Make Hydro Dispatch Run Of River with Reserves" begin
+    output_dir = mktempdir(; cleanup = true)
+
+    c_sys5_hy = PSB.build_system(
+        PSITestSystems,
+        "c_sys5_hy";
+        add_single_time_series = true,
+        add_reserves = true,
+    )
+
+    # Fix reserve parameters
+    reg_up = only(get_components(VariableReserve{ReserveUp}, c_sys5_hy))
+    reg_dn = only(get_components(VariableReserve{ReserveDown}, c_sys5_hy))
+    set_deployed_fraction!(reg_up, 0.0)
+    set_deployed_fraction!(reg_dn, 0.0)
+    set_requirement!(reg_up, 0.01)
+    set_requirement!(reg_dn, 0.01)
+
+    hydro_budget = 24
+    eps = 1e-6
+
+    hy = only(get_components(HydroDispatch, c_sys5_hy))
+
+    # Update Service allocation
+    # Remove reg up from hydro, but leave reg dn
+    remove_service!(hy, reg_up)
+
+    # Add reg up to thermals
+    for th in get_components(ThermalStandard, c_sys5_hy)
+        add_service!(th, reg_up, c_sys5_hy)
+    end
+
+    max_power = get_max_active_power(hy)
+    tstamp = range(DateTime("2024-01-01T00:00:00"); step = Dates.Hour(1), length = 48)
+    data = ones(length(tstamp)) / (get_base_power(c_sys5_hy) * max_power)
+    ts = SingleTimeSeries("hydro_budget", TimeArray(tstamp, data))
+    add_time_series!(c_sys5_hy, first(get_components(HydroDispatch, c_sys5_hy)), ts)
+
+    ## add extra hydro budget
+    hy_copy = HydroDispatch(;
+        name = "HydroDispatchCopy",
+        available = get_available(hy),
+        bus = get_bus(hy),
+        active_power = get_active_power(hy),
+        reactive_power = get_reactive_power(hy),
+        rating = get_rating(hy),
+        prime_mover_type = get_prime_mover_type(hy),
+        active_power_limits = get_active_power_limits(hy),
+        reactive_power_limits = get_reactive_power_limits(hy),
+        ramp_limits = get_ramp_limits(hy),
+        time_limits = get_time_limits(hy),
+        base_power = get_base_power(hy),
+    )
+    add_component!(c_sys5_hy, hy_copy)
+    copy_time_series!(hy_copy, hy)
+
+    transform_single_time_series!(c_sys5_hy, Hour(24), Hour(24))
+
+    template_uc = ProblemTemplate()
+    set_device_model!(template_uc, ThermalStandard, ThermalBasicUnitCommitment)
+    set_device_model!(template_uc, RenewableDispatch, RenewableFullDispatch)
+    set_device_model!(template_uc, PowerLoad, StaticPowerLoad)
+    set_device_model!(template_uc, RenewableNonDispatch, FixedOutput)
+    set_device_model!(
+        template_uc,
+        DeviceModel(HydroDispatch, HydroDispatchRunOfRiverBudget;
+            attributes = Dict("hydro_budget_interval" => Hour(hydro_budget))),
+    )
+    set_service_model!(template_uc, VariableReserve{ReserveUp}, RangeReserve)
+    set_service_model!(template_uc, VariableReserve{ReserveDown}, RangeReserve)
+    model = DecisionModel(
+        template_uc,
+        c_sys5_hy;
+        optimizer = HiGHS_optimizer,
+        store_variable_names = true,
+    )
+
+    @test build!(model; output_dir = output_dir) ==
+          PSI.ModelBuildStatus.BUILT
+
+    @test solve!(model; output_dir = output_dir) ==
+          IS.Simulation.RunStatus.SUCCESSFULLY_FINALIZED
+end
+
 ################################################
 ####### Hydro PUMP ENERGY DISPATCH TEST ########
 ################################################
@@ -602,7 +686,7 @@ end
     psi_checksolve_test(
         model,
         [MOI.OPTIMAL, MOI.ALMOST_OPTIMAL, MOI.LOCALLY_SOLVED],
-        158187.86,
+        210949.49,
         1000,
     )
 end

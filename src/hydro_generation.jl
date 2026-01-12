@@ -2842,6 +2842,10 @@ function PSI.add_to_expression!(
             service_name = PSI.get_service_name(service_model)
             services = PSY.get_services(d)
             service_ix = findfirst(x -> PSY.get_name(x) == service_name, services)
+            if isnothing(service_ix)
+                #Device does not participate in this service but others might. Skipping.
+                continue
+            end
             service = services[service_ix]
             if isa(service, PSY.Reserve{PSY.ReserveUp})
                 deployed_fraction = PSY.get_deployed_fraction(service)
@@ -2886,6 +2890,10 @@ function PSI.add_to_expression!(
             # Find service with the same name of the service_model, that should exist in the device
             services = PSY.get_services(d)
             service_ix = findfirst(x -> PSY.get_name(x) == service_name, services)
+            if isnothing(service_ix)
+                #Device does not participate in this service but others might. Skipping.
+                continue
+            end
             service = services[service_ix]
             if isa(service, PSY.Reserve{PSY.ReserveDown})
                 deployed_fraction = PSY.get_deployed_fraction(service)
