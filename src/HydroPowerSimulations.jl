@@ -81,19 +81,16 @@ export TotalHydroFlowRateTurbineOutgoing
 
 #################################################################################
 # Imports
-using PowerSystems
-import InfrastructureSystems
+import PowerSystems as PSY
+import InfrastructureSystems as IS
+import InfrastructureSystems.Simulation as ISSIM
+import InfrastructureSystems.Optimization as ISOPT
 import Dates
-import PowerSimulations
+import PowerSimulations as PSI
 import JuMP
 
-const PSY = PowerSystems
-const IS = InfrastructureSystems
-const ISSIM = InfrastructureSystems.Simulation
-const ISOPT = InfrastructureSystems.Optimization
-const PSI = PowerSimulations
 # Import PM types this way to avoid dependency issues with PowerSimulations
-const PM = PowerSimulations.PM
+const PM = PSI.PM
 
 # import PowerSimulations: HydroDispatchRunOfRiver, HydroCommitmentRunOfRiver
 # import PowerSimulations: HydroCommitmentRunOfRiver

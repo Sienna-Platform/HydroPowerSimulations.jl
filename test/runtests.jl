@@ -1,27 +1,29 @@
 using Revise
-using PowerSystems
-using PowerSimulations
-using PowerSystemCaseBuilder
-using PowerNetworkMatrices
-using HydroPowerSimulations
 using DataFrames
 using CSV
 using TimeSeries
 using Dates
-using InfrastructureSystems
 using Test
 using Logging
 import OrderedCollections: OrderedDict
 import JuMP.Containers: DenseAxisArray, SparseAxisArray
-using DataFrames
 using DataFramesMeta
 
 import DataStructures: SortedDict
 
+# Import packages with aliases
+import PowerSystems as PSY
+import PowerSimulations as PSI
+import PowerSystemCaseBuilder as PSB
+import InfrastructureSystems as IS
+const PM = PSI.PM
+import PowerNetworkMatrices as PNM
+import HydroPowerSimulations as HPS
+
 import Aqua
-Aqua.test_unbound_args(HydroPowerSimulations)
-Aqua.test_undefined_exports(HydroPowerSimulations)
-Aqua.test_ambiguities(HydroPowerSimulations)
+Aqua.test_unbound_args(HPS)
+Aqua.test_undefined_exports(HPS)
+Aqua.test_ambiguities(HPS)
 
 LOG_FILE = "power-systems.log"
 LOG_LEVELS = Dict(
@@ -30,16 +32,6 @@ LOG_LEVELS = Dict(
     "Warn" => Logging.Warn,
     "Error" => Logging.Error,
 )
-
-# Constants
-# Constants
-const PSY = PowerSystems
-const PSI = PowerSimulations
-const PSB = PowerSystemCaseBuilder
-const IS = InfrastructureSystems
-const PM = PSI.PM
-const PNM = PowerNetworkMatrices
-const HPS = HydroPowerSimulations
 
 # Test Utils
 using JuMP
