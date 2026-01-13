@@ -1,4 +1,4 @@
-function get_available_reservoirs(sys::System)
+function get_available_reservoirs(sys::PSY.System)
     pump_turbines = PSY.get_components(PSY.get_available, PSY.HydroPumpTurbine, sys)
     available_reservoirs = PSY.get_components(get_available, PSY.HydroReservoir, sys)
     if isempty(pump_turbines)
@@ -23,14 +23,14 @@ function get_available_reservoirs(sys::System)
 end
 
 function get_available_turbines(
-    d::HydroReservoir,
+    d::PSY.HydroReservoir,
     ::Type{U},
 ) where {U <: Union{TotalHydroPowerReservoirIncoming, TotalHydroFlowRateReservoirIncoming}}
     return filter(PSY.get_available, PSY.get_upstream_turbines(d))
 end
 
 function get_available_turbines(
-    d::HydroReservoir,
+    d::PSY.HydroReservoir,
     ::Type{U},
 ) where {U <: Union{TotalHydroPowerReservoirOutgoing, TotalHydroFlowRateReservoirOutgoing}}
     return filter(PSY.get_available, PSY.get_downstream_turbines(d))
