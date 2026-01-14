@@ -352,7 +352,7 @@ end
 
     model = DecisionModel(MockOperationProblem, CopperPlatePowerModel, sys)
     mock_construct_device!(model, device_model)
-    moi_tests(model, 24, 0, 50, 24, 0, false)
+    moi_tests(model, 48, 0, 50, 24, 0, false)
     psi_checkobjfun_test(model, GAEVF)
 end
 
