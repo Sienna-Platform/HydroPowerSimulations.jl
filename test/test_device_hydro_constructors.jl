@@ -338,7 +338,7 @@ end
 ########################################################
 @testset "Test Hydro Dispatch Run Of River Formulations " begin
     device_model = PSI.DeviceModel(HydroDispatch, HydroDispatchRunOfRiverBudget;
-        attributes = Dict("hydro_budget_interval" => Hour(24)))
+        use_slacks = true, attributes = Dict("hydro_budget_interval" => Hour(24)))
 
     sys = PSB.build_system(PSITestSystems, "c_sys5_hy"; add_single_time_series = true)
     hy = only(get_components(HydroDispatch, sys))
