@@ -1374,11 +1374,17 @@ function PSI.add_constraints!(
 
     for d in devices
         name = PSY.get_name(d)
+        if PSI.get_use_slacks(model)
+            slack_var =
+                sum(PSI.get_variable(container, HydroEnergyShortageVariable(), V)[name, :])
+        else
+            slack_var = 0.0
+        end
         param = PSI.get_parameter_column_values(param_container, name)
         constraint[name] = JuMP.@constraint(
             container.JuMPmodel,
             sum([total_power_out[name, t] for t in time_steps]) <=
-            sum([multiplier[name, t] * param[t] for t in time_steps])
+            sum([multiplier[name, t] * param[t] for t in time_steps]) + slack_var
         )
     end
     return

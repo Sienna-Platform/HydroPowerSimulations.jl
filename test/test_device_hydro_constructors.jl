@@ -27,6 +27,7 @@ end
     reservoir_model = DeviceModel(
         HydroReservoir,
         HydroEnergyModelReservoir;
+        use_slacks = true,
         attributes = Dict{String, Any}(
             "energy_target" => false,
             "hydro_budget" => true,
