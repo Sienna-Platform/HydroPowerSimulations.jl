@@ -16,7 +16,7 @@ function get_available_reservoirs(sys::PSY.System)
         end
     end
     return PSY.get_components(
-        x -> (PSY.get_available(x)) && (x ∉ reservoirs_in_pumps),
+        x -> PSY.get_available(x) && x ∉ reservoirs_in_pumps,
         PSY.HydroReservoir,
         sys,
     )
@@ -26,12 +26,18 @@ function get_available_turbines(
     d::PSY.HydroReservoir,
     ::Type{U},
 ) where {U <: Union{TotalHydroPowerReservoirIncoming, TotalHydroFlowRateReservoirIncoming}}
-    return filter(PSY.get_available, PSY.get_upstream_turbines(d))
+    return filter(
+        x -> PSY.get_available(x) && isa(x, PSY.HydroTurbine),
+        PSY.get_upstream_turbines(d),
+    )
 end
 
 function get_available_turbines(
     d::PSY.HydroReservoir,
     ::Type{U},
 ) where {U <: Union{TotalHydroPowerReservoirOutgoing, TotalHydroFlowRateReservoirOutgoing}}
-    return filter(PSY.get_available, PSY.get_downstream_turbines(d))
+    return filter(
+        x -> PSY.get_available(x) && isa(x, PSY.HydroTurbine),
+        PSY.get_downstream_turbines(d),
+    )
 end
