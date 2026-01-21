@@ -1993,11 +1993,6 @@ function PSI.construct_device!(
         network_model,
     )
 
-    if PSI.has_service_model(model)
-        PSI.add_expressions!(container, HydroServedReserveUpExpression, devices, model)
-        PSI.add_expressions!(container, HydroServedReserveDownExpression, devices, model)
-    end
-
     PSI.add_feedforward_arguments!(container, model, devices)
     PSI.add_event_arguments!(container, devices, model, network_model)
     return
@@ -2057,11 +2052,6 @@ function PSI.construct_device!(
         model,
         network_model,
     )
-
-    if PSI.has_service_model(model)
-        PSI.add_expressions!(container, HydroServedReserveUpExpression, devices, model)
-        PSI.add_expressions!(container, HydroServedReserveDownExpression, devices, model)
-    end
 
     PSI.add_feedforward_arguments!(container, model, devices)
     PSI.add_event_arguments!(container, devices, model, network_model)
