@@ -840,6 +840,21 @@ function PSI.construct_device!(
         PSI.add_parameters!(container, EnergyBudgetTimeSeriesParameter, devices, model)
     end
 
+    if PSI.get_use_slacks(model)
+        PSI.add_variables!(
+            container,
+            HydroBalanceSurplusVariable,
+            devices,
+            T(),
+        )
+        PSI.add_variables!(
+            container,
+            HydroBalanceShortageVariable,
+            devices,
+            T(),
+        )
+    end
+
     PSI.add_feedforward_arguments!(container, model, devices)
     return
 end
