@@ -133,6 +133,16 @@ PSI.get_variable_binary(::HydroWaterSurplusVariable, ::Type{<:PSY.HydroReservoir
 PSI.get_variable_upper_bound(::HydroWaterSurplusVariable, d::PSY.HydroReservoir, ::HydroWaterModelReservoir) = 0.0
 PSI.get_variable_lower_bound(::HydroWaterSurplusVariable, d::PSY.HydroReservoir, ::HydroWaterModelReservoir) = - PSY.get_storage_level_limits(d).max
 
+############## BalanceShortageVariable, HydroReservoir ####################
+PSI.get_variable_binary(::HydroBalanceShortageVariable, ::Type{<:PSY.HydroReservoir}, ::AbstractHydroFormulation) = false
+PSI.get_variable_lower_bound(::HydroBalanceShortageVariable, d::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = 0.0
+PSI.get_variable_upper_bound(::HydroBalanceShortageVariable, d::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = PSY.get_storage_level_limits(d).max
+
+############## BalanceSurplusVariable, HydroReservoir ####################
+PSI.get_variable_binary(::HydroBalanceSurplusVariable, ::Type{<:PSY.HydroReservoir}, ::AbstractHydroFormulation) = false
+PSI.get_variable_lower_bound(::HydroBalanceSurplusVariable, d::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = 0.0
+PSI.get_variable_upper_bound(::HydroBalanceSurplusVariable, d::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = PSY.get_storage_level_limits(d).max
+
 ############## HydroReservoirHeadVariable, HydroReservoir ####################
 PSI.get_variable_binary(::HydroReservoirHeadVariable, ::Type{PSY.HydroReservoir}, ::AbstractHydroFormulation) = false
 function PSI.get_variable_upper_bound(::HydroReservoirHeadVariable, d::PSY.HydroReservoir, ::AbstractHydroFormulation)
@@ -242,6 +252,8 @@ PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroEnergyShortageVariabl
 PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroWaterSurplusVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_level_surplus_cost(cost)
 PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::HydroWaterShortageVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_level_shortage_cost(cost)
 PSI.proportional_cost(cost::PSY.HydroReservoirCost, ::WaterSpillageVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSY.get_spillage_cost(cost)
+PSI.proportional_cost(::PSY.HydroReservoirCost, ::HydroBalanceSurplusVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSI.CONSTRAINT_VIOLATION_SLACK_COST
+PSI.proportional_cost(::PSY.HydroReservoirCost, ::HydroBalanceShortageVariable, ::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)=PSI.CONSTRAINT_VIOLATION_SLACK_COST
 
 PSI.objective_function_multiplier(::PSI.ActivePowerVariable, ::AbstractHydroFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 PSI.objective_function_multiplier(::ActivePowerPumpVariable, ::AbstractHydroFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
@@ -249,6 +261,8 @@ PSI.objective_function_multiplier(::PSI.OnVariable, ::AbstractHydroFormulation)=
 PSI.objective_function_multiplier(::HydroEnergyShortageVariable, ::AbstractHydroFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 PSI.objective_function_multiplier(::HydroEnergySurplusVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_NEGATIVE
 PSI.objective_function_multiplier(::HydroEnergyShortageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
+PSI.objective_function_multiplier(::HydroBalanceSurplusVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
+PSI.objective_function_multiplier(::HydroBalanceShortageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 PSI.objective_function_multiplier(::HydroWaterSurplusVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_NEGATIVE
 PSI.objective_function_multiplier(::HydroWaterShortageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
 PSI.objective_function_multiplier(::WaterSpillageVariable, ::AbstractHydroReservoirFormulation)=PSI.OBJECTIVE_FUNCTION_POSITIVE
@@ -477,6 +491,45 @@ function PSI.add_variables!(
         lb !== nothing && JuMP.set_lower_bound(variable[name, name_res, t], lb)
     end
 end
+
+##### Method commented due to issues with write results with time steps with different lengths
+#=
+function PSI.add_variables!(
+    container::PSI.OptimizationContainer,
+    variable_type::Type{T},
+    reservoirs::W,
+    formulation::X,
+) where {
+    T <: Union{HydroBalanceSurplusVariable, HydroBalanceShortageVariable},
+    W <: Union{Vector{E}, IS.FlattenIteratorWrapper{E}},
+    X <: Union{HydroEnergyModelReservoir},
+} where {
+    E <: PSY.HydroReservoir,
+}
+    time_steps = PSI.get_time_steps(container)
+    end_time_steps = [time_steps[1], time_steps[end]]
+    variable = PSI.add_variable_container!(
+        container,
+        variable_type(),
+        E,
+        [PSY.get_name(d) for d in reservoirs],
+        end_time_steps,
+    )
+
+    for t in end_time_steps, r in reservoirs
+        name_res = PSY.get_name(r)
+        variable[name_res, t] = JuMP.@variable(
+            PSI.get_jump_model(container),
+            base_name = "$(T)_$(E)_{$(name_res), $(t)}",
+        )
+        ub = PSI.get_variable_upper_bound(variable_type(), r, formulation)
+        ub !== nothing && JuMP.set_upper_bound(variable[name_res, t], ub)
+
+        lb = PSI.get_variable_lower_bound(variable_type(), r, formulation)
+        lb !== nothing && JuMP.set_lower_bound(variable[name_res, t], lb)
+    end
+end
+=#
 
 ############################################################################
 ############################### Constraints ################################
@@ -723,9 +776,19 @@ function PSI.add_constraints!(
         device = PSI.get_component(ic)
         name = PSY.get_name(device)
         param = PSI.get_parameter_column_values(param_container, name)
+        if PSI.get_use_slacks(model)
+            surplus_var =
+                PSI.get_variable(container, HydroBalanceSurplusVariable(), V)[name, 1]
+            shortage_var =
+                PSI.get_variable(container, HydroBalanceShortageVariable(), V)[name, 1]
+        else
+            surplus_var = 0.0
+            shortage_var = 0.0
+        end
         constraint[name, 1] = JuMP.@constraint(
             container.JuMPmodel,
             energy_var[name, 1] ==
+            shortage_var - surplus_var +
             PSI.get_value(ic) +
             (power_in_from_turbines[name, 1] - power_out_to_turbines[name, 1]) *
             fraction_of_hour +
@@ -734,15 +797,32 @@ function PSI.add_constraints!(
         )
 
         for t in time_steps[2:end]
-            constraint[name, t] = JuMP.@constraint(
-                container.JuMPmodel,
-                energy_var[name, t] ==
-                energy_var[name, t - 1] + param[t] * multiplier[name, t] +
-                (power_in_from_turbines[name, t] - power_out_to_turbines[name, t]) *
-                fraction_of_hour +
-                (spillage_in_from_reservoirs[name, t] - spillage_var[name, t]) *
-                fraction_of_hour
-            )
+            if t != time_steps[end]
+                constraint[name, t] = JuMP.@constraint(
+                    container.JuMPmodel,
+                    energy_var[name, t] ==
+                    energy_var[name, t - 1] + param[t] * multiplier[name, t] +
+                    (power_in_from_turbines[name, t] - power_out_to_turbines[name, t]) *
+                    fraction_of_hour +
+                    (spillage_in_from_reservoirs[name, t] - spillage_var[name, t]) *
+                    fraction_of_hour
+                )
+            else
+                surplus_var =
+                    PSI.get_variable(container, HydroBalanceSurplusVariable(), V)[name, t]
+                shortage_var =
+                    PSI.get_variable(container, HydroBalanceShortageVariable(), V)[name, t]
+                constraint[name, t] = JuMP.@constraint(
+                    container.JuMPmodel,
+                    energy_var[name, t] ==
+                    shortage_var - surplus_var +
+                    energy_var[name, t - 1] + param[t] * multiplier[name, t] +
+                    (power_in_from_turbines[name, t] - power_out_to_turbines[name, t]) *
+                    fraction_of_hour +
+                    (spillage_in_from_reservoirs[name, t] - spillage_var[name, t]) *
+                    fraction_of_hour
+                )
+            end
         end
     end
     return
@@ -2283,12 +2363,16 @@ end
 function PSI.objective_function!(
     container::PSI.OptimizationContainer,
     devices::IS.FlattenIteratorWrapper{T},
-    ::PSI.DeviceModel{T, U},
+    model::PSI.DeviceModel{T, U},
     ::Type{<:PM.AbstractPowerModel},
 ) where {T <: PSY.HydroReservoir, U <: HydroEnergyModelReservoir}
     PSI.add_proportional_cost!(container, HydroEnergySurplusVariable(), devices, U())
     PSI.add_proportional_cost!(container, HydroEnergyShortageVariable(), devices, U())
     PSI.add_proportional_cost!(container, WaterSpillageVariable(), devices, U())
+    if PSI.get_use_slacks(model)
+        PSI.add_proportional_cost!(container, HydroBalanceShortageVariable(), devices, U())
+        PSI.add_proportional_cost!(container, HydroBalanceSurplusVariable(), devices, U())
+    end
     return
 end
 
@@ -2363,6 +2447,36 @@ function PSI.add_proportional_cost!(
         cost_term = PSI.proportional_cost(op_cost_data, U(), d, V())
         iszero(cost_term) && continue
         for t in PSI.get_time_steps(container)
+            PSI._add_proportional_term!(
+                container,
+                U(),
+                d,
+                cost_term * multiplier * base_p,
+                t,
+            )
+        end
+    end
+    return
+end
+
+function PSI.add_proportional_cost!(
+    container::PSI.OptimizationContainer,
+    ::U,
+    devices::IS.FlattenIteratorWrapper{T},
+    ::V,
+) where {
+    T <: PSY.HydroReservoir,
+    U <: Union{HydroBalanceShortageVariable, HydroBalanceSurplusVariable},
+    V <: HydroEnergyModelReservoir,
+}
+    base_p = PSI.get_base_power(container)
+    multiplier = PSI.objective_function_multiplier(U(), V())
+    for d in devices
+        op_cost_data = PSY.get_operation_cost(d)
+        cost_term = PSI.proportional_cost(op_cost_data, U(), d, V())
+        iszero(cost_term) && continue
+        time_steps = PSI.get_time_steps(container)
+        for t in time_steps
             PSI._add_proportional_term!(
                 container,
                 U(),
