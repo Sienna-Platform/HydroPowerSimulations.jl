@@ -20,6 +20,20 @@ Docs abbreviation: ``e^\\text{surplus}``
 struct HydroEnergySurplusVariable <: PSI.VariableType end
 
 """
+Struct to dispatch the creation of a slack variable for shortage on balance constraints
+
+Docs abbreviation: ``e^\\text{b,shortage}``
+"""
+struct HydroBalanceShortageVariable <: PSI.VariableType end
+
+"""
+Struct to dispatch the creation of a slack variable for surplus on balance constraints
+
+Docs abbreviation: ``e^\\text{b,surplus}``
+"""
+struct HydroBalanceSurplusVariable <: PSI.VariableType end
+
+"""
 Struct to dispatch the creation of a slack variable for water storage levels < target storage levels
 
 Docs abbreviation: ``l^\\text{shortage}``

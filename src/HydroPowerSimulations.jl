@@ -27,6 +27,8 @@ export HydroWaterSurplusVariable
 export HydroReservoirHeadVariable
 export HydroReservoirVolumeVariable
 export HydroTurbineFlowRateVariable
+export HydroBalanceShortageVariable
+export HydroBalanceSurplusVariable
 export ActivePowerPumpVariable
 
 ######## Hydro Aux Variables ########
