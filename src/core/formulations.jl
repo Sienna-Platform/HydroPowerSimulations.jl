@@ -60,7 +60,13 @@ Formulation type to add injection variables for a [`PowerSystems.HydroTurbine`](
 """
 struct HydroTurbineEnergyCommitment <: AbstractHydroUnitCommitment end
 
+abstract type AbstractHydroPumpFormulation <: AbstractHydroFormulation end
 """
-Formulation type to add injection variables for a HydroPumpTurbine only using energy variables (no water flow variables) [`PowerSystems.HydroGen`](@extref)
+Formulation type to add injection variables for a HydroPumpTurbine only using energy variables (no water flow variables)
 """
-struct HydroPumpEnergyDispatch <: AbstractHydroDispatchFormulation end
+struct HydroPumpEnergyDispatch <: AbstractHydroPumpFormulation end
+
+"""
+Formulation type to add injection variables for a HydroPumpTurbine only using energy variables (no water flow variables) and commitment variables
+"""
+struct HydroPumpEnergyCommitment <: AbstractHydroPumpFormulation end
