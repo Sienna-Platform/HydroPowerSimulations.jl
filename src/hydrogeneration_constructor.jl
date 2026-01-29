@@ -2119,3 +2119,193 @@ function PSI.construct_device!(
 
     return
 end
+
+#############################################################
+########### Hydro Pump Turbine Commitment Models ############
+#############################################################
+function PSI.construct_device!(
+    container::PSI.OptimizationContainer,
+    sys::PSY.System,
+    ::PSI.ArgumentConstructStage,
+    model::PSI.DeviceModel{H, D},
+    network_model::PSI.NetworkModel{S},
+) where {
+    H <: PSY.HydroPumpTurbine,
+    D <: HydroPumpEnergyCommitment,
+    S <: PM.AbstractPowerModel,
+}
+    devices = PSI.get_available_components(model, sys)
+    PSI.add_variables!(container, PSI.ActivePowerVariable, devices, D())
+    PSI.add_variables!(container, ActivePowerPumpVariable, devices, D())
+    PSI.add_variables!(container, PSI.ReactivePowerVariable, devices, D())
+    PSI.add_variables!(container, PSI.OnVariable, devices, D())
+
+    if PSI.get_attribute(model, "reservation")
+        PSI.add_variables!(container, PSI.ReservationVariable, devices, D())
+    end
+
+    PSI.process_market_bid_parameters!(container, devices, model)
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerRangeExpressionLB,
+        PSI.ActivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerRangeExpressionUB,
+        PSI.ActivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerBalance,
+        PSI.ActivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerBalance,
+        ActivePowerPumpVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_to_expression!(
+        container,
+        PSI.ReactivePowerBalance,
+        PSI.ReactivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_feedforward_arguments!(container, model, devices)
+    PSI.add_event_arguments!(container, devices, model, network_model)
+    return
+end
+
+function PSI.construct_device!(
+    container::PSI.OptimizationContainer,
+    sys::PSY.System,
+    ::PSI.ArgumentConstructStage,
+    model::PSI.DeviceModel{H, D},
+    network_model::PSI.NetworkModel{S},
+) where {
+    H <: PSY.HydroPumpTurbine,
+    D <: HydroPumpEnergyCommitment,
+    S <: PM.AbstractActivePowerModel,
+}
+    devices = PSI.get_available_components(model, sys)
+    PSI.add_variables!(container, PSI.ActivePowerVariable, devices, D())
+    PSI.add_variables!(container, ActivePowerPumpVariable, devices, D())
+    PSI.add_variables!(container, PSI.OnVariable, devices, D())
+
+    if PSI.get_attribute(model, "reservation")
+        PSI.add_variables!(container, PSI.ReservationVariable, devices, D())
+    end
+
+    PSI.process_market_bid_parameters!(container, devices, model)
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerRangeExpressionLB,
+        PSI.ActivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerRangeExpressionUB,
+        PSI.ActivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerBalance,
+        PSI.ActivePowerVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_to_expression!(
+        container,
+        PSI.ActivePowerBalance,
+        ActivePowerPumpVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_feedforward_arguments!(container, model, devices)
+    PSI.add_event_arguments!(container, devices, model, network_model)
+    return
+end
+
+function PSI.construct_device!(
+    container::PSI.OptimizationContainer,
+    sys::PSY.System,
+    ::PSI.ModelConstructStage,
+    model::PSI.DeviceModel{H, D},
+    network_model::PSI.NetworkModel{S},
+) where {
+    H <: PSY.HydroPumpTurbine,
+    D <: HydroPumpEnergyCommitment,
+    S <: PM.AbstractActivePowerModel,
+}
+    devices = PSI.get_available_components(model, sys)
+
+    PSI.add_constraints!(
+        container,
+        PSI.ActivePowerVariableLimitsConstraint,
+        PSI.ActivePowerRangeExpressionLB,
+        devices,
+        model,
+        network_model,
+    )
+    PSI.add_constraints!(
+        container,
+        PSI.ActivePowerVariableLimitsConstraint,
+        PSI.ActivePowerRangeExpressionUB,
+        devices,
+        model,
+        network_model,
+    )
+
+    PSI.add_constraints!(
+        container,
+        PSI.InputActivePowerVariableLimitsConstraint,
+        ActivePowerPumpVariable,
+        devices,
+        model,
+        network_model,
+    )
+
+    if PSI.get_attribute(model, "reservation")
+        PSI.add_constraints!(
+            container,
+            ActivePowerPumpReservationConstraint,
+            devices,
+            model,
+            network_model,
+        )
+    end
+
+    PSI.objective_function!(container, devices, model, S)
+    PSI.add_event_constraints!(container, devices, model, network_model)
+    PSI.add_constraint_dual!(container, sys, model)
+
+    return
+end
