@@ -672,6 +672,14 @@ function PSI.get_min_max_limits(
     return PSY.get_reactive_power_limits(x)
 end
 
+function PSI.get_min_max_limits(
+    x::PSY.HydroGen,
+    ::Type{<:PSI.ActivePowerVariableLimitsConstraint},
+    ::Type{<:AbstractHydroFormulation},
+)
+    return PSY.get_active_power_limits(x)
+end
+
 """
 Min and max active Power Variable limits
 """
