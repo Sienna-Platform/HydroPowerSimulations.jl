@@ -848,10 +848,15 @@ function PSI.add_constraints!(
                     fraction_of_hour
                 )
             else
-                surplus_var =
-                    PSI.get_variable(container, HydroBalanceSurplusVariable(), V)[name, t]
-                shortage_var =
-                    PSI.get_variable(container, HydroBalanceShortageVariable(), V)[name, t]
+                if PSI.get_use_slacks(model)
+                    surplus_var =
+                        PSI.get_variable(container, HydroBalanceSurplusVariable(), V)[name, t]
+                    shortage_var =
+                        PSI.get_variable(container, HydroBalanceShortageVariable(), V)[name, t]
+                else
+                    surplus_var = 0.0
+                    shortage_var = 0.0
+                end
                 constraint[name, t] = JuMP.@constraint(
                     container.JuMPmodel,
                     energy_var[name, t] ==
