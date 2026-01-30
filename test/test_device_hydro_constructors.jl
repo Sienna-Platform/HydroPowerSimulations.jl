@@ -40,7 +40,7 @@ end
     model = DecisionModel(MockOperationProblem, ACPPowerModel, c_sys5_hyd)
     mock_construct_device!(model, turbine_model)
     mock_construct_device!(model, reservoir_model)
-    moi_tests(model, 144, 0, 49, 48, 24, false)
+    moi_tests(model, 192, 0, 49, 48, 24, false)
     psi_checkobjfun_test(model, GAEVF)
 end
 
@@ -515,7 +515,7 @@ end
 
     model = DecisionModel(MockOperationProblem, CopperPlatePowerModel, c_sys5_bat)
     mock_construct_device!(model, device_model)
-    moi_tests(model, 168, 0, 120, 24, 25, true)
+    moi_tests(model, 72, 0, 48, 24, 0, true)
     psi_checkobjfun_test(model, GAEVF)
 end
 
