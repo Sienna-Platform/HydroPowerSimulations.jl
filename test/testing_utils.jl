@@ -169,6 +169,52 @@ function build_sys_hydro(
     return sys
 end
 
+function build_hydro_with_both_pump_and_turbine()
+    sys = PSB.build_system(PSITestSystems, "c_sys5_hy_turbine_energy")
+    head_res = get_component(HydroReservoir, sys, "HydroEnergyReservoir__reservoir")
+    turbine = only(get_components(HydroTurbine, sys))
+    set_active_power_limits!(turbine, (min = 0.3, max = 7.0))
+    tail_res = HydroReservoir(;
+        name = "Reservoir_tail",
+        available = true,
+        storage_level_limits = (min = 0.0, max = 50000.0), # MWh,
+        initial_level = 0.5,
+        spillage_limits = nothing,
+        inflow = 0.0,
+        outflow = 0.0,
+        level_targets = 0.0,
+        intake_elevation = 0.0,
+        head_to_volume_factor = LinearCurve(0.0),
+    )
+    add_component!(sys, tail_res)
+    copy_time_series!(tail_res, head_res)
+
+    hpump = HydroPumpTurbine(;
+        name = "PumpTurbine",
+        available = true,
+        bus = turbine.bus,
+        active_power = 0.0,
+        reactive_power = 0.0,
+        rating = 4.0,
+        active_power_limits = (min = 0.1, max = 4.0),
+        reactive_power_limits = nothing,
+        active_power_limits_pump = (min = 0.2, max = 4.0),
+        outflow_limits = nothing,
+        powerhouse_elevation = 0.0,
+        ramp_limits = nothing,
+        time_limits = nothing,
+        base_power = 100.0,
+        active_power_pump = 0.0,
+        efficiency = (turbine = 0.93, pump = 0.93),
+    )
+
+    add_component!(sys, hpump)
+
+    set_downstream_turbines!(head_res, [turbine, hpump])
+    set_upstream_turbines!(tail_res, [hpump])
+    return sys
+end
+
 function run_fixed_forced_outage_sim_with_timeseries(;
     sys,
     networks,

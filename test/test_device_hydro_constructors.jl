@@ -850,3 +850,67 @@ end
     moi_tests(model, 360, 0, 168, 168, 72, false)
     psi_checkobjfun_test(model, AffExpr)
 end
+
+###################################################################
+######## Energy HydroPump and Turbine in same Reservoir #########
+###################################################################
+
+@testset "Solve Energy model with both Turbine and Reservoir" begin
+    sys = build_hydro_with_both_pump_and_turbine()
+    template = ProblemTemplate()
+    set_device_model!(template, HydroTurbine, HydroTurbineEnergyDispatch)
+    set_device_model!(template, HydroTurbine, HydroTurbineEnergyCommitment)
+    res_model = DeviceModel(
+        HydroReservoir,
+        HydroEnergyModelReservoir;
+        use_slacks = true,
+        attributes = Dict{String, Any}(
+            "energy_target" => false,
+            "hydro_budget" => true,
+        ),
+    )
+    set_device_model!(template, res_model)
+    set_device_model!(template, HydroPumpTurbine, HydroPumpEnergyDispatch)
+    p_model = DeviceModel(
+        HydroPumpTurbine,
+        HydroPumpEnergyCommitment;
+        attributes = Dict{String, Any}(
+            "reservation" => true,
+        ),
+    )
+    set_device_model!(template, p_model)
+
+    set_device_model!(template, ThermalStandard, ThermalDispatchNoMin)
+    set_device_model!(template, PowerLoad, StaticPowerLoad)
+
+    model = DecisionModel(
+        template,
+        sys;
+        optimizer = HiGHS_optimizer,
+        store_variable_names = true,
+        calculate_conflict = true,
+    )
+
+    @test build!(model; output_dir = mktempdir()) == PSI.ModelBuildStatus.BUILT
+    @test solve!(model) == IS.Simulation.RunStatus.SUCCESSFULLY_FINALIZED
+
+    p_model = DeviceModel(
+        HydroPumpTurbine,
+        HydroPumpEnergyCommitment;
+        attributes = Dict{String, Any}(
+            "reservation" => false,
+        ),
+    )
+    set_device_model!(template, p_model)
+
+    model = DecisionModel(
+        template,
+        sys;
+        optimizer = HiGHS_optimizer,
+        store_variable_names = true,
+        calculate_conflict = true,
+    )
+
+    @test build!(model; output_dir = mktempdir()) == PSI.ModelBuildStatus.BUILT
+    @test solve!(model) == IS.Simulation.RunStatus.SUCCESSFULLY_FINALIZED
+end
