@@ -23,7 +23,7 @@ pages = OrderedDict(
         "Energy Hydro Reservoir Operation" => "tutorials/generated_energy_model_hydroturbine_reservoir.md",
         "Water Hydro Reservoir Operation" => "tutorials/generated_water_model_hydroturbine_reservoir.md",
         "Hydro Pump Turbine Operation" => "tutorials/generated_hydro_pump_turbine.md",
-        "HydroEnergyBlock model usage" => "tutorials/generated_hydro_energy_block.md",
+        "HydroWaterFactorModel model usage" => "tutorials/generated_hydro_energy_block.md",
     ],
     "How to..." => Any[
         "...format input data for Hydro models" => "how_to/format_input_data.md",

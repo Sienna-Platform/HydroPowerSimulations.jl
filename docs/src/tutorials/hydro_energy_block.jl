@@ -1,4 +1,4 @@
-# # HydroEnergyBlock model tutorial
+# # HydroWaterFactorModel model tutorial
 #
 # !!! note
 #
@@ -32,6 +32,9 @@ set_storage_level_limits!(reservoir, (min = 4000, max = 6000))
 # Set the lower bound of reservoir volume using `set_level_targets!`. Here the level target is set at ``0.9 \cdot 6000 = 5400 m^3``.
 
 set_level_targets!(reservoir, 0.9)
+
+# Set the head_to_volume factor to 1.0 using `set_head_to_volume_factor!`, since is an energy model and no conversion is needed.
+set_head_to_volume_factor!(reservoir, LinearCurve(1.0))
 
 # ## Decision Model
 #

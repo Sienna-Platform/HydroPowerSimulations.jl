@@ -84,7 +84,7 @@ PSI.get_variable_binary(::HydroTurbineFlowRateVariable, ::Type{<:PSY.HydroTurbin
 PSI.get_variable_lower_bound(::HydroTurbineFlowRateVariable, d::PSY.HydroTurbine, ::AbstractHydroFormulation) = isnothing(PSY.get_outflow_limits(d)) ? 0.0 : PSY.get_outflow_limits(d).min
 PSI.get_variable_upper_bound(::HydroTurbineFlowRateVariable, d::PSY.HydroTurbine, ::AbstractHydroFormulation) = isnothing(PSY.get_outflow_limits(d)) ? nothing : PSY.get_outflow_limits(d).max
 
-############## HydroEnergyBlock ####################
+############## HydroWaterFactorModel ####################
 PSI.get_variable_lower_bound(::HydroReservoirVolumeVariable, d::PSY.HydroReservoir, ::HydroWaterFactorModel) = isnothing(PSY.get_storage_level_limits(d)) ? 0.0 : PSY.get_storage_level_limits(d).min
 PSI.get_variable_upper_bound(::HydroReservoirVolumeVariable, d::PSY.HydroReservoir, ::HydroWaterFactorModel) = isnothing(PSY.get_storage_level_limits(d)) ? nothing : PSY.get_storage_level_limits(d).max
 
