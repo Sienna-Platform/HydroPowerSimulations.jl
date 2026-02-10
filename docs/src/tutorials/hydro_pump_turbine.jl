@@ -23,7 +23,7 @@ sys = build_system(PSITestSystems, "c_sys5_hydro_pump_energy")
 
 # With a single [`PowerSystems.HydroPumpTurbine`](@extref) connected to two [`PowerSystems.HydroReservoir`](@extref) (head and tail reservoirs of the turbine):
 
-hy = only(get_components(HydroTurbine, sys))
+hy = only(get_components(HydroPumpTurbine, sys))
 
 res_head = get_component(HydroReservoir, sys, "Bat_head_reservoir")
 res_tail = get_component(HydroReservoir, sys, "Bat_tail_reservoir")
