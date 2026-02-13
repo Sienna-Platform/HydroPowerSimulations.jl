@@ -12,12 +12,18 @@ using DataFramesMeta
 import DataStructures: SortedDict
 
 # Import packages with aliases
+using PowerSystems
 import PowerSystems as PSY
+using PowerSimulations
 import PowerSimulations as PSI
+using PowerSystemCaseBuilder
 import PowerSystemCaseBuilder as PSB
+using InfrastructureSystems
 import InfrastructureSystems as IS
 const PM = PSI.PM
+using PowerNetworkMatrices
 import PowerNetworkMatrices as PNM
+using HydroPowerSimulations
 import HydroPowerSimulations as HPS
 
 import Aqua
