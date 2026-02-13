@@ -91,7 +91,7 @@ PSI.get_variable_binary(::HydroEnergySurplusVariable, ::Type{<:PSY.HydroReservoi
 PSI.get_variable_lower_bound(::PSI.EnergyVariable, d::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = PSY.get_storage_level_limits(d).min / PSY.get_system_base_power(d)
 PSI.get_variable_upper_bound(::PSI.EnergyVariable, d::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = PSY.get_storage_level_limits(d).max / PSY.get_system_base_power(d)
 
-############## HydroTurbine ####################
+############## PSY.HydroTurbine ####################
 PSI.get_variable_binary(::HydroTurbineFlowRateVariable, ::Type{<:PSY.HydroTurbine}, ::AbstractHydroFormulation) = false
 PSI.get_variable_lower_bound(::HydroTurbineFlowRateVariable, d::PSY.HydroTurbine, ::AbstractHydroFormulation) = isnothing(PSY.get_outflow_limits(d)) ? 0.0 : PSY.get_outflow_limits(d).min
 PSI.get_variable_upper_bound(::HydroTurbineFlowRateVariable, d::PSY.HydroTurbine, ::AbstractHydroFormulation) = isnothing(PSY.get_outflow_limits(d)) ? nothing : PSY.get_outflow_limits(d).max
@@ -792,7 +792,7 @@ function PSI.add_constraints!(
     names = [PSY.get_name(x) for x in devices]
     initial_conditions = PSI.get_initial_condition(container, PSI.InitialEnergyLevel(), V)
     energy_var = PSI.get_variable(container, PSI.EnergyVariable(), V)
-    power_var = PSI.get_variable(container, PSI.ActivePowerVariable(), HydroTurbine)
+    power_var = PSI.get_variable(container, PSI.ActivePowerVariable(), PSY.HydroTurbine)
     spillage_var = PSI.get_variable(container, WaterSpillageVariable(), V)
     power_in_from_turbines =
         PSI.get_expression(container, TotalHydroPowerReservoirIncoming(), V)
@@ -1185,7 +1185,7 @@ function PSI.add_constraints!(
         initial_level = PSY.get_initial_level(d)
         target_level = PSY.get_level_targets(d)
 
-        turbines = get_downstream_turbines(d)
+        turbines = PSY.get_downstream_turbines(d)
         turbine_names = [PSY.get_name(turbine) for turbine in turbines]
 
         constraint[name, t_first] = JuMP.@constraint(
