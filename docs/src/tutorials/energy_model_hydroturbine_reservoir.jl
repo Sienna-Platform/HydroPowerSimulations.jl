@@ -25,7 +25,7 @@ sys = build_system(PSITestSystems, "c_sys5_hy_turbine_energy")
 
 hy = only(get_components(HydroTurbine, sys))
 
-res = only(get_components(HydroReservoir, sys))
+reservoir = only(get_components(HydroReservoir, sys))
 
 # Note that the reservoir has a `level_data_type` of `ENERGY`, that implies its storage level limits data are in MWh. That means that its maximum capacity is 5000 MWh, and its initial energy capacity is ``0.5 \cdot 5000 = 2500`` MWh.
 #

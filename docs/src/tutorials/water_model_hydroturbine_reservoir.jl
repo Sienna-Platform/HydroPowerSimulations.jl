@@ -25,7 +25,7 @@ sys = build_system(PSITestSystems, "c_sys5_hy_turbine_head")
 
 hy = only(get_components(HydroTurbine, sys))
 
-res = only(get_components(HydroReservoir, sys))
+reservoir = only(get_components(HydroReservoir, sys))
 
 # Note that the reservoir has a `level_data_type` of `HEAD`, that implies its storage level limits data are in meters (above the sea level) and refer to the hydraulic head levels. That means that its available capacity lies with its hydraulic head being within 463.5 and 555.5 meters, and its intake elevation is at 463.3 meters. In addition note that the elevation of the turbine is on 317.12 meters above the sea level.
 #

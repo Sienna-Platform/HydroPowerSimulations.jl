@@ -25,8 +25,8 @@ sys = build_system(PSITestSystems, "c_sys5_hydro_pump_energy")
 
 hy = only(get_components(HydroPumpTurbine, sys))
 
-res_head = get_component(HydroReservoir, sys, "Bat_head_reservoir")
-res_tail = get_component(HydroReservoir, sys, "Bat_tail_reservoir")
+reservoir_head = get_component(HydroReservoir, sys, "Bat_head_reservoir")
+reservoir_tail = get_component(HydroReservoir, sys, "Bat_tail_reservoir")
 
 # Note that the reservoirs has a `level_data_type` of `ENERGY`, that implies its storage level limits data are in MWh. That means that the available capacity of the head reservoir is between 5.0 and 400 MWh, while the tail reservoir is set to zero, implying an infinite tail reservoir.
 #
