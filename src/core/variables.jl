@@ -75,3 +75,4 @@ Docs abbreviation: ``E^\\text{hy,out}``
 struct HydroEnergyOutput <: PSI.AuxVariableType end
 
 PSI.should_write_resulting_value(::Type{HydroTurbineFlowRateVariable}) = false
+PSI.convert_result_to_natural_units(::Type{ActivePowerPumpVariable}) = true
