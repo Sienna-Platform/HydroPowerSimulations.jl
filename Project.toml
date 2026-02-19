@@ -1,6 +1,6 @@
 name = "HydroPowerSimulations"
 uuid = "fc1677e0-6ad7-4515-bf3a-bd6bf20a0b1b"
-version = "0.13.1"
+version = "0.14.0"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
