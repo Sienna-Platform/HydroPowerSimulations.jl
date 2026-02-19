@@ -12,7 +12,7 @@ PowerSystems = "bcd98974-b02a-5e2f-9ee0-a103f5c450dd"
 [compat]
 Dates = "1"
 InfrastructureSystems = "3"
-PowerSimulations = "^0.32.4"
+PowerSimulations = "^0.33"
 PowerSystems = "5"
 julia = "^1.10"
 JuMP = "1"
