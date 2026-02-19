@@ -2052,7 +2052,7 @@ function PSI.add_expressions!(
     variable = PSI.get_variable(container, WaterSpillageVariable(), PSY.HydroReservoir)
 
     for d in devices
-        upstream_reservoirs = filter(PSY.get_available, get_upstream_reservoirs(d))
+        upstream_reservoirs = filter(PSY.get_available, PSY.get_upstream_reservoirs(d))
         isempty(upstream_reservoirs) && continue
         upstream_reservoir_names = PSY.get_name.(upstream_reservoirs)
         reservoir_name = PSY.get_name(d)
