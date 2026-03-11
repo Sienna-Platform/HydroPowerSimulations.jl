@@ -1825,11 +1825,62 @@ end
 
 function PSI.add_expressions!(
     container::PSI.OptimizationContainer,
+    sys::PSY.System,
     ::Type{U},
     devices::IS.FlattenIteratorWrapper{V},
     model::PSI.DeviceModel{V, W},
 ) where {
-    U <: Union{TotalHydroFlowRateReservoirIncoming, TotalHydroFlowRateReservoirOutgoing},
+    U <: TotalHydroFlowRateReservoirIncoming,
+    V <: PSY.HydroReservoir,
+    W <: AbstractHydroFormulation,
+}
+    time_steps = PSI.get_time_steps(container)
+    expression = PSI.add_expression_container!(
+        container,
+        U(),
+        V,
+        [PSY.get_name(d) for d in devices],
+        time_steps,
+    )
+
+    variable = PSI.get_variable(container, HydroTurbineFlowRateVariable(), PSY.HydroTurbine)
+    # axis1 = [ChalilloT1, ChalilloT2, MollejonT1, MollejonT2, VacaT1, VacaT2]
+    # axis2 = [ChalilloReservoir, MollejonReservoir, VacaReservoir]
+    # HydroFlowRate(Turbine, Reservoir): is the flow coming from Reservoir to Turbine.
+    # HydroFlowRate(ChallilloTurbine, ChalilloReservoir) # Variable that is getting into the OutgointExpression to Chalillo
+    # HydroFlowRate(ChallilloTurbine, MollejonReservoir) # Variable that is getting into the IncomingExpression to Mollejon.
+    # HydroFlowRate(ChallilloTurbine, MollejonReservoir) represents the flow that leaving MollejonReservoir to supply ChalilloTurbine   for d in devices # reservoir
+    for d in devices
+        turbines = get_available_turbines(d, U) #upstream_turbines
+        isempty(turbines) && continue
+        reservoir_name = PSY.get_name(d)
+        for t in time_steps
+            expr = JuMP.AffExpr()
+            for turb in turbines
+                turb_name = PSY.get_name(turb)
+                head_reservoirs = PSY.get_connected_head_reservoirs(sys, turb)
+                for head_res in head_reservoirs
+                    head_res_name = PSY.get_name(head_res)
+                    JuMP.add_to_expression!(
+                        expr,
+                        variable[turb_name, head_res_name, t],
+                        1.0,
+                    )
+                end
+            end
+            expression[reservoir_name, t] = expr
+        end
+    end
+end
+
+function PSI.add_expressions!(
+    container::PSI.OptimizationContainer,
+    ::PSY.System,
+    ::Type{U},
+    devices::IS.FlattenIteratorWrapper{V},
+    model::PSI.DeviceModel{V, W},
+) where {
+    U <: TotalHydroFlowRateReservoirOutgoing,
     V <: PSY.HydroReservoir,
     W <: AbstractHydroFormulation,
 }

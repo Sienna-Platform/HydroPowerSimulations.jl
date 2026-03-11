@@ -1711,6 +1711,7 @@ function PSI.construct_device!(
 
     PSI.add_expressions!(
         container,
+        sys,
         TotalHydroFlowRateReservoirOutgoing,
         devices,
         model,
@@ -1718,6 +1719,7 @@ function PSI.construct_device!(
 
     PSI.add_expressions!(
         container,
+        sys,
         TotalHydroFlowRateReservoirIncoming,
         devices,
         model,
