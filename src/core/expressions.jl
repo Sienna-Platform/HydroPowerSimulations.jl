@@ -62,3 +62,4 @@ PSI.should_write_resulting_value(::Type{HydroServedReserveUpExpression}) = true
 PSI.should_write_resulting_value(::Type{HydroServedReserveDownExpression}) = true
 PSI.should_write_resulting_value(::Type{TotalHydroFlowRateReservoirOutgoing}) = true
 PSI.should_write_resulting_value(::Type{TotalHydroFlowRateTurbineOutgoing}) = true
+PSI.should_write_resulting_value(::Type{TotalHydroFlowRateReservoirIncoming}) = true
