@@ -8,15 +8,31 @@ HydroPowerSimulations.jl is an extension of PowerSimulations.jl that provides op
 
 The package supports both **energy-based** (simplified, using MW/MWh) and **water-based** (detailed, using flow rates in m3/s, volumes in m3, and hydraulic head in meters) modeling approaches, including nonlinear bilinear power-flow-head relationships.
 
+## PowerSystems.jl Hydro Type Hierarchy
+
+**CRITICAL:** `HydroReservoir` is NOT a subtype of `HydroGen`. They are separate branches under `Device`. `HydroGen` is for generation (no storage info). `HydroReservoir` is for storage (volume, head, inflows). Never assume methods typed on `HydroGen` will dispatch for `HydroReservoir` — they require separate method definitions.
+
+```
+Device <: Component
+├── HydroReservoir <: Device           # Storage device (volume/head/spillage/inflows)
+└── StaticInjection <: Device
+    └── Generator <: StaticInjection
+        └── HydroGen <: Generator      # Generation (no storage info)
+            ├── HydroDispatch <: HydroGen
+            └── HydroUnit <: HydroGen  # Abstract for unit-level turbines
+                ├── HydroTurbine <: HydroUnit
+                └── HydroPumpTurbine <: HydroUnit
+```
+
 ## Supported Device Types
 
 Models are defined for the following PowerSystems.jl hydro device types:
 
-- **HydroGen** - Abstract top level type for Hydro Power in Sienna
-- **HydroDispatch** - Dispatch-only hydro supports Run of River and Energy Budgets, it is commonly used to aggregate hydro.
-- **HydroTurbine** - Individual turbines in cascaded systems
-- **HydroReservoir** - Reservoir storage with volume/head tracking, spillage, and inflows
-- **HydroPumpTurbine** - Bidirectional pump-storage units connected to HydroReservoirs
+- **HydroGen** - Abstract supertype for hydro generation (`<: Generator`). Has no storage information.
+- **HydroDispatch** - Dispatch-only hydro (`<: HydroGen`), supports Run of River and Energy Budgets, commonly used to aggregate hydro.
+- **HydroTurbine** - Individual turbines in cascaded systems (`<: HydroUnit <: HydroGen`)
+- **HydroReservoir** - Reservoir storage with volume/head tracking, spillage, and inflows (`<: Device`, NOT `<: HydroGen`)
+- **HydroPumpTurbine** - Bidirectional pump-storage units connected to HydroReservoirs (`<: HydroUnit <: HydroGen`)
 
 ## Key Formulations
 
