@@ -209,6 +209,8 @@ PSI.get_multiplier_value(::PSI.AbstractPiecewiseLinearBreakpointParameter, d::PS
 PSI.get_multiplier_value(::PSI.AbstractPiecewiseLinearBreakpointParameter, d::PSY.HydroGen, ::AbstractHydroFormulation) = PSY.get_max_active_power(d)
 
 PSI.get_parameter_multiplier(::ReservoirTargetParameter, ::PSY.HydroReservoir, ::HydroWaterModelReservoir) = 1.0
+PSI.get_parameter_multiplier(::ReservoirTargetParameter, ::PSY.HydroReservoir, ::HydroEnergyModelReservoir) = 1.0
+PSI.get_initial_parameter_value(::ReservoirTargetParameter, d::PSY.HydroReservoir, ::AbstractHydroFormulation) = PSY.get_initial_storage(d)
 
 PSI.get_parameter_multiplier(::PSI.VariableValueParameter, d::PSY.HydroGen, ::AbstractHydroFormulation) = 1.0
 PSI.get_initial_parameter_value(::PSI.VariableValueParameter, d::PSY.HydroGen, ::AbstractHydroFormulation) = 1.0
