@@ -29,7 +29,7 @@ struct ReservoirTargetFeedforward <: PSI.AbstractAffectFeedforward
         source::Type{T},
         affected_values::Vector{DataType},
         target_period::Int,
-        penalty_cost::Float64,
+        penalty_cost::Float64 = 5.0e10,
         meta = ISOPT.CONTAINER_KEY_EMPTY_META,
     ) where {T}
         values_vector = Vector{PSI.VariableKey}(undef, length(affected_values))
