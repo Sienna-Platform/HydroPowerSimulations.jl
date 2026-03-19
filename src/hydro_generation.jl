@@ -815,7 +815,7 @@ function PSI.add_constraints!(
     for ic in initial_conditions
         device = PSI.get_component(ic)
         name = PSY.get_name(device)
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         if PSI.get_use_slacks(model)
             surplus_var =
                 PSI.get_variable(container, HydroBalanceSurplusVariable(), V)[name, 1]
@@ -927,7 +927,7 @@ function PSI.add_constraints!(
             JuMP.delete_upper_bound.(shortage_var[name, :])
             JuMP.set_upper_bound.(shortage_var[name, :], 0.0)
         end
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         for t in time_steps
             constraint[name, t] = JuMP.@constraint(
                 container.JuMPmodel,
@@ -982,7 +982,7 @@ function PSI.add_constraints!(
             JuMP.delete_upper_bound.(shortage_var[name, :])
             JuMP.set_upper_bound.(shortage_var[name, :], 0.0)
         end
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         t_end = time_steps[end]
         constraint[name, t_end] = JuMP.@constraint(
             container.JuMPmodel,
@@ -1262,7 +1262,7 @@ function PSI.add_constraints!(
 
     for d in devices
         name = PSY.get_name(d)
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         constraint[name] = JuMP.@constraint(
             container.JuMPmodel,
             sum([variable_out[name, t] for t in time_steps]) <=
@@ -1298,7 +1298,7 @@ function PSI.add_constraints!(
         else
             slack_var = 0.0
         end
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         constraint[name] = JuMP.@constraint(
             container.JuMPmodel,
             sum([variable_out[name, t] for t in time_steps]) <=
@@ -1320,7 +1320,7 @@ function PSI.add_constraints!(
             Dates.Millisecond(resolution).value
         for d in devices
             name = PSY.get_name(d)
-            param = PSI.get_parameter_column_values(param_container, name)
+            param = PSI.get_parameter_column_refs(param_container, name)
             constraint_aux[name] = JuMP.@constraint(
                 container.JuMPmodel,
                 sum([variable_out[name, t] for t in 1:interval_length]) <=
@@ -1365,7 +1365,7 @@ function PSI.add_constraints!(
         else
             slack_var = 0.0
         end
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         constraint[name] = JuMP.@constraint(
             container.JuMPmodel,
             sum([total_power_out[name, t] for t in time_steps]) <=
@@ -1403,7 +1403,7 @@ function PSI.add_constraints!(
 
     for d in devices
         name = PSY.get_name(d)
-        param = PSI.get_parameter_column_values(param_container, name)
+        param = PSI.get_parameter_column_refs(param_container, name)
         constraint[name] = JuMP.@constraint(
             container.JuMPmodel,
             sum([total_flow_out[name, t] for t in time_steps]) <=
