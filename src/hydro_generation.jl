@@ -53,20 +53,8 @@ PSI.get_variable_warm_start_value(::PSI.OnVariable, d::PSY.HydroGen, ::AbstractH
 PSI.get_variable_binary(::WaterSpillageVariable, ::Type{<:PSY.HydroGen}, ::AbstractHydroFormulation) = false
 PSI.get_variable_lower_bound(::WaterSpillageVariable, d::PSY.HydroGen, ::AbstractHydroFormulation) = 0.0
 PSI.get_variable_binary(::WaterSpillageVariable, ::Type{<:PSY.HydroReservoir}, ::AbstractHydroReservoirFormulation) = false
-function PSI.get_variable_lower_bound(::WaterSpillageVariable, d::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)
-   spillage_limits = PSY.get_spillage_limits(d)
-   if typeof(spillage_limits) <: PSY.MinMax
-       return PSY.get_spillage_limits(d).min
-   end
-   return 0.0
-end
-function PSI.get_variable_upper_bound(::WaterSpillageVariable, d::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation)
-    spillage_limits = PSY.get_spillage_limits(d)
-    if typeof(spillage_limits) <: PSY.MinMax
-        return PSY.get_spillage_limits(d).max
-    end
-    return nothing
-end
+PSI.get_variable_lower_bound(::WaterSpillageVariable, d::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation) = isnothing(PSY.get_spillage_limits(d)) ? 0.0 : PSY.get_spillage_limits(d).min
+PSI.get_variable_upper_bound(::WaterSpillageVariable, d::PSY.HydroReservoir, ::AbstractHydroReservoirFormulation) = isnothing(PSY.get_spillage_limits(d)) ? nothing : PSY.get_spillage_limits(d).max
 
 ############## PSI.ReservationVariable, HydroGen ####################
 PSI.get_variable_binary(::PSI.ReservationVariable, ::Type{<:PSY.HydroGen}, ::AbstractHydroFormulation) = true
