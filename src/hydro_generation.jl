@@ -1042,7 +1042,9 @@ function PSI.add_constraints!(
             JuMP.delete_upper_bound.(shortage_var[name, :])
             JuMP.set_upper_bound.(shortage_var[name, :], 0.0)
         end
-        param = PSI.get_parameter_column_values(param_container, name)
+        JuMP.fix.(shortage_var[name, 1:(end - 1)], 0.0; force = true)
+        JuMP.fix.(surplus_var[name, 1:(end - 1)], 0.0; force = true)
+        param = PSI.get_parameter_column_refs(param_container, name)
         t_end = time_steps[end]
         constraint[name, t_end] = JuMP.@constraint(
             container.JuMPmodel,
@@ -2607,15 +2609,13 @@ function PSI.add_proportional_cost!(
         op_cost_data = PSY.get_operation_cost(d)
         cost_term = PSI.proportional_cost(op_cost_data, U(), d, V())
         iszero(cost_term) && continue
-        for t in PSI.get_time_steps(container)
-            PSI._add_proportional_term!(
-                container,
-                U(),
-                d,
-                cost_term * multiplier * base_p,
-                t,
-            )
-        end
+        PSI._add_proportional_term!(
+            container,
+            U(),
+            d,
+            cost_term * multiplier * base_p,
+            PSI.get_time_steps(container)[end],
+        )
     end
     return
 end
