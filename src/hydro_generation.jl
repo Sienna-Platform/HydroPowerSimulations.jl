@@ -416,6 +416,13 @@ function PSI.get_default_attributes(
 end
 
 function PSI.get_default_attributes(
+    ::Type{T},
+    ::Type{D},
+) where {T <: PSY.HydroTurbine, D <: HydroTurbineWaterLinearCommitment}
+    return Dict{String, Any}("head_fraction_usage" => 0.0)
+end
+
+function PSI.get_default_attributes(
     ::Type{PSY.HydroReservoir},
     ::Type{HydroWaterFactorModel},
 )
@@ -465,7 +472,11 @@ function PSI.add_variables!(
     T <: HydroTurbineFlowRateVariable,
     U <: Union{Vector{D}, IS.FlattenIteratorWrapper{D}},
     W <: Union{Vector{E}, IS.FlattenIteratorWrapper{E}},
-    X <: Union{HydroTurbineBilinearDispatch, HydroTurbineWaterLinearDispatch},
+    X <: Union{
+        HydroTurbineBilinearDispatch,
+        HydroTurbineWaterLinearDispatch,
+        HydroTurbineWaterLinearCommitment,
+    },
 } where {
     D <: PSY.HydroTurbine,
     E <: PSY.HydroReservoir,
@@ -632,6 +643,25 @@ function PSI.add_constraints!(
 ) where {
     V <: PSY.HydroTurbine,
     W <: HydroTurbineEnergyCommitment,
+    X <: PM.AbstractPowerModel,
+}
+    PSI.add_semicontinuous_range_constraints!(container, T, U, devices, model, X)
+    return
+end
+
+"""
+Add semicontinuous range constraints for [`HydroTurbineWaterLinearCommitment`](@ref) formulation
+"""
+function PSI.add_constraints!(
+    container::PSI.OptimizationContainer,
+    T::Type{PSI.ActivePowerVariableLimitsConstraint},
+    U::Type{<:Union{PSI.VariableType, PSI.ExpressionType}},
+    devices::IS.FlattenIteratorWrapper{V},
+    model::PSI.DeviceModel{V, W},
+    ::PSI.NetworkModel{X},
+) where {
+    V <: PSY.HydroTurbine,
+    W <: HydroTurbineWaterLinearCommitment,
     X <: PM.AbstractPowerModel,
 }
     PSI.add_semicontinuous_range_constraints!(container, T, U, devices, model, X)
@@ -1771,7 +1801,7 @@ function PSI.add_constraints!(
     ::PSI.NetworkModel{X},
 ) where {
     V <: PSY.HydroTurbine,
-    W <: HydroTurbineWaterLinearDispatch,
+    W <: Union{HydroTurbineWaterLinearDispatch, HydroTurbineWaterLinearCommitment},
     X <: PM.AbstractPowerModel,
 }
     time_steps = PSI.get_time_steps(container)
