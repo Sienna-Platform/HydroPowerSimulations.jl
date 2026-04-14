@@ -51,6 +51,11 @@ The model assumes a shallow reservoir. The head for the conversion between water
 struct HydroTurbineWaterLinearDispatch <: AbstractHydroDispatchFormulation end
 
 """
+Formulation type to add injection and commitment variables for a [`PowerSystems.HydroTurbine`](@extref) connected to reservoirs using a linear model with a binary [`PowerSimulations.OnVariable`](@extref) to decide if the turbine is on or not.
+The model assumes a shallow reservoir. The head for the conversion between water flow and power can be approximated as a linear function of the water flow on which the head elevation is always the intake elevation.
+"""
+struct HydroTurbineWaterLinearCommitment <: AbstractHydroUnitCommitment end
+"""
 Formulation type to add injection variables for a [`PowerSystems.HydroTurbine`](@extref) only using energy variables (no water flow variables)
 """
 struct HydroTurbineEnergyDispatch <: AbstractHydroDispatchFormulation end
