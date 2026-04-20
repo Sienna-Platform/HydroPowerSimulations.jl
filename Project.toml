@@ -1,6 +1,6 @@
 name = "HydroPowerSimulations"
 uuid = "fc1677e0-6ad7-4515-bf3a-bd6bf20a0b1b"
-version = "0.14.3"
+version = "0.15.0"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
@@ -12,7 +12,7 @@ PowerSystems = "bcd98974-b02a-5e2f-9ee0-a103f5c450dd"
 [compat]
 Dates = "1"
 InfrastructureSystems = "3"
-PowerSimulations = "^0.33"
+PowerSimulations = "^0.34"
 PowerSystems = "5"
 julia = "^1.10"
 JuMP = "1"
