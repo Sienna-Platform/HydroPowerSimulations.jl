@@ -50,7 +50,6 @@
                 sys;
                 name = "UC",
                 optimizer = HiGHS.Optimizer,
-                system_to_file = false,
                 initialize_model = true,
                 optimizer_solve_log_print = false,
                 direct_mode_optimizer = true,
@@ -63,7 +62,6 @@
                 sys_ed;
                 name = "ED",
                 optimizer = HiGHS.Optimizer,
-                system_to_file = false,
                 initialize_model = true,
                 optimizer_solve_log_print = false,
                 check_numerical_bounds = false,
@@ -99,7 +97,7 @@
         simulation_folder = mktempdir(; cleanup = true),
     )
 
-    @test build!(sim; serialize = false) == PSI.SimulationBuildStatus.BUILT
+    @test build!(sim) == PSI.SimulationBuildStatus.BUILT
     @test execute!(sim; enable_progress_bar = false) == PSI.RunStatus.SUCCESSFULLY_FINALIZED
 
     results = SimulationResults(sim)
@@ -186,7 +184,6 @@ end
                 sys;
                 name = "UC",
                 optimizer = HiGHS.Optimizer,
-                system_to_file = false,
                 initialize_model = true,
                 optimizer_solve_log_print = false,
                 direct_mode_optimizer = true,
@@ -199,7 +196,6 @@ end
                 sys_ed;
                 name = "ED",
                 optimizer = HiGHS.Optimizer,
-                system_to_file = false,
                 initialize_model = true,
                 optimizer_solve_log_print = false,
                 check_numerical_bounds = false,
@@ -235,7 +231,7 @@ end
         simulation_folder = mktempdir(; cleanup = true),
     )
 
-    @test build!(sim; serialize = false) == PSI.SimulationBuildStatus.BUILT
+    @test build!(sim) == PSI.SimulationBuildStatus.BUILT
     @test execute!(sim; enable_progress_bar = false) == PSI.RunStatus.SUCCESSFULLY_FINALIZED
 
     results = SimulationResults(sim)

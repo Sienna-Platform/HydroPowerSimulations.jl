@@ -597,7 +597,6 @@ end
         optimizer = Ipopt_optimizer,
         optimizer_solve_log_print = true,
         store_variable_names = true,
-        system_to_file = true,
         horizon = Hour(24),
     )
 
@@ -724,7 +723,6 @@ end
         sys;
         name = "UC",
         optimizer = HiGHS_optimizer,
-        system_to_file = false,
         store_variable_names = true,
         optimizer_solve_log_print = false,
     )
@@ -773,7 +771,6 @@ end
         sys;
         name = "UC",
         optimizer = HiGHS_optimizer,
-        system_to_file = false,
         store_variable_names = true,
         optimizer_solve_log_print = false,
     )
@@ -823,7 +820,6 @@ end
         sys;
         name = "UC",
         optimizer = HiGHS_optimizer,
-        system_to_file = false,
         store_variable_names = true,
         optimizer_solve_log_print = false,
     )
