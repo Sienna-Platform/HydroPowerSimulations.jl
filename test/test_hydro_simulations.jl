@@ -29,7 +29,6 @@
             sys_md;
             name = "MD",
             initialize_model = false,
-            system_to_file = false,
             optimizer = HiGHS_optimizer,
         ),
         DecisionModel(
@@ -37,7 +36,6 @@
             sys_uc;
             name = "UC",
             initialize_model = false,
-            system_to_file = false,
             optimizer = HiGHS_optimizer,
         ),
         DecisionModel(
@@ -45,7 +43,6 @@
             sys_ed;
             name = "ED",
             initialize_model = false,
-            system_to_file = false,
             optimizer = HiGHS_optimizer,
         ),
     ])
@@ -82,7 +79,7 @@
         sequence = test_sequence,
         simulation_folder = mktempdir(; cleanup = true),
     )
-    @test build!(sim; serialize = false) == PSI.SimulationBuildStatus.BUILT
+    @test build!(sim) == PSI.SimulationBuildStatus.BUILT
 end
 
 function test_2_stage_decision_models_with_feedforwards(in_memory)
