@@ -2,7 +2,7 @@
 
 !!! note
     
-    `HydroPowerSimulations.jl` is an extension library of [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/) for modeling hydro units. Users are encouraged to review the [single-step tutorial in `PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/) before this tutorial.
+    `HydroPowerSimulations.jl` is an extension library of [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/latest/) for modeling hydro units. Users are encouraged to review the [single-step tutorial in `PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/) before this tutorial.
 
 ## Load packages
 
@@ -19,7 +19,7 @@ using HiGHS # solver
 !!! note
     
     `PowerSystemCaseBuilder.jl` is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function `build_system`.
-    For more details visit [PowerSystemCaseBuilder README](https://github.com/NREL-Sienna/PowerSystemCaseBuilder.jl/blob/main/README.md)
+    For more details visit [PowerSystemCaseBuilder README](https://github.com/Sienna-Platform/PowerSystemCaseBuilder.jl/blob/main/README.md)
 
 ```@repl op_problem
 sys = build_system(PSITestSystems, "c_sys5_hy")
@@ -33,7 +33,7 @@ hy = only(get_components(HydroDispatch, sys))
 
 ## Decision Model
 
-Setting up the formulations based on [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
+Setting up the formulations based on [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
 
 ```@repl op_problem
 template = ProblemTemplate(PTDFPowerModel)
