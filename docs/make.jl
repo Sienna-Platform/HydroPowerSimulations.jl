@@ -3,9 +3,9 @@ import DataStructures: OrderedDict
 using DocumenterInterLinks
 
 links = InterLinks(
-    "PowerSystems" => "https://nrel-sienna.github.io/PowerSystems.jl/stable/",
-    "PowerSimulations" => "https://nrel-sienna.github.io/PowerSimulations.jl/stable/",
-    "InfrastructureSystems" => "https://nrel-sienna.github.io/InfrastructureSystems.jl/stable/",
+    "PowerSystems" => "https://sienna-platform.github.io/PowerSystems.jl/stable/",
+    "PowerSimulations" => "https://sienna-platform.github.io/PowerSimulations.jl/stable/",
+    "InfrastructureSystems" => "https://sienna-platform.github.io/InfrastructureSystems.jl/stable/",
 )
 
 pages = OrderedDict(
@@ -44,7 +44,7 @@ makedocs(
 )
 
 deploydocs(
-    repo="github.com/NREL-Sienna/HydroPowerSimulations.jl.git",
+    repo="github.com/Sienna-Platform/HydroPowerSimulations.jl.git",
     target="build",
     branch="gh-pages",
     devbranch="main",
