@@ -2,7 +2,7 @@
 
 ## About
 
-`HydroPowerSimulations.jl` is a [`Julia`](http://www.julialang.org) package that extends [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/stable/) for modeling of hydro generation technology in operational simulations.
+`HydroPowerSimulations.jl` is a [`Julia`](http://www.julialang.org) package that extends [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/stable/) for modeling of hydro generation technology in operational simulations.
 
 ## How to Use This Documentation 
 
@@ -22,9 +22,9 @@ framework.
 
 ## Installing Sienna
 
-- [Sienna Installation Page](https://nrel-sienna.github.io/Sienna/SiennaDocs/docs/build/how-to/install/) on how to install the different packages.
-- Visit [PowerSimulations.jl](https://nrel-sienna.github.io/PowerSimulations.jl/latest/)  provides the basic models for operation that are used with hydro models in HydroPowerSimulations.jl.
-- [Sienna Documentation Hub](https://nrel-sienna.github.io/Sienna/SiennaDocs/docs/build/index.html): Links to other Sienna packages' documentation
+- [Sienna Installation Page](https://sienna-platform.github.io/Sienna/SiennaDocs/docs/build/how-to/install/) on how to install the different packages.
+- Visit [PowerSimulations.jl](https://sienna-platform.github.io/PowerSimulations.jl/latest/)  provides the basic models for operation that are used with hydro models in HydroPowerSimulations.jl.
+- [Sienna Documentation Hub](https://sienna-platform.github.io/Sienna/SiennaDocs/docs/build/index.html): Links to other Sienna packages' documentation
 
 * * *
 
