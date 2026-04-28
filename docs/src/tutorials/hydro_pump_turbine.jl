@@ -91,7 +91,15 @@ var = read_variable(
     table_format = TableFormat.WIDE,
 )
 
-# and stored energy:
+# and reserve commitment (enabled with `reservation = true`):
 
 var =
-    read_variable(res, "EnergyVariable__HydroPumpTurbine"; table_format = TableFormat.WIDE)
+    read_variable(
+        res,
+        "ReservationVariable__HydroPumpTurbine";
+        table_format = TableFormat.WIDE,
+    )
+
+# `HydroPumpEnergyDispatch` does not track stored energy in reservoirs.
+# If you need an MWh trajectory as an optimization state, add a
+# [`HydroEnergyModelReservoir`](@ref) formulation for the connected reservoirs.
