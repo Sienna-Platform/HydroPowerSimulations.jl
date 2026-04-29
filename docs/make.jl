@@ -4,11 +4,12 @@ using DocumenterInterLinks
 using Literate
 
 # UPDATE FOR CURRENT MODULE NAME HERE
-const _DOCS_BASE_URL = "https://nrel-sienna.github.io/HydroPowerSimulations.jl/stable"
+const _DOCS_BASE_URL = "https://sienna-platform.github.io/HydroPowerSimulations.jl/stable"
 
 links = InterLinks(
     "PowerSystems" => "https://sienna-platform.github.io/PowerSystems.jl/stable/",
     "PowerSimulations" => "https://sienna-platform.github.io/PowerSimulations.jl/stable/",
+    "PowerSystemCaseBuilder" => "https://sienna-platform.github.io/PowerSystemCaseBuilder.jl/stable/",
     "InfrastructureSystems" => "https://sienna-platform.github.io/InfrastructureSystems.jl/stable/",
 )
 

@@ -2,7 +2,7 @@
 #
 # !!! note
 #
-#     `HydroPowerSimulations.jl` is an extension library of [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/) for modeling hydro units. Users are encouraged to review the [single-step tutorial in `PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/) before this tutorial.
+#     `HydroPowerSimulations.jl` is an extension library of [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/latest/) for modeling hydro units. Users are encouraged to review the tutorial in `PowerSimulations.jl` on [Running a Single-Step Problem](@extref tutorials/generated_decision_problem) before this tutorial.
 #
 # ## Load packages
 
@@ -16,8 +16,7 @@ using Ipopt ## solver
 #
 # !!! note
 #
-#     `PowerSystemCaseBuilder.jl` is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function `build_system`.
-#     For more details visit [PowerSystemCaseBuilder README](https://github.com/NREL-Sienna/PowerSystemCaseBuilder.jl/blob/main/README.md)
+#     [`PowerSystemCaseBuilder.jl`](https://sienna-platform.github.io/PowerSystemCaseBuilder.jl/stable/) is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function [`PowerSystemCaseBuilder.build_system`](@extref).
 
 sys = build_system(PSITestSystems, "c_sys5_hy_turbine_energy")
 
