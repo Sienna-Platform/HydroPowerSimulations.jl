@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>HydroDispatch with Market Bid Cost · HydroPowerSimulations.jl</title><meta name="title" content="HydroDispatch with Market Bid Cost · HydroPowerSimulations.jl"/><meta property="og:title" content="HydroDispatch with Market Bid Cost · HydroPowerSimulations.jl"/><meta property="twitter:title" content="HydroDispatch with Market Bid Cost · HydroPowerSimulations.jl"/><meta name="description" content="Documentation for HydroPowerSimulations.jl."/><meta property="og:description" content="Documentation for HydroPowerSimulations.jl."/><meta property="twitter:description" content="Documentation for HydroPowerSimulations.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="HydroPowerSimulations.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">HydroPowerSimulations.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Welcome Page</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../generated_single_stage_model/">Operation problem with HydroDispatchRunOfRiver</a></li><li class="is-active"><a class="tocitem" href>HydroDispatch with Market Bid Cost</a><ul class="internal"><li><a class="tocitem" href="#Load-packages"><span>Load packages</span></a></li><li><a class="tocitem" href="#Data"><span>Data</span></a></li><li><a class="tocitem" href="#Add-a-time-varying-fuel-cost-for-a-thermal-unit"><span>Add a time-varying fuel cost for a thermal unit</span></a></li><li><a class="tocitem" href="#Add-a-market-bid-cost-to-the-hydro-unit"><span>Add a market bid cost to the hydro unit</span></a></li><li><a class="tocitem" href="#Running-the-single-stage-problem"><span>Running the single-stage problem</span></a></li></ul></li><li><a class="tocitem" href="../generated_energy_model_hydroturbine_reservoir/">Energy Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../generated_water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../generated_hydro_pump_turbine/">Hydro Pump Turbine Operation</a></li><li><a class="tocitem" href="../generated_hydro_energy_block/">HydroWaterFactorModel model usage</a></li></ul></li><li><span class="tocitem">How to...</span><ul><li><a class="tocitem" href="../../how_to/format_input_data/">...format input data for Hydro models</a></li><li><a class="tocitem" href="../../how_to/include_limits_and_targets/">...include budget limit and storage targets to Hydro models</a></li></ul></li><li><span class="tocitem">Explanation</span><ul><li><a class="tocitem" href="../../explanation/difference_between_energy_water_models/">Difference between Energy and Water models</a></li></ul></li><li><a class="tocitem" href="../../model_library/formulation/">Formulation Library</a></li><li><span class="tocitem">Reference</span><ul><li><a class="tocitem" href="../../api/public/">Public API Reference</a></li><li><a class="tocitem" href="../../api/internal/">Internal API Reference</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>HydroDispatch with Market Bid Cost</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>HydroDispatch with Market Bid Cost</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl/blob/main/docs/src/tutorials/hydro_with_marketbidcost.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="op_problem_mbc"><a class="docs-heading-anchor" href="#op_problem_mbc">Operation Problem with <code>HydroPowerSimulations.jl</code> using Market Bid Cost</a><a id="op_problem_mbc-1"></a><a class="docs-heading-anchor-permalink" href="#op_problem_mbc" title="Permalink"></a></h1><p><em>To follow along, you can download this tutorial as a <a href="../hydro_with_marketbidcost.jl">Julia script (.jl)</a> or <a href="../generated_hydro_with_marketbidcost.ipynb">Jupyter notebook (.ipynb)</a>.</em></p><div class="admonition is-info" id="Note-6396b7bb1980626b"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-6396b7bb1980626b" title="Permalink"></a></header><div class="admonition-body"><p><code>HydroPowerSimulations.jl</code> is an extension library of <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/"><code>PowerSimulations.jl</code></a> for modeling hydro units. Users are encouraged to review the <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/">single-step tutorial in <code>PowerSimulations.jl</code></a> before this tutorial.</p></div></div><h2 id="Load-packages"><a class="docs-heading-anchor" href="#Load-packages">Load packages</a><a id="Load-packages-1"></a><a class="docs-heading-anchor-permalink" href="#Load-packages" title="Permalink"></a></h2><pre><code class="language-julia hljs">using PowerSystems
+using PowerSimulations
+using HydroPowerSimulations
+using PowerSystemCaseBuilder
+using HiGHS ## solver
+using TimeSeries
+using Dates</code></pre><h2 id="Data"><a class="docs-heading-anchor" href="#Data">Data</a><a id="Data-1"></a><a class="docs-heading-anchor-permalink" href="#Data" title="Permalink"></a></h2><div class="admonition is-info" id="Note-bd83ec24d30379fe"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-bd83ec24d30379fe" title="Permalink"></a></header><div class="admonition-body"><p><code>PowerSystemCaseBuilder.jl</code> is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function <code>build_system</code>. For more details visit <a href="https://github.com/NREL-Sienna/PowerSystemCaseBuilder.jl/blob/main/README.md">PowerSystemCaseBuilder README</a></p></div></div><pre><code class="language-julia hljs">sys = build_system(PSITestSystems, &quot;c_sys5_hy&quot;; add_single_time_series = true)</code></pre><table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "2" style = "font-size: x-large; font-weight: bold; text-align: center;">System</td>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: left;">Property</th>
+      <th style = "font-weight: bold; text-align: left;">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Name</td>
+      <td style = "text-align: left;"></td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Description</td>
+      <td style = "text-align: left;"></td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">System Units Base</td>
+      <td style = "text-align: left;">SYSTEM_BASE</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Base Power</td>
+      <td style = "text-align: left;">100.0</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Base Frequency</td>
+      <td style = "text-align: left;">60.0</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Num Components</td>
+      <td style = "text-align: left;">26</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "2" style = "font-size: x-large; font-weight: bold; text-align: center;">Static Components</td>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: left;">Type</th>
+      <th style = "font-weight: bold; text-align: left;">Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ACBus</td>
+      <td style = "text-align: left;">5</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Arc</td>
+      <td style = "text-align: left;">6</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroDispatch</td>
+      <td style = "text-align: left;">1</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Line</td>
+      <td style = "text-align: left;">6</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">PowerLoad</td>
+      <td style = "text-align: left;">3</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ThermalStandard</td>
+      <td style = "text-align: left;">5</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "8" style = "font-size: x-large; font-weight: bold; text-align: center;">StaticTimeSeries Summary</td>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: left;">owner_type</th>
+      <th style = "font-weight: bold; text-align: left;">owner_category</th>
+      <th style = "font-weight: bold; text-align: left;">name</th>
+      <th style = "font-weight: bold; text-align: left;">time_series_type</th>
+      <th style = "font-weight: bold; text-align: left;">initial_timestamp</th>
+      <th style = "font-weight: bold; text-align: left;">resolution</th>
+      <th style = "font-weight: bold; text-align: left;">count</th>
+      <th style = "font-weight: bold; text-align: left;">time_step_count</th>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">Dates.CompoundPeriod</th>
+      <th style = "text-align: left;">Int64</th>
+      <th style = "text-align: left;">Int64</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroDispatch</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">max_active_power</td>
+      <td style = "text-align: left;">SingleTimeSeries</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">1</td>
+      <td style = "text-align: left;">48</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">PowerLoad</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">max_active_power</td>
+      <td style = "text-align: left;">SingleTimeSeries</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">3</td>
+      <td style = "text-align: left;">48</td>
+    </tr>
+  </tbody>
+</table>
+<h2 id="Add-a-time-varying-fuel-cost-for-a-thermal-unit"><a class="docs-heading-anchor" href="#Add-a-time-varying-fuel-cost-for-a-thermal-unit">Add a time-varying fuel cost for a thermal unit</a><a id="Add-a-time-varying-fuel-cost-for-a-thermal-unit-1"></a><a class="docs-heading-anchor-permalink" href="#Add-a-time-varying-fuel-cost-for-a-thermal-unit" title="Permalink"></a></h2><p>We will modify the cheapest unit Brighton to have time-varying fuel cost. First we add a <code>PowerSystems.FuelCurve</code>:</p><pre><code class="language-julia hljs">brighton = get_component(ThermalStandard, sys, &quot;Brighton&quot;)
+old_thermal_cost = get_operation_cost(brighton)
+new_fuel_curve = FuelCurve(;
+    value_curve = LinearCurve(8.0), ## Typical plant of 8 MMBTU/MWh heat rate. Piecewise heat rates can be used if needed.
+    power_units = UnitSystem.NATURAL_UNITS,
+    fuel_cost = 1.0, ## $/MMBTU default fuel cost to start
+)
+new_thermal_cost = ThermalGenerationCost(;
+    variable = new_fuel_curve,
+    fixed = old_thermal_cost.fixed,
+    start_up = old_thermal_cost.start_up,
+    shut_down = old_thermal_cost.shut_down,
+)
+set_operation_cost!(brighton, new_thermal_cost)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PowerSystems.ThermalGenerationCost: 
+  variable: FuelCurve:
+    value_curve: InfrastructureSystems.LinearCurve (a type of InfrastructureSystems.InputOutputCurve) where function is: f(x) = 8.0 x + 0.0
+    power_units: InfrastructureSystems.UnitSystemModule.UnitSystem.NATURAL_UNITS = 2
+    fuel_cost: 1.0
+    startup_fuel_offtake: InfrastructureSystems.LinearCurve (a type of InfrastructureSystems.InputOutputCurve) where function is: f(x) = 0.0 x + 0.0
+    vom_cost: InfrastructureSystems.LinearCurve (a type of InfrastructureSystems.InputOutputCurve) where function is: f(x) = 0.0 x + 0.0
+  fixed: 0.0
+  start_up: 1.5
+  shut_down: 0.75</code></pre><p>Now we create a timeseries with random fuel prices. We first grab an existing timeseries:</p><pre><code class="language-julia hljs">existing_ts = get_time_series_array(
+    SingleTimeSeries,
+    first(get_components(PowerLoad, sys)),
+    &quot;max_active_power&quot;,
+)
+tstamps = timestamp(existing_ts)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">48-element Vector{Dates.DateTime}:
+ 2024-01-01T00:00:00
+ 2024-01-01T01:00:00
+ 2024-01-01T02:00:00
+ 2024-01-01T03:00:00
+ 2024-01-01T04:00:00
+ 2024-01-01T05:00:00
+ 2024-01-01T06:00:00
+ 2024-01-01T07:00:00
+ 2024-01-01T08:00:00
+ 2024-01-01T09:00:00
+ ⋮
+ 2024-01-02T15:00:00
+ 2024-01-02T16:00:00
+ 2024-01-02T17:00:00
+ 2024-01-02T18:00:00
+ 2024-01-02T19:00:00
+ 2024-01-02T20:00:00
+ 2024-01-02T21:00:00
+ 2024-01-02T22:00:00
+ 2024-01-02T23:00:00</code></pre><p>And add the timeseries with the <code>set_fuel_cost!</code> method.</p><pre><code class="language-julia hljs">fuel_cost_values = rand(length(tstamps)) .+ 1.0 ## Random fuel cost between 1.0 and 2.0 $/MMBTU
+fuel_cost_tarray = TimeArray(tstamps, fuel_cost_values)
+fuel_cost_ts = SingleTimeSeries(; name = &quot;fuel_cost&quot;, data = fuel_cost_tarray)
+set_fuel_cost!(sys, brighton, fuel_cost_ts)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">FuelCurve:
+  value_curve: InfrastructureSystems.LinearCurve (a type of InfrastructureSystems.InputOutputCurve) where function is: f(x) = 8.0 x + 0.0
+  power_units: InfrastructureSystems.UnitSystemModule.UnitSystem.NATURAL_UNITS = 2
+  fuel_cost: InfrastructureSystems.StaticTimeSeriesKey(InfrastructureSystems.SingleTimeSeries, &quot;fuel_cost&quot;, Dates.DateTime(&quot;2024-01-01T00:00:00&quot;), Dates.Millisecond(3600000), 48, Dict{String, Any}())
+  startup_fuel_offtake: InfrastructureSystems.LinearCurve (a type of InfrastructureSystems.InputOutputCurve) where function is: f(x) = 0.0 x + 0.0
+  vom_cost: InfrastructureSystems.LinearCurve (a type of InfrastructureSystems.InputOutputCurve) where function is: f(x) = 0.0 x + 0.0</code></pre><h2 id="Add-a-market-bid-cost-to-the-hydro-unit"><a class="docs-heading-anchor" href="#Add-a-market-bid-cost-to-the-hydro-unit">Add a market bid cost to the hydro unit</a><a id="Add-a-market-bid-cost-to-the-hydro-unit-1"></a><a class="docs-heading-anchor-permalink" href="#Add-a-market-bid-cost-to-the-hydro-unit" title="Permalink"></a></h2><p>We again grab the timestamps from an existing time series:</p><pre><code class="language-julia hljs">existing_ts = get_time_series_array(
+    SingleTimeSeries,
+    first(get_components(PowerLoad, sys)),
+    &quot;max_active_power&quot;,
+)
+tstamps = timestamp(existing_ts)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">48-element Vector{Dates.DateTime}:
+ 2024-01-01T00:00:00
+ 2024-01-01T01:00:00
+ 2024-01-01T02:00:00
+ 2024-01-01T03:00:00
+ 2024-01-01T04:00:00
+ 2024-01-01T05:00:00
+ 2024-01-01T06:00:00
+ 2024-01-01T07:00:00
+ 2024-01-01T08:00:00
+ 2024-01-01T09:00:00
+ ⋮
+ 2024-01-02T15:00:00
+ 2024-01-02T16:00:00
+ 2024-01-02T17:00:00
+ 2024-01-02T18:00:00
+ 2024-01-02T19:00:00
+ 2024-01-02T20:00:00
+ 2024-01-02T21:00:00
+ 2024-01-02T22:00:00
+ 2024-01-02T23:00:00</code></pre><p>And we add an empty market bid cost to the hydro:</p><pre><code class="language-julia hljs">hy = get_component(HydroDispatch, sys, &quot;HydroDispatch&quot;)
+# Create an empty market bid and set it
+hydro_cost = MarketBidCost(;
+    no_load_cost = 0.0,
+    start_up = (hot = 0.0, warm = 0.0, cold = 0.0),
+    shut_down = 0.0,
+)
+set_operation_cost!(hy, hydro_cost)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">PowerSystems.MarketBidCost: 
+  no_load_cost: 0.0
+  start_up: (hot = 0.0, warm = 0.0, cold = 0.0)
+  shut_down: 0.0
+  incremental_offer_curves: nothing
+  decremental_offer_curves: nothing
+  incremental_initial_input: nothing
+  decremental_initial_input: nothing
+  ancillary_service_offers: PowerSystems.Service[]</code></pre><p>Now we create a time-varying piecewise linear bid cost:</p><pre><code class="language-julia hljs">psd1 = PiecewiseStepData([0.0, 600.0], [5.0])
+psd2 = PiecewiseStepData([0.0, 300.0, 600.0], [10.0, 20.0])
+psd3 = PiecewiseStepData([0.0, 600.0], [500.0])
+
+# Cheap the first 10 hours, moderate next 4 hours, expensive last 34 hours
+total_step_data = vcat([psd1 for x in 1:10], [psd2 for x in 1:4], [psd3 for x in 1:34])
+mbid_tarray = TimeArray(tstamps, total_step_data)
+ts_mbid = SingleTimeSeries(; name = &quot;variable_cost&quot;, data = mbid_tarray)
+
+set_variable_cost!(sys, hy, ts_mbid, UnitSystem.NATURAL_UNITS)</code></pre><p>It is also needed to create the initial input time series for market bid. That is the cost at 0 power at each time step. We will use zero for this example.</p><pre><code class="language-julia hljs">zero_input = zeros(length(tstamps))
+zero_tarray = TimeArray(tstamps, zero_input)
+ts_zero = SingleTimeSeries(; name = &quot;variable_cost_initial_input&quot;, data = zero_tarray)
+set_incremental_initial_input!(sys, hy, ts_zero)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">InfrastructureSystems.StaticTimeSeriesKey(InfrastructureSystems.SingleTimeSeries, &quot;variable_cost_initial_input&quot;, Dates.DateTime(&quot;2024-01-01T00:00:00&quot;), Dates.Millisecond(3600000), 48, Dict{String, Any}())</code></pre><h2 id="Running-the-single-stage-problem"><a class="docs-heading-anchor" href="#Running-the-single-stage-problem">Running the single-stage problem</a><a id="Running-the-single-stage-problem-1"></a><a class="docs-heading-anchor-permalink" href="#Running-the-single-stage-problem" title="Permalink"></a></h2><p>We first transform the single time series to a 24 hour forecast</p><pre><code class="language-julia hljs">transform_single_time_series!(sys, Hour(24), Hour(24))</code></pre><p>And create the necessary templates for the system:</p><pre><code class="language-julia hljs">template = ProblemTemplate(
+    NetworkModel(
+        CopperPlatePowerModel;
+        use_slacks = true,
+        duals = [CopperPlateBalanceConstraint],
+    ),
+)
+set_device_model!(template, ThermalStandard, ThermalBasicUnitCommitment)
+set_device_model!(template, HydroDispatch, HydroDispatchRunOfRiver)
+set_device_model!(template, PowerLoad, StaticPowerLoad)</code></pre><p>And then running the decision model:</p><pre><code class="language-julia hljs">model = DecisionModel(
+    template,
+    sys;
+    name = &quot;UC_MBCost&quot;,
+    optimizer = optimizer_with_attributes(
+        HiGHS.Optimizer,
+    ),
+    store_variable_names = true,
+    optimizer_solve_log_print = false,
+)
+build!(model; output_dir = mktempdir())
+solve!(model)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">InfrastructureSystems.Simulation.RunStatusModule.RunStatus.SUCCESSFULLY_FINALIZED = 0</code></pre><p>And exploring results we confirm that the hydro is not dispatched when is more expensive, while the dual of the CopperPlate constraint showcase that the system become more expensive at those hours.</p><pre><code class="language-julia hljs">res = OptimizationProblemResults(model)
+hy_p = read_variable(
+    res,
+    &quot;ActivePowerVariable__HydroDispatch&quot;;
+    table_format = TableFormat.WIDE,
+);
+show(hy_p; allrows = true)
+
+dual_price =
+    read_dual(res, &quot;CopperPlateBalanceConstraint__System&quot;; table_format = TableFormat.WIDE);
+show(dual_price; allrows = true)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi"><span class="sgr1">24×2 DataFrame
+ Row │ DateTime             HydroDispatch
+     │<span class="sgr90"> DateTime             Float64?
+─────┼────────────────────────────────────
+   1 │ 2024-01-01T00:00:00       188.58
+   2 │ 2024-01-01T01:00:00       232.01
+   3 │ 2024-01-01T02:00:00       137.149
+   4 │ 2024-01-01T03:00:00       136.006
+   5 │ 2024-01-01T04:00:00       133.72
+   6 │ 2024-01-01T05:00:00        77.718
+   7 │ 2024-01-01T06:00:00        86.8608
+   8 │ 2024-01-01T07:00:00       219.439
+   9 │ 2024-01-01T08:00:00       124.577
+  10 │ 2024-01-01T09:00:00       373.731
+  11 │ 2024-01-01T10:00:00       402.304
+  12 │ 2024-01-01T11:00:00       282.93
+  13 │ 2024-01-01T12:00:00       401.161
+  14 │ 2024-01-01T13:00:00       244.583
+  15 │ 2024-01-01T14:00:00         0.0
+  16 │ 2024-01-01T15:00:00         0.0
+  17 │ 2024-01-01T16:00:00         0.0
+  18 │ 2024-01-01T17:00:00         0.0
+  19 │ 2024-01-01T18:00:00         0.0
+  20 │ 2024-01-01T19:00:00         0.0
+  21 │ 2024-01-01T20:00:00         0.0
+  22 │ 2024-01-01T21:00:00         0.0
+  23 │ 2024-01-01T22:00:00         0.0
+  24 │ 2024-01-01T23:00:00         0.024×2 DataFrame
+ Row │ DateTime             4
+     │ DateTime             Float64?
+─────┼───────────────────────────────
+   1 │ 2024-01-01T00:00:00  1500.0
+   2 │ 2024-01-01T01:00:00   994.563
+   3 │ 2024-01-01T02:00:00  1456.41
+   4 │ 2024-01-01T03:00:00  1430.51
+   5 │ 2024-01-01T04:00:00  1529.91
+   6 │ 2024-01-01T05:00:00  1304.9
+   7 │ 2024-01-01T06:00:00  1400.0
+   8 │ 2024-01-01T07:00:00  1082.78
+   9 │ 2024-01-01T08:00:00  1500.0
+  10 │ 2024-01-01T09:00:00  1106.39
+  11 │ 2024-01-01T10:00:00  1427.55
+  12 │ 2024-01-01T11:00:00  1000.0
+  13 │ 2024-01-01T12:00:00  1194.34
+  14 │ 2024-01-01T13:00:00  1400.0
+  15 │ 2024-01-01T14:00:00  3000.0
+  16 │ 2024-01-01T15:00:00  3000.0
+  17 │ 2024-01-01T16:00:00  3000.0
+  18 │ 2024-01-01T17:00:00  3000.0
+  19 │ 2024-01-01T18:00:00  3000.0
+  20 │ 2024-01-01T19:00:00  3000.0
+  21 │ 2024-01-01T20:00:00  3000.0
+  22 │ 2024-01-01T21:00:00  3000.0
+  23 │ 2024-01-01T22:00:00  3000.0
+  24 │ 2024-01-01T23:00:00  1500.0</span></span></code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_single_stage_model/">« Operation problem with HydroDispatchRunOfRiver</a><a class="docs-footer-nextpage" href="../generated_energy_model_hydroturbine_reservoir/">Energy Hydro Reservoir Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 10 February 2026 20:48">Tuesday 10 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
