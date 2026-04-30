@@ -3,8 +3,6 @@ import DataStructures: OrderedDict
 using DocumenterInterLinks
 using Literate
 
-# UPDATE FOR CURRENT MODULE NAME HERE
-const _DOCS_BASE_URL = "https://sienna-platform.github.io/HydroPowerSimulations.jl/stable"
 
 links = InterLinks(
     "PowerSystems" => "https://sienna-platform.github.io/PowerSystems.jl/stable/",
