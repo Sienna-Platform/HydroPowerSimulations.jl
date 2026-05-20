@@ -28,10 +28,9 @@ hy = only(get_components(HydroDispatch, sys))
 #
 # Setting up the formulations based on [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
 
-template = ProblemTemplate(PTDFPowerModel)
+template = ProblemTemplate(NetworkModel(CopperPlatePowerModel))
 set_device_model!(template, ThermalStandard, ThermalBasicDispatch)
 set_device_model!(template, PowerLoad, StaticPowerLoad)
-set_device_model!(template, Line, StaticBranch)
 
 # but, now we also include the hydro using [`HydroDispatchRunOfRiver`](@ref):
 
