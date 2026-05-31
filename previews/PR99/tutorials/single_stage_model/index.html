@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Operation problem with HydroDispatchRunOfRiver · HydroPowerSimulations.jl</title><meta name="title" content="Operation problem with HydroDispatchRunOfRiver · HydroPowerSimulations.jl"/><meta property="og:title" content="Operation problem with HydroDispatchRunOfRiver · HydroPowerSimulations.jl"/><meta property="twitter:title" content="Operation problem with HydroDispatchRunOfRiver · HydroPowerSimulations.jl"/><meta name="description" content="Documentation for HydroPowerSimulations.jl."/><meta property="og:description" content="Documentation for HydroPowerSimulations.jl."/><meta property="twitter:description" content="Documentation for HydroPowerSimulations.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="HydroPowerSimulations.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">HydroPowerSimulations.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Welcome Page</a></li><li><span class="tocitem">Tutorials</span><ul><li class="is-active"><a class="tocitem" href>Operation problem with HydroDispatchRunOfRiver</a><ul class="internal"><li><a class="tocitem" href="#Load-packages"><span>Load packages</span></a></li><li><a class="tocitem" href="#Data"><span>Data</span></a></li><li><a class="tocitem" href="#Decision-Model"><span>Decision Model</span></a></li><li><a class="tocitem" href="#Exploring-Results"><span>Exploring Results</span></a></li></ul></li><li><a class="tocitem" href="../energy_model_hydroturbine_reservoir/">Energy Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../hydro_pump_turbine/">Hydro Pump Turbine Operation</a></li><li><a class="tocitem" href="../hydro_energy_block/">HydroEnergyBlock model usage</a></li></ul></li><li><span class="tocitem">How to...</span><ul><li><a class="tocitem" href="../../how_to/format_input_data/">...format input data for Hydro models</a></li><li><a class="tocitem" href="../../how_to/include_limits_and_targets/">...include budget limit and storage targets to Hydro models</a></li></ul></li><li><span class="tocitem">Explanation</span><ul><li><a class="tocitem" href="../../explanation/difference_between_energy_water_models/">Difference between Energy and Water models</a></li></ul></li><li><a class="tocitem" href="../../model_library/formulation/">Formulation Library</a></li><li><span class="tocitem">Reference</span><ul><li><a class="tocitem" href="../../api/public/">Public API Reference</a></li><li><a class="tocitem" href="../../api/internal/">Internal API Reference</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>Operation problem with HydroDispatchRunOfRiver</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Operation problem with HydroDispatchRunOfRiver</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl/blob/main/docs/src/tutorials/single_stage_model.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="op_problem"><a class="docs-heading-anchor" href="#op_problem">Operation Problem with <code>HydroPowerSimulations.jl</code></a><a id="op_problem-1"></a><a class="docs-heading-anchor-permalink" href="#op_problem" title="Permalink"></a></h1><div class="admonition is-info" id="Note-6396b7bb1980626b"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-6396b7bb1980626b" title="Permalink"></a></header><div class="admonition-body"><p><code>HydroPowerSimulations.jl</code> is an extension library of <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/"><code>PowerSimulations.jl</code></a> for modeling hydro units. Users are encouraged to review the <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/">single-step tutorial in <code>PowerSimulations.jl</code></a> before this tutorial.</p></div></div><h2 id="Load-packages"><a class="docs-heading-anchor" href="#Load-packages">Load packages</a><a id="Load-packages-1"></a><a class="docs-heading-anchor-permalink" href="#Load-packages" title="Permalink"></a></h2><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSystems</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSimulations</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using HydroPowerSimulations</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSystemCaseBuilder</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using HiGHS # solver</code></pre><h2 id="Data"><a class="docs-heading-anchor" href="#Data">Data</a><a id="Data-1"></a><a class="docs-heading-anchor-permalink" href="#Data" title="Permalink"></a></h2><div class="admonition is-info" id="Note-bd83ec24d30379fe"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-bd83ec24d30379fe" title="Permalink"></a></header><div class="admonition-body"><p><code>PowerSystemCaseBuilder.jl</code> is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function <code>build_system</code>. For more details visit <a href="https://github.com/NREL-Sienna/PowerSystemCaseBuilder.jl/blob/main/README.md">PowerSystemCaseBuilder README</a></p></div></div><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; sys = build_system(PSITestSystems, &quot;c_sys5_hy&quot;)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">┌ Info: </span></span>Building new system c_sys5_hy from raw data
+<span class="sgr36"><span class="sgr1">└ </span></span>  sys_descriptor.raw_data = &quot;/home/runner/.julia/artifacts/9434fe2e9f66a9d6af8518bf3b21355800258751/PowerSystemsTestData-4.0.1/psy_data/data_5bus_pu.jl&quot;
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Serialized time series data to /home/runner/.julia/packages/PowerSystemCaseBuilder/gY6ss/data/serialized_system/4e67b70ea6977dbe21c7731d72cdc1494adf072a7f3f08d921db740cf264ce79/c_sys5_hy_time_series_storage.h5.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Serialized System to /home/runner/.julia/packages/PowerSystemCaseBuilder/gY6ss/data/serialized_system/4e67b70ea6977dbe21c7731d72cdc1494adf072a7f3f08d921db740cf264ce79/c_sys5_hy.json
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Serialized System metadata to /home/runner/.julia/packages/PowerSystemCaseBuilder/gY6ss/data/serialized_system/4e67b70ea6977dbe21c7731d72cdc1494adf072a7f3f08d921db740cf264ce79/c_sys5_hy_metadata.json
+<span class="sgr1">System
+┌───────────────────┬─────────────┐
+│ Property          │ Value       │
+├───────────────────┼─────────────┤
+│ Name              │             │
+│ Description       │             │
+│ System Units Base │ SYSTEM_BASE │
+│ Base Power        │ 100.0       │
+│ Base Frequency    │ 60.0        │
+│ Num Components    │ 26          │
+└───────────────────┴─────────────┘
+
+Static Components
+┌─────────────────┬───────┐
+│ Type            │ Count │
+├─────────────────┼───────┤
+│ ACBus           │ 5     │
+│ Arc             │ 6     │
+│ HydroDispatch   │ 1     │
+│ Line            │ 6     │
+│ PowerLoad       │ 3     │
+│ ThermalStandard │ 5     │
+└─────────────────┴───────┘
+
+Forecast Summary
+┌───────────────┬────────────────┬──────────────────┬──────────────────┬────────
+│ owner_type    │ owner_category │ name             │ time_series_type │ initi ⋯
+│<span class="sgr90"> String        │ String         │ String           │ String           │ Strin ⋯
+├───────────────┼────────────────┼──────────────────┼──────────────────┼────────
+│ HydroDispatch │ Component      │ max_active_power │ Deterministic    │ 2024- ⋯
+│ PowerLoad     │ Component      │ max_active_power │ Deterministic    │ 2024- ⋯
+└───────────────┴────────────────┴──────────────────┴──────────────────┴────────
+</span><span class="sgr36">                                                               6 columns omitted</span></span></code></pre><p>With a single <a href="https://nrel-sienna.github.io/PowerSystems.jl/stable/model_library/generated_HydroDispatch/#PowerSystems.HydroDispatch"><code>PowerSystems.HydroDispatch</code></a>:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; hy = only(get_components(HydroDispatch, sys))</code><code class="nohighlight hljs ansi" style="display:block;">HydroDispatch: HydroDispatch:
+   name: HydroDispatch
+   available: true
+   bus: ACBus: nodeB
+   active_power: 0.0
+   reactive_power: 0.0
+   rating: 6.0
+   prime_mover_type: PowerSystems.PrimeMoversModule.PrimeMovers.HY = 16
+   active_power_limits: (min = 0.0, max = 6.0)
+   reactive_power_limits: (min = 0.0, max = 6.0)
+   ramp_limits: nothing
+   time_limits: nothing
+   base_power: 100.0
+   status: false
+   time_at_status: 10000.0
+   operation_cost: PowerSystems.HydroGenerationCost composed of variable: InfrastructureSystems.CostCurve{InfrastructureSystems.LinearCurve}
+   services: 0-element Vector{PowerSystems.Service}
+   dynamic_injector: nothing
+   ext: Dict{String, Any}()
+   InfrastructureSystems.SystemUnitsSettings:
+      base_value: 100.0
+      unit_system: InfrastructureSystems.UnitSystemModule.UnitSystem.SYSTEM_BASE = 0
+   has_supplemental_attributes: false
+   has_time_series: true</code></pre><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; template = ProblemTemplate(PTDFPowerModel)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr1">Network Model
+┌────────────────────┬─────────────────────────────────┐
+│ Network Model      │ PowerSimulations.PTDFPowerModel │
+│ Slacks             │ false                           │
+│ PTDF               │ false                           │
+│ Duals              │ None                            │
+│ HVDC Network Model │ None                            │
+└────────────────────┴─────────────────────────────────┘
+
+Device Models
+┌─────────────┬─────────────┬────────┐
+│ Device Type │ Formulation │ Slacks │
+└─────────────┴─────────────┴────────┘</span></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, ThermalStandard, ThermalBasicDispatch)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, PowerLoad, StaticPowerLoad)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, Line, StaticBranch)</code></pre><p>but, now we also include the hydro using <a href="../../model_library/formulation/#HydroDispatchRunOfRiver"><code>HydroDispatchRunOfRiver</code></a>:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, HydroDispatch, HydroDispatchRunOfRiver)</code></pre><p>With the template properly set-up, we construct, build and solve the optimization problem:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; model = DecisionModel(template, sys; optimizer = HiGHS.Optimizer)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Overriding time_series_cache_size because time series is stored in memory
+<span class="sgr1">Network Model
+┌────────────────────┬─────────────────────────────────┐
+│ Network Model      │ PowerSimulations.PTDFPowerModel │
+│ Slacks             │ false                           │
+│ PTDF               │ false                           │
+│ Duals              │ None                            │
+│ HVDC Network Model │ None                            │
+└────────────────────┴─────────────────────────────────┘
+
+Device Models
+┌──────────────────────────────┬───────────────────────────────────────┬────────
+│ Device Type                  │ Formulation                           │ Slack ⋯
+├──────────────────────────────┼───────────────────────────────────────┼────────
+│ PowerSystems.ThermalStandard │ PowerSimulations.ThermalBasicDispatch │ false ⋯
+│ PowerSystems.PowerLoad       │ PowerSimulations.StaticPowerLoad      │ false ⋯
+│ PowerSystems.HydroDispatch   │ HydroDispatchRunOfRiver               │ false ⋯
+└──────────────────────────────┴───────────────────────────────────────┴────────
+<span class="sgr36">                                                                1 column omitted
+
+Branch Models
+┌───────────────────┬───────────────────────────────┬────────┐
+│ Branch Type       │ Formulation                   │ Slacks │
+├───────────────────┼───────────────────────────────┼────────┤
+│ PowerSystems.Line │ PowerSimulations.StaticBranch │ false  │
+└───────────────────┴───────────────────────────────┴────────┘</span></span></code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; build!(model; output_dir = mktempdir())</code><code class="nohighlight hljs ansi" style="display:block;">InfrastructureSystems.Optimization.ModelBuildStatusModule.ModelBuildStatus.BUILT = 0</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; solve!(model)</code><code class="nohighlight hljs ansi" style="display:block;">InfrastructureSystems.Simulation.RunStatusModule.RunStatus.SUCCESSFULLY_FINALIZED = 0</code></pre><h2 id="Exploring-Results"><a class="docs-heading-anchor" href="#Exploring-Results">Exploring Results</a><a id="Exploring-Results-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-Results" title="Permalink"></a></h2><p>Results can be explored using:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; res = OptimizationProblemResults(model)</code><code class="nohighlight hljs ansi" style="display:block;">Start: 2024-01-01T00:00:00
+End: 2024-01-01T23:00:00
+Resolution: 60 minutes
+
+<span class="sgr1">PowerSimulations Problem Auxiliary variables Results
+┌──────────────────────────────────┐
+│ HydroEnergyOutput__HydroDispatch │
+└──────────────────────────────────┘
+
+PowerSimulations Problem Expressions Results
+┌───────────────────────────────────────────┐
+│ ActivePowerBalance__ACBus                 │
+│ ProductionCostExpression__ThermalStandard │
+│ ActivePowerBalance__System                │
+│ ProductionCostExpression__HydroDispatch   │
+└───────────────────────────────────────────┘
+
+PowerSimulations Problem Parameters Results
+┌───────────────────────────────────────────────┐
+│ ActivePowerTimeSeriesParameter__PowerLoad     │
+│ ActivePowerTimeSeriesParameter__HydroDispatch │
+└───────────────────────────────────────────────┘
+
+PowerSimulations Problem Variables Results
+┌──────────────────────────────────────┐
+│ ActivePowerVariable__HydroDispatch   │
+│ FlowActivePowerVariable__Line        │
+│ ActivePowerVariable__ThermalStandard │
+└──────────────────────────────────────┘</span></code></pre><p>Use <a href="https://nrel-sienna.github.io/InfrastructureSystems.jl/stable/InfrastructureSystems/#InfrastructureSystems.Optimization.read_variable-Tuple%7BInfrastructureSystems.Optimization.OptimizationProblemResults%2C%20Vararg%7BAny%7D%7D"><code>read_variable</code></a> to read in the dispatch variable results for the hydro:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; var = read_variable(res, &quot;ActivePowerVariable__HydroDispatch&quot;)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr1">24×3 DataFrame
+ Row │ DateTime             name           value
+     │<span class="sgr90"> DateTime             String         Float64
+─────┼──────────────────────────────────────────────
+   1 │ 2024-01-01T00:00:00  HydroDispatch  188.58
+   2 │ 2024-01-01T01:00:00  HydroDispatch  232.01
+   3 │ 2024-01-01T02:00:00  HydroDispatch  137.149
+   4 │ 2024-01-01T03:00:00  HydroDispatch  136.006
+   5 │ 2024-01-01T04:00:00  HydroDispatch  133.72
+   6 │ 2024-01-01T05:00:00  HydroDispatch   77.718
+   7 │ 2024-01-01T06:00:00  HydroDispatch   86.8608
+   8 │ 2024-01-01T07:00:00  HydroDispatch  219.439
+  ⋮  │          ⋮                 ⋮           ⋮
+  18 │ 2024-01-01T17:00:00  HydroDispatch  269.726
+  19 │ 2024-01-01T18:00:00  HydroDispatch  378.303
+  20 │ 2024-01-01T19:00:00  HydroDispatch  438.877
+  21 │ 2024-01-01T20:00:00  HydroDispatch  466.307
+  22 │ 2024-01-01T21:00:00  HydroDispatch  427.448
+  23 │ 2024-01-01T22:00:00  HydroDispatch  468.593
+  24 │ 2024-01-01T23:00:00  HydroDispatch  114.291
+</span><span class="sgr36">                                      9 rows omitted</span></span></code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../">« Welcome Page</a><a class="docs-footer-nextpage" href="../energy_model_hydroturbine_reservoir/">Energy Hydro Reservoir Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Monday 1 December 2025 18:44">Monday 1 December 2025</span>. Using Julia version 1.12.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
