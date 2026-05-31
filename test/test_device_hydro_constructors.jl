@@ -565,10 +565,63 @@ end
           IS.Simulation.RunStatus.SUCCESSFULLY_FINALIZED
 end
 
+@testset "Test Hydro Pump Energy Dispatch with ACPPowerModel" begin
+    output_dir = mktempdir(; cleanup = true)
+
+    c_sys5_bat =
+        PSB.build_system(
+            PSITestSystems,
+            "c_sys5_hydro_pump_energy";
+            add_reserves = false,
+            add_single_time_series = true,
+        )
+
+    transform_single_time_series!(c_sys5_bat, Hour(24), Hour(24))
+
+    template = ProblemTemplate(NetworkModel(ACPPowerModel; use_slacks = true))
+    set_device_model!(template, ThermalStandard, ThermalBasicDispatch)
+    set_device_model!(template, RenewableDispatch, RenewableFullDispatch)
+    set_device_model!(template, PowerLoad, StaticPowerLoad)
+    set_device_model!(template, RenewableNonDispatch, FixedOutput)
+    set_device_model!(template, Line, StaticBranch)
+    set_device_model!(
+        template,
+        DeviceModel(
+            HydroPumpTurbine,
+            HPS.HydroPumpEnergyDispatch;
+            attributes = Dict{String, Any}(
+                "reservation" => false,
+                "energy_target" => false,
+            ),
+        ),
+    )
+
+    model = DecisionModel(
+        template,
+        c_sys5_bat;
+        optimizer = Ipopt_optimizer,
+        store_variable_names = true,
+    )
+
+    @test build!(model; output_dir = output_dir) ==
+          PSI.ModelBuildStatus.BUILT
+
+    @test solve!(model; output_dir = output_dir) ==
+          IS.Simulation.RunStatus.SUCCESSFULLY_FINALIZED
+
+    results = PSI.OptimizationProblemResults(model)
+    variables = PSI.read_variables(results)
+    variable_keys = string.(collect(keys(variables)))
+
+    # Check that the HydroPumpTurbine variables are correctly created and mapped
+    @test "ActivePowerVariable__HydroPumpTurbine" in variable_keys
+    @test "ActivePowerPumpVariable__HydroPumpTurbine" in variable_keys
+    @test "ReactivePowerVariable__HydroPumpTurbine" in variable_keys
+end
+
 #########################################
 ######## HydroBlock model Tests #########
 #########################################
-
 @testset "Test Hydro Block Optimization Formulation" begin
     output_dir = mktempdir(; cleanup = true)
     modeling_horizon = 3 * 24 * 1
