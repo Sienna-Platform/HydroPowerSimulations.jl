@@ -756,6 +756,36 @@ function PSI.get_min_max_limits(
 end
 
 """
+Min and max reactive Power Variable limits
+"""
+function PSI.get_min_max_limits(
+    x::PSY.HydroPumpTurbine,
+    ::Type{<:PSI.ReactivePowerVariableLimitsConstraint},
+    ::Type{<:AbstractHydroPumpFormulation},
+)
+    return PSY.get_reactive_power_limits(x)
+end
+
+"""
+Add reactive power variable limits constraints for hydro pump formulations
+"""
+function PSI.add_constraints!(
+    container::PSI.OptimizationContainer,
+    T::Type{<:PSI.ReactivePowerVariableLimitsConstraint},
+    U::Type{<:Union{PSI.VariableType, PSI.ExpressionType}},
+    devices::IS.FlattenIteratorWrapper{V},
+    model::PSI.DeviceModel{V, W},
+    ::PSI.NetworkModel{X},
+) where {
+    V <: PSY.HydroPumpTurbine,
+    W <: AbstractHydroPumpFormulation,
+    X <: PM.AbstractPowerModel,
+}
+    PSI.add_range_constraints!(container, T, U, devices, model, X)
+    return
+end
+
+"""
 Add power variable limits constraints for abstract hydro unit commitment formulations
 """
 function PSI.add_constraints!(
