@@ -30,7 +30,7 @@ reservoir = only(get_components(HydroReservoir, sys))
 #
 # ## Decision Model
 #
-# Setting up the formulations based on [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
+# Setting up the formulations based on [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
 
 template = ProblemTemplate(NetworkModel(CopperPlatePowerModel))
 set_device_model!(template, ThermalStandard, ThermalBasicDispatch)

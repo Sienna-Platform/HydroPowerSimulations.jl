@@ -192,7 +192,7 @@ reservoir_tail = get_component(HydroReservoir, sys, &quot;Bat_tail_reservoir&quo
       base_value: 100.0
       unit_system: InfrastructureSystems.UnitSystemModule.UnitSystem.SYSTEM_BASE = 0
    has_supplemental_attributes: false
-   has_time_series: false</code></pre><p>Note that the reservoirs has a <code>level_data_type</code> of <code>ENERGY</code>, that implies its storage level limits data are in MWh. That means that the available capacity of the head reservoir is between 5.0 and 400 MWh, while the tail reservoir is set to zero, implying an infinite tail reservoir.</p><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia hljs">template = ProblemTemplate(NetworkModel(CopperPlatePowerModel))
+   has_time_series: false</code></pre><p>Note that the reservoirs has a <code>level_data_type</code> of <code>ENERGY</code>, that implies its storage level limits data are in MWh. That means that the available capacity of the head reservoir is between 5.0 and 400 MWh, while the tail reservoir is set to zero, implying an infinite tail reservoir.</p><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://sienna-platform.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia hljs">template = ProblemTemplate(NetworkModel(CopperPlatePowerModel))
 set_device_model!(template, ThermalStandard, ThermalBasicDispatch)
 set_device_model!(template, PowerLoad, StaticPowerLoad)</code></pre><p>but, now we also include the HydroTurbine using <a href="../../api/public/#HydroPowerSimulations.HydroPumpEnergyDispatch"><code>HydroPumpEnergyDispatch</code></a>:</p><pre><code class="language-julia hljs">pump_model = DeviceModel(
     HydroPumpTurbine,
@@ -223,10 +223,13 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
       <td style = "text-align: left;">ActivePowerBalance__System</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
+      <td style = "text-align: left;">FixedCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">VOMCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">FuelCostExpression__ThermalStandard</td>
@@ -236,9 +239,6 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">ShutDownCostExpression__ThermalStandard</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">FixedCostExpression__ThermalStandard</td>
     </tr>
   </tbody>
 </table>
@@ -264,9 +264,6 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
   </thead>
   <tbody>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ReservationVariable__HydroPumpTurbine</td>
-    </tr>
-    <tr class = "dataRow">
       <td style = "text-align: left;">ActivePowerVariable__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
@@ -274,6 +271,9 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">ActivePowerPumpVariable__HydroPumpTurbine</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ReservationVariable__HydroPumpTurbine</td>
     </tr>
   </tbody>
 </table>
@@ -482,4 +482,4 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
   </tbody>
 </table>
-<p><code>HydroPumpEnergyDispatch</code> does not track stored energy in reservoirs. If you need an MWh trajectory as an optimization state, add a <a href="../../model_library/formulation/#HydroEnergyModelReservoir"><code>HydroEnergyModelReservoir</code></a> formulation for the connected reservoirs.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_water_model_hydroturbine_reservoir/">« Water Hydro Reservoir Operation</a><a class="docs-footer-nextpage" href="../generated_hydro_energy_block/">HydroWaterFactorModel model usage »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 20 June 2026 21:47">Saturday 20 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<p><code>HydroPumpEnergyDispatch</code> does not track stored energy in reservoirs. If you need an MWh trajectory as an optimization state, add a <a href="../../model_library/formulation/#HydroEnergyModelReservoir"><code>HydroEnergyModelReservoir</code></a> formulation for the connected reservoirs.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_water_model_hydroturbine_reservoir/">« Water Hydro Reservoir Operation</a><a class="docs-footer-nextpage" href="../generated_hydro_energy_block/">HydroWaterFactorModel model usage »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 20 June 2026 21:54">Saturday 20 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

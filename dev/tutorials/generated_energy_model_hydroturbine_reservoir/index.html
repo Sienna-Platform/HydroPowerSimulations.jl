@@ -199,7 +199,7 @@ reservoir = only(get_components(HydroReservoir, sys))</code></pre><pre class="do
       base_value: 100.0
       unit_system: InfrastructureSystems.UnitSystemModule.UnitSystem.SYSTEM_BASE = 0
    has_supplemental_attributes: false
-   has_time_series: true</code></pre><p>Note that the reservoir has a <code>level_data_type</code> of <code>ENERGY</code>, that implies its storage level limits data are in MWh. That means that its maximum capacity is 5000 MWh, and its initial energy capacity is <span>$0.5 \cdot 5000 = 2500$</span> MWh.</p><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia hljs">template = ProblemTemplate(NetworkModel(CopperPlatePowerModel))
+   has_time_series: true</code></pre><p>Note that the reservoir has a <code>level_data_type</code> of <code>ENERGY</code>, that implies its storage level limits data are in MWh. That means that its maximum capacity is 5000 MWh, and its initial energy capacity is <span>$0.5 \cdot 5000 = 2500$</span> MWh.</p><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://sienna-platform.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia hljs">template = ProblemTemplate(NetworkModel(CopperPlatePowerModel))
 set_device_model!(template, ThermalStandard, ThermalBasicDispatch)
 set_device_model!(template, PowerLoad, StaticPowerLoad)</code></pre><p>but, now we also include the HydroTurbine using <a href="../../model_library/formulation/#HydroTurbineEnergyDispatch"><code>HydroTurbineEnergyDispatch</code></a>:</p><pre><code class="language-julia hljs">set_device_model!(template, HydroTurbine, HydroTurbineEnergyDispatch)</code></pre><p>and we need to use the energy model for the HydroReservoir via <a href="../../model_library/formulation/#HydroEnergyModelReservoir"><code>HydroEnergyModelReservoir</code></a>. For this example we will ignore end targets of hydro budgets, but they can be included by setting up the attributes to <code>true</code>. It is not recommended to set both <code>energy_target</code> and <code>hydro_budget</code> to <code>true</code> simultaneously since it may create an infeasible problem:</p><pre><code class="language-julia hljs">reservoir_model = DeviceModel(
     HydroReservoir,
@@ -239,25 +239,25 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
       <td style = "text-align: left;">ActivePowerBalance__System</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ProductionCostExpression__HydroTurbine</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
+      <td style = "text-align: left;">FixedCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">VOMCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
       <td style = "text-align: left;">FuelCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__HydroTurbine</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">StartUpCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">ShutDownCostExpression__ThermalStandard</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">FixedCostExpression__ThermalStandard</td>
     </tr>
   </tbody>
 </table>
@@ -286,22 +286,22 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
   </thead>
   <tbody>
     <tr class = "dataRow">
-      <td style = "text-align: left;">HydroEnergySurplusVariable__HydroReservoir</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">EnergyVariable__HydroReservoir</td>
-    </tr>
-    <tr class = "dataRow">
       <td style = "text-align: left;">WaterSpillageVariable__HydroReservoir</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroEnergyShortageVariable__HydroReservoir</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroEnergySurplusVariable__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">ActivePowerVariable__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ActivePowerVariable__HydroTurbine</td>
+      <td style = "text-align: left;">EnergyVariable__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">HydroEnergyShortageVariable__HydroReservoir</td>
+      <td style = "text-align: left;">ActivePowerVariable__HydroTurbine</td>
     </tr>
   </tbody>
 </table>
@@ -435,4 +435,4 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
   </tbody>
 </table>
-<p>Note that since we have ignored the energy targets in the reservoir model, the optimal solution decides to deplete the reservoir.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_hydro_with_marketbidcost/">« HydroDispatch with Market Bid Cost</a><a class="docs-footer-nextpage" href="../generated_water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 20 June 2026 21:47">Saturday 20 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<p>Note that since we have ignored the energy targets in the reservoir model, the optimal solution decides to deplete the reservoir.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_hydro_with_marketbidcost/">« HydroDispatch with Market Bid Cost</a><a class="docs-footer-nextpage" href="../generated_water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Saturday 20 June 2026 21:54">Saturday 20 June 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
