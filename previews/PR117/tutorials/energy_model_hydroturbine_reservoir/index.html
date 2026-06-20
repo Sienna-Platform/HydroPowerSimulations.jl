@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Energy Hydro Reservoir Operation · HydroPowerSimulations.jl</title><meta name="title" content="Energy Hydro Reservoir Operation · HydroPowerSimulations.jl"/><meta property="og:title" content="Energy Hydro Reservoir Operation · HydroPowerSimulations.jl"/><meta property="twitter:title" content="Energy Hydro Reservoir Operation · HydroPowerSimulations.jl"/><meta name="description" content="Documentation for HydroPowerSimulations.jl."/><meta property="og:description" content="Documentation for HydroPowerSimulations.jl."/><meta property="twitter:description" content="Documentation for HydroPowerSimulations.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="HydroPowerSimulations.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">HydroPowerSimulations.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Welcome Page</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../single_stage_model/">Operation problem with HydroDispatchRunOfRiver</a></li><li><a class="tocitem" href="../hydro_with_marketbidcost/">HydroDispatch with Market Bid Cost</a></li><li class="is-active"><a class="tocitem" href>Energy Hydro Reservoir Operation</a><ul class="internal"><li><a class="tocitem" href="#Load-packages"><span>Load packages</span></a></li><li><a class="tocitem" href="#Data"><span>Data</span></a></li><li><a class="tocitem" href="#Decision-Model"><span>Decision Model</span></a></li><li><a class="tocitem" href="#Exploring-Results"><span>Exploring Results</span></a></li></ul></li><li><a class="tocitem" href="../water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../hydro_pump_turbine/">Hydro Pump Turbine Operation</a></li><li><a class="tocitem" href="../hydro_energy_block/">HydroEnergyBlock model usage</a></li></ul></li><li><span class="tocitem">How to...</span><ul><li><a class="tocitem" href="../../how_to/format_input_data/">...format input data for Hydro models</a></li><li><a class="tocitem" href="../../how_to/include_limits_and_targets/">...include budget limit and storage targets to Hydro models</a></li></ul></li><li><span class="tocitem">Explanation</span><ul><li><a class="tocitem" href="../../explanation/difference_between_energy_water_models/">Difference between Energy and Water models</a></li></ul></li><li><a class="tocitem" href="../../model_library/formulation/">Formulation Library</a></li><li><span class="tocitem">Reference</span><ul><li><a class="tocitem" href="../../api/public/">Public API Reference</a></li><li><a class="tocitem" href="../../api/internal/">Internal API Reference</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>Energy Hydro Reservoir Operation</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Energy Hydro Reservoir Operation</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl/blob/main/docs/src/tutorials/energy_model_hydroturbine_reservoir.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="HydroTurbine-Reservoir-for-EnergyModel"><a class="docs-heading-anchor" href="#HydroTurbine-Reservoir-for-EnergyModel">HydroTurbine + Reservoir for EnergyModel</a><a id="HydroTurbine-Reservoir-for-EnergyModel-1"></a><a class="docs-heading-anchor-permalink" href="#HydroTurbine-Reservoir-for-EnergyModel" title="Permalink"></a></h1><div class="admonition is-info" id="Note-6396b7bb1980626b"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-6396b7bb1980626b" title="Permalink"></a></header><div class="admonition-body"><p><code>HydroPowerSimulations.jl</code> is an extension library of <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/"><code>PowerSimulations.jl</code></a> for modeling hydro units. Users are encouraged to review the <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/">single-step tutorial in <code>PowerSimulations.jl</code></a> before this tutorial.</p></div></div><h2 id="Load-packages"><a class="docs-heading-anchor" href="#Load-packages">Load packages</a><a id="Load-packages-1"></a><a class="docs-heading-anchor-permalink" href="#Load-packages" title="Permalink"></a></h2><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSystems</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSimulations</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using HydroPowerSimulations</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSystemCaseBuilder</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; using HiGHS # solver</code></pre><h2 id="Data"><a class="docs-heading-anchor" href="#Data">Data</a><a id="Data-1"></a><a class="docs-heading-anchor-permalink" href="#Data" title="Permalink"></a></h2><div class="admonition is-info" id="Note-bd83ec24d30379fe"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-bd83ec24d30379fe" title="Permalink"></a></header><div class="admonition-body"><p><code>PowerSystemCaseBuilder.jl</code> is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function <code>build_system</code>. For more details visit <a href="https://github.com/NREL-Sienna/PowerSystemCaseBuilder.jl/blob/main/README.md">PowerSystemCaseBuilder README</a></p></div></div><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; sys = build_system(PSITestSystems, &quot;c_sys5_hy_turbine_energy&quot;)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">┌ Info: </span></span>Building new system c_sys5_hy_turbine_energy from raw data
+<span class="sgr36"><span class="sgr1">└ </span></span>  sys_descriptor.raw_data = &quot;/home/runner/.julia/artifacts/edcb5940e84a802a86ad4f2223214d33121ac044/PowerSystemsTestData-4.0.2/psy_data/data_5bus_pu.jl&quot;
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Serialized time series data to /home/runner/.julia/packages/PowerSystemCaseBuilder/4xnYN/data/serialized_system/4e67b70ea6977dbe21c7731d72cdc1494adf072a7f3f08d921db740cf264ce79/c_sys5_hy_turbine_energy_time_series_storage.h5.
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Serialized System to /home/runner/.julia/packages/PowerSystemCaseBuilder/4xnYN/data/serialized_system/4e67b70ea6977dbe21c7731d72cdc1494adf072a7f3f08d921db740cf264ce79/c_sys5_hy_turbine_energy.json
+<span class="sgr36"><span class="sgr1">[ Info: </span></span>Serialized System metadata to /home/runner/.julia/packages/PowerSystemCaseBuilder/4xnYN/data/serialized_system/4e67b70ea6977dbe21c7731d72cdc1494adf072a7f3f08d921db740cf264ce79/c_sys5_hy_turbine_energy_metadata.json
+<span class="sgr1">              System</span>
+┌───────────────────┬─────────────┐
+│<span class="sgr1"> Property          </span>│<span class="sgr1"> Value       </span>│
+├───────────────────┼─────────────┤
+│ Name              │             │
+│ Description       │             │
+│ System Units Base │ SYSTEM_BASE │
+│ Base Power        │ 100.0       │
+│ Base Frequency    │ 60.0        │
+│ Num Components    │ 27          │
+└───────────────────┴─────────────┘
+
+<span class="sgr1">     Static Components</span>
+┌─────────────────┬───────┐
+│<span class="sgr1"> Type            </span>│<span class="sgr1"> Count </span>│
+├─────────────────┼───────┤
+│ ACBus           │ 5     │
+│ Arc             │ 6     │
+│ HydroReservoir  │ 1     │
+│ HydroTurbine    │ 1     │
+│ Line            │ 6     │
+│ PowerLoad       │ 3     │
+│ ThermalStandard │ 5     │
+└─────────────────┴───────┘
+
+<span class="sgr1">                                Forecast Summary</span>
+┌────────────────┬────────────────┬──────────────────┬──────────────────┬───────
+│<span class="sgr1"> owner_type     </span>│<span class="sgr1"> owner_category </span>│<span class="sgr1"> name             </span>│<span class="sgr1"> time_series_type </span>│<span class="sgr1"> init</span> ⋯
+│<span class="sgr90"> String         </span>│<span class="sgr90"> String         </span>│<span class="sgr90"> String           </span>│<span class="sgr90"> String           </span>│<span class="sgr90"> Stri</span> ⋯
+├────────────────┼────────────────┼──────────────────┼──────────────────┼───────
+│ HydroReservoir │ Component      │ hydro_budget     │ Deterministic    │ 2024 ⋯
+│ HydroReservoir │ Component      │ inflow           │ Deterministic    │ 2024 ⋯
+│ HydroReservoir │ Component      │ storage_target   │ Deterministic    │ 2024 ⋯
+│ HydroTurbine   │ Component      │ max_active_power │ Deterministic    │ 2024 ⋯
+│ PowerLoad      │ Component      │ max_active_power │ Deterministic    │ 2024 ⋯
+└────────────────┴────────────────┴──────────────────┴──────────────────┴───────
+<span class="sgr36">                                                               6 columns omitted</span></code></pre><p>With a single <a href="https://nrel-sienna.github.io/PowerSystems.jl/stable/model_library/generated_HydroTurbine/#PowerSystems.HydroTurbine"><code>PowerSystems.HydroTurbine</code></a> connected downstream to a <a href="https://nrel-sienna.github.io/PowerSystems.jl/stable/model_library/hydro_reservoir/#PowerSystems.HydroReservoir"><code>PowerSystems.HydroReservoir</code></a>:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; hy = only(get_components(HydroTurbine, sys))</code><code class="nohighlight hljs ansi" style="display:block;">HydroTurbine: HydroEnergyReservoir_turbine:
+   name: HydroEnergyReservoir_turbine
+   available: true
+   bus: ACBus: nodeC
+   active_power: 0.0
+   reactive_power: 0.0
+   rating: 7.0
+   active_power_limits: (min = 0.0, max = 7.0)
+   reactive_power_limits: (min = 0.0, max = 7.0)
+   base_power: 100.0
+   operation_cost: PowerSystems.HydroGenerationCost composed of variable: InfrastructureSystems.CostCurve{InfrastructureSystems.LinearCurve}
+   powerhouse_elevation: 0.0
+   ramp_limits: nothing
+   time_limits: nothing
+   outflow_limits: nothing
+   efficiency: 1.0
+   turbine_type: PowerSystems.HydroTurbineTypeModule.HydroTurbineType.UNKNOWN = 0
+   conversion_factor: 1.0
+   prime_mover_type: PowerSystems.PrimeMoversModule.PrimeMovers.HY = 16
+   travel_time: nothing
+   services: 0-element Vector{PowerSystems.Service}
+   dynamic_injector: nothing
+   ext: Dict{String, Any}()
+   InfrastructureSystems.SystemUnitsSettings:
+      base_value: 100.0
+      unit_system: InfrastructureSystems.UnitSystemModule.UnitSystem.SYSTEM_BASE = 0
+   has_supplemental_attributes: false
+   has_time_series: true</code></pre><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; res = only(get_components(HydroReservoir, sys))</code><code class="nohighlight hljs ansi" style="display:block;">HydroReservoir: HydroEnergyReservoir__reservoir:
+   name: HydroEnergyReservoir__reservoir
+   available: true
+   storage_level_limits: (min = 0.0, max = 5000.0)
+   initial_level: 0.5
+   spillage_limits: nothing
+   inflow: 4.0
+   outflow: 0.0
+   level_targets: 1.0
+   intake_elevation: 0.0
+   head_to_volume_factor: InfrastructureSystems.LinearCurve(0.0, 0.0)
+   upstream_turbines: 0-element Vector{PowerSystems.HydroUnit}
+   downstream_turbines: 1-element Vector{PowerSystems.HydroUnit}
+   upstream_reservoirs: 0-element Vector{PowerSystems.Device}
+   operation_cost:
+   level_data_type: PowerSystems.ReservoirDataTypeModule.ReservoirDataType.ENERGY = 4
+   ext: Dict{String, Any}()
+   InfrastructureSystems.SystemUnitsSettings:
+      base_value: 100.0
+      unit_system: InfrastructureSystems.UnitSystemModule.UnitSystem.SYSTEM_BASE = 0
+   has_supplemental_attributes: false
+   has_time_series: true</code></pre><p>Note that the reservoir has a <code>level_data_type</code> of <code>ENERGY</code>, that implies its storage level limits data are in MWh. That means that its maximum capacity is 5000 MWh, and its initial energy capacity is <span>$0.5 \cdot 5000 = 2500$</span> MWh.</p><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; template = ProblemTemplate(PTDFPowerModel)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr1">                     Network Model</span>
+┌────────────────────┬─────────────────────────────────┐
+│ Network Model      │ PowerSimulations.PTDFPowerModel │
+│ Slacks             │ false                           │
+│ PTDF               │ false                           │
+│ Duals              │ None                            │
+│ HVDC Network Model │ None                            │
+└────────────────────┴─────────────────────────────────┘
+
+<span class="sgr1">            Device Models</span>
+┌─────────────┬─────────────┬────────┐
+│<span class="sgr1"> Device Type </span>│<span class="sgr1"> Formulation </span>│<span class="sgr1"> Slacks </span>│
+└─────────────┴─────────────┴────────┘</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, ThermalStandard, ThermalBasicDispatch)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, PowerLoad, StaticPowerLoad)</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, Line, StaticBranch)</code></pre><p>but, now we also include the HydroTurbine using <a href="../../model_library/formulation/#HydroTurbineEnergyDispatch"><code>HydroTurbineEnergyDispatch</code></a>:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, HydroTurbine, HydroTurbineEnergyDispatch)</code></pre><p>and we need to use the energy model for the HydroReservoir via <a href="../../model_library/formulation/#HydroEnergyModelReservoir"><code>HydroEnergyModelReservoir</code></a>. For this example we will ignore end targets of hydro budgets, but they can be included by setting up the attributes to <code>true</code>. It is not recommended to set both <code>energy_target</code> and <code>hydro_budget</code> to <code>true</code> simultaneously since it may create an infeasible problem:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; reservoir_model = DeviceModel(
+           HydroReservoir,
+           HydroEnergyModelReservoir;
+           attributes = Dict{String, Any}(
+               &quot;energy_target&quot; =&gt; false,
+               &quot;hydro_budget&quot; =&gt; false,
+           ),
+       )</code><code class="nohighlight hljs ansi" style="display:block;">
+<span class="sgr1">                            Device Model</span>
+┌─────────────────────────────┬───────────────────────────┬────────┐
+│<span class="sgr1"> Device Type                 </span>│<span class="sgr1"> Formulation               </span>│<span class="sgr1"> Slacks </span>│
+├─────────────────────────────┼───────────────────────────┼────────┤
+│ PowerSystems.HydroReservoir │ HydroEnergyModelReservoir │ false  │
+└─────────────────────────────┴───────────────────────────┴────────┘
+
+<span class="sgr1">       Attributes</span>
+┌───────────────┬───────┐
+│<span class="sgr1"> Name          </span>│<span class="sgr1"> Value </span>│
+├───────────────┼───────┤
+│ energy_target │ false │
+│ hydro_budget  │ false │
+└───────────────┴───────┘
+
+<span class="sgr1">                  Time Series Names</span>
+┌─────────────────────────────────┬──────────────────┐
+│<span class="sgr1"> Parameter Name                  </span>│<span class="sgr1"> Time Series Name </span>│
+├─────────────────────────────────┼──────────────────┤
+│ EnergyTargetTimeSeriesParameter │ storage_target   │
+│ EnergyBudgetTimeSeriesParameter │ hydro_budget     │
+│ InflowTimeSeriesParameter       │ inflow           │
+└─────────────────────────────────┴──────────────────┘
+
+No FeedForwards Assigned</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; set_device_model!(template, reservoir_model)</code></pre><p>With the template properly set-up, we construct, build and solve the optimization problem:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; model = DecisionModel(template, sys; optimizer = HiGHS.Optimizer)</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr36"><span class="sgr1">[ Info: </span></span>Overriding time_series_cache_size because time series is stored in memory
+<span class="sgr1">                     Network Model</span>
+┌────────────────────┬─────────────────────────────────┐
+│ Network Model      │ PowerSimulations.PTDFPowerModel │
+│ Slacks             │ false                           │
+│ PTDF               │ false                           │
+│ Duals              │ None                            │
+│ HVDC Network Model │ None                            │
+└────────────────────┴─────────────────────────────────┘
+
+<span class="sgr1">                                 Device Models</span>
+┌──────────────────────────────┬───────────────────────────────────────┬────────
+│<span class="sgr1"> Device Type                  </span>│<span class="sgr1"> Formulation                           </span>│<span class="sgr1"> Slack</span> ⋯
+├──────────────────────────────┼───────────────────────────────────────┼────────
+│ PowerSystems.ThermalStandard │ PowerSimulations.ThermalBasicDispatch │ false ⋯
+│ PowerSystems.HydroReservoir  │ HydroEnergyModelReservoir             │ false ⋯
+│ PowerSystems.PowerLoad       │ PowerSimulations.StaticPowerLoad      │ false ⋯
+│ PowerSystems.HydroTurbine    │ HydroTurbineEnergyDispatch            │ false ⋯
+└──────────────────────────────┴───────────────────────────────────────┴────────
+<span class="sgr36">                                                                1 column omitted</span>
+
+<span class="sgr1">                        Branch Models</span>
+┌───────────────────┬───────────────────────────────┬────────┐
+│<span class="sgr1"> Branch Type       </span>│<span class="sgr1"> Formulation                   </span>│<span class="sgr1"> Slacks </span>│
+├───────────────────┼───────────────────────────────┼────────┤
+│ PowerSystems.Line │ PowerSimulations.StaticBranch │ false  │
+└───────────────────┴───────────────────────────────┴────────┘</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; build!(model; output_dir = mktempdir())</code><code class="nohighlight hljs ansi" style="display:block;"><span class="sgr91"><span class="sgr1">┌ Error: </span></span>DecisionModel Build Failed
+<span class="sgr91"><span class="sgr1">│ </span></span>  exception =
+<span class="sgr91"><span class="sgr1">│ </span></span>   UndefVarError: `get_upstream_reservoirs` not defined in `HydroPowerSimulations`
+<span class="sgr91"><span class="sgr1">│ </span></span>   Suggestion: check for spelling errors or missing imports.
+<span class="sgr91"><span class="sgr1">│ </span></span>   Hint: a global variable of this name also exists in PowerSystems.
+<span class="sgr91"><span class="sgr1">│ </span></span>   Stacktrace:
+<span class="sgr91"><span class="sgr1">│ </span></span>     [1] <span class="sgr1">add_expressions!(</span><span class="sgr90">container</span>::PowerSimulations.OptimizationContainer, ::Type<span class="sgr90">{TotalSpillagePowerReservoirIncoming}</span>, <span class="sgr90">devices</span>::InfrastructureSystems.FlattenIteratorWrapper<span class="sgr90">{PowerSystems.HydroReservoir, Vector{Base.ValueIterator}}</span>, <span class="sgr90">model</span>::PowerSimulations.DeviceModel<span class="sgr90">{PowerSystems.HydroReservoir, HydroEnergyModelReservoir}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr35">HydroPowerSimulations</span> <span class="sgr90">~/work/HydroPowerSimulations.jl/HydroPowerSimulations.jl/src/<span class="sgr4">hydro_generation.jl:2055</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [2] <span class="sgr1">construct_device!(</span><span class="sgr90">container</span>::PowerSimulations.OptimizationContainer, <span class="sgr90">sys</span>::PowerSystems.System, ::InfrastructureSystems.Optimization.ModelConstructStage, <span class="sgr90">model</span>::PowerSimulations.DeviceModel<span class="sgr90">{PowerSystems.HydroReservoir, HydroEnergyModelReservoir}</span>, <span class="sgr90">network_model</span>::PowerSimulations.NetworkModel<span class="sgr90">{PowerSimulations.PTDFPowerModel}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr35">HydroPowerSimulations</span> <span class="sgr90">~/work/HydroPowerSimulations.jl/HydroPowerSimulations.jl/src/<span class="sgr4">hydrogeneration_constructor.jl:896</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [3] <span class="sgr1">build_impl!(</span><span class="sgr90">container</span>::PowerSimulations.OptimizationContainer, <span class="sgr90">template</span>::PowerSimulations.ProblemTemplate, <span class="sgr90">sys</span>::PowerSystems.System<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/core/<span class="sgr4">optimization_container.jl:811</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [4] <span class="sgr1">build_model!(</span><span class="sgr90">model</span>::PowerSimulations.DecisionModel<span class="sgr90">{PowerSimulations.GenericOpProblem}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/operation/<span class="sgr4">decision_model.jl:408</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [5] <span class="sgr1">build_impl!(</span><span class="sgr90">model</span>::PowerSimulations.DecisionModel<span class="sgr90">{PowerSimulations.GenericOpProblem}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/operation/<span class="sgr4">decision_model.jl:344</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [6] <span class="sgr1">(::PowerSimulations.var&quot;#83#84&quot;{PowerSimulations.DecisionModel{PowerSimulations.GenericOpProblem}})()</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/operation/<span class="sgr4">decision_model.jl:386</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [7] <span class="sgr1">with_logstate(</span><span class="sgr90">f</span>::PowerSimulations.var&quot;#83#84&quot;<span class="sgr90">{PowerSimulations.DecisionModel{PowerSimulations.GenericOpProblem}}</span>, <span class="sgr90">logstate</span>::Base.CoreLogging.LogState<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base.CoreLogging</span> <span class="sgr90">./logging/<span class="sgr4">logging.jl:542</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [8] <span class="sgr1">build!(</span><span class="sgr90">model</span>::PowerSimulations.DecisionModel<span class="sgr90">{PowerSimulations.GenericOpProblem}</span>; <span class="sgr90">output_dir</span>::String, <span class="sgr90">recorders</span>::Vector<span class="sgr90">{Any}</span>, <span class="sgr90">console_level</span>::Base.CoreLogging.LogLevel, <span class="sgr90">file_level</span>::Base.CoreLogging.LogLevel, <span class="sgr90">disable_timer_outputs</span>::Bool<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/operation/<span class="sgr4">decision_model.jl:364</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>     [9] top-level scope
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90"><span class="sgr4">REPL[2]:1</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [10] <span class="sgr1">eval(</span><span class="sgr90">m</span>::Module, <span class="sgr90">e</span>::Any<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Core</span> <span class="sgr90">./<span class="sgr4">boot.jl:489</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [11] <span class="sgr1">#67</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">expander_pipeline.jl:978</span> [inlined]</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [12] <span class="sgr1">cd(</span><span class="sgr90">f</span>::Documenter.var&quot;#67#68&quot;<span class="sgr90">{Module}</span>, <span class="sgr90">dir</span>::String<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base.Filesystem</span> <span class="sgr90">./<span class="sgr4">file.jl:112</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [13] <span class="sgr1">(::Documenter.var&quot;#65#66&quot;{Documenter.Page, Module})()</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">expander_pipeline.jl:977</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [14] <span class="sgr1">(::IOCapture.var&quot;#12#13&quot;{Type{InterruptException}, Documenter.var&quot;#65#66&quot;{Documenter.Page, Module}, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}})()</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr33">IOCapture</span> <span class="sgr90">~/.julia/packages/IOCapture/MR051/src/<span class="sgr4">IOCapture.jl:170</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [15] <span class="sgr1">with_logstate(</span><span class="sgr90">f</span>::IOCapture.var&quot;#12#13&quot;<span class="sgr90">{Type{InterruptException}, Documenter.var&quot;#65#66&quot;{Documenter.Page, Module}, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}}</span>, <span class="sgr90">logstate</span>::Base.CoreLogging.LogState<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base.CoreLogging</span> <span class="sgr90">./logging/<span class="sgr4">logging.jl:542</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [16] <span class="sgr1">with_logger(</span><span class="sgr90">f</span>::Function, <span class="sgr90">logger</span>::Base.CoreLogging.ConsoleLogger<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base.CoreLogging</span> <span class="sgr90">./logging/<span class="sgr4">logging.jl:653</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [17] <span class="sgr1">capture(</span><span class="sgr90">f</span>::Documenter.var&quot;#65#66&quot;<span class="sgr90">{Documenter.Page, Module}</span>; <span class="sgr90">rethrow</span>::Type, <span class="sgr90">color</span>::Bool, <span class="sgr90">passthrough</span>::Bool, <span class="sgr90">capture_buffer</span>::IOBuffer, <span class="sgr90">io_context</span>::Vector<span class="sgr90">{Any}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr33">IOCapture</span> <span class="sgr90">~/.julia/packages/IOCapture/MR051/src/<span class="sgr4">IOCapture.jl:167</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [18] <span class="sgr1">runner(</span>::Type<span class="sgr90">{Documenter.Expanders.REPLBlocks}</span>, <span class="sgr90">node</span>::MarkdownAST.Node<span class="sgr90">{Nothing}</span>, <span class="sgr90">page</span>::Documenter.Page, <span class="sgr90">doc</span>::Documenter.Document<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">expander_pipeline.jl:976</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [19] <span class="sgr1">dispatch(</span>::Type<span class="sgr90">{Documenter.Expanders.ExpanderPipeline}</span>, ::MarkdownAST.Node<span class="sgr90">{Nothing}</span>, ::Vararg<span class="sgr90">{Any}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter.Selectors</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/utilities/<span class="sgr4">Selectors.jl:170</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [20] <span class="sgr1">expand(</span><span class="sgr90">doc</span>::Documenter.Document<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">expander_pipeline.jl:60</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [21] <span class="sgr1">runner(</span>::Type<span class="sgr90">{Documenter.Builder.ExpandTemplates}</span>, <span class="sgr90">doc</span>::Documenter.Document<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">builder_pipeline.jl:224</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [22] <span class="sgr1">dispatch(</span>::Type<span class="sgr90">{Documenter.Builder.DocumentPipeline}</span>, <span class="sgr90">x</span>::Documenter.Document<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter.Selectors</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/utilities/<span class="sgr4">Selectors.jl:170</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [23] <span class="sgr1">#89</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">makedocs.jl:283</span> [inlined]</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [24] <span class="sgr1">withenv(</span>::Documenter.var&quot;#89#90&quot;<span class="sgr90">{Documenter.Document}</span>, ::Pair<span class="sgr90">{String, Nothing}</span>, ::Vararg<span class="sgr90">{Pair{String, Nothing}}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base</span> <span class="sgr90">./<span class="sgr4">env.jl:265</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [25] <span class="sgr1">#87</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">makedocs.jl:282</span> [inlined]</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [26] <span class="sgr1">cd(</span><span class="sgr90">f</span>::Documenter.var&quot;#87#88&quot;<span class="sgr90">{Documenter.Document}</span>, <span class="sgr90">dir</span>::String<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base.Filesystem</span> <span class="sgr90">./<span class="sgr4">file.jl:112</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [27] <span class="sgr1">makedocs(</span>; <span class="sgr90">debug</span>::Bool, <span class="sgr90">format</span>::Documenter.HTMLWriter.HTML, <span class="sgr90">kwargs</span>::@Kwargs<span class="sgr90">{modules::Vector{Module}, sitename::String, pages::Vector{Any}, plugins::Vector{InterLinks}}</span><span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr32">Documenter</span> <span class="sgr90">~/.julia/packages/Documenter/xvqbW/src/<span class="sgr4">makedocs.jl:281</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [28] top-level scope
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">~/work/HydroPowerSimulations.jl/HydroPowerSimulations.jl/docs/<span class="sgr4">make.jl:35</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [29] <span class="sgr1">include(</span><span class="sgr90">mod</span>::Module, <span class="sgr90">_path</span>::String<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base</span> <span class="sgr90">./<span class="sgr4">Base.jl:306</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [30] <span class="sgr1">exec_options(</span><span class="sgr90">opts</span>::Base.JLOptions<span class="sgr1">)</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base</span> <span class="sgr90">./<span class="sgr4">client.jl:317</span></span>
+<span class="sgr91"><span class="sgr1">│ </span></span>    [31] <span class="sgr1">_start()</span>
+<span class="sgr91"><span class="sgr1">│ </span></span>   <span class="sgr90">    @</span> <span class="sgr90">Base</span> <span class="sgr90">./<span class="sgr4">client.jl:550</span></span>
+<span class="sgr91"><span class="sgr1">└ </span></span><span class="sgr90">@ PowerSimulations ~/.julia/packages/PowerSimulations/d0QuF/src/operation/decision_model.jl:393</span>
+InfrastructureSystems.Optimization.ModelBuildStatusModule.ModelBuildStatus.FAILED = 1</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; solve!(model)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: build! of the PowerSimulations.DecisionModel{PowerSimulations.GenericOpProblem} GenericOpProblem failed: InfrastructureSystems.Optimization.ModelBuildStatusModule.ModelBuildStatus.FAILED = 1</code></pre><h2 id="Exploring-Results"><a class="docs-heading-anchor" href="#Exploring-Results">Exploring Results</a><a id="Exploring-Results-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-Results" title="Permalink"></a></h2><p>Results can be explored using:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; res = OptimizationProblemResults(model)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: problem was not solved successfully: InfrastructureSystems.Simulation.RunStatusModule.RunStatus.INITIALIZED = -1</code></pre><p>Use <a href="https://nrel-sienna.github.io/InfrastructureSystems.jl/stable/InfrastructureSystems/#InfrastructureSystems.Optimization.read_variable-Tuple%7BInfrastructureSystems.Optimization.OptimizationProblemResults%2C%20Vararg%7BAny%7D%7D"><code>read_variable</code></a> to read in the dispatch variable results for the hydro:</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; var =
+           read_variable(res, &quot;ActivePowerVariable__HydroTurbine&quot;; table_format = TableFormat.WIDE)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: MethodError: no method matching read_variable(::PowerSystems.HydroReservoir, ::String; table_format::InfrastructureSystems.TableFormatModule.TableFormat)
+The function `read_variable` exists, but no method is defined for this combination of argument types.
+
+Closest candidates are:
+  read_variable(<span class="sgr91">::PowerSimulations.SimulationProblemResults{PowerSimulations.DecisionModelSimulationResults}</span>, ::Any...; initial_time, count, store, table_format)
+<span class="sgr90">   @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/simulation/<span class="sgr4">decision_model_simulation_results.jl:345</span></span>
+  read_variable(<span class="sgr91">::InfrastructureSystems.Optimization.OptimizationProblemResults</span>, ::AbstractString; kwargs...)
+<span class="sgr90">   @</span> <span class="sgr35">InfrastructureSystems</span> <span class="sgr90">~/.julia/packages/InfrastructureSystems/yetBs/src/Optimization/<span class="sgr4">optimization_problem_results.jl:471</span></span>
+  read_variable(<span class="sgr91">::InfrastructureSystems.Optimization.OptimizationProblemResults</span>, ::Any...; kwargs...)
+<span class="sgr90">   @</span> <span class="sgr35">InfrastructureSystems</span> <span class="sgr90">~/.julia/packages/InfrastructureSystems/yetBs/src/Optimization/<span class="sgr4">optimization_problem_results.jl:466</span></span>
+  ...</code></pre><p>or the energy capacity of the reservoir</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; energy =
+           read_variable(res, &quot;EnergyVariable__HydroReservoir&quot;; table_format = TableFormat.WIDE)</code><code class="nohighlight hljs ansi" style="display:block;">ERROR: MethodError: no method matching read_variable(::PowerSystems.HydroReservoir, ::String; table_format::InfrastructureSystems.TableFormatModule.TableFormat)
+The function `read_variable` exists, but no method is defined for this combination of argument types.
+
+Closest candidates are:
+  read_variable(<span class="sgr91">::PowerSimulations.SimulationProblemResults{PowerSimulations.DecisionModelSimulationResults}</span>, ::Any...; initial_time, count, store, table_format)
+<span class="sgr90">   @</span> <span class="sgr36">PowerSimulations</span> <span class="sgr90">~/.julia/packages/PowerSimulations/d0QuF/src/simulation/<span class="sgr4">decision_model_simulation_results.jl:345</span></span>
+  read_variable(<span class="sgr91">::InfrastructureSystems.Optimization.OptimizationProblemResults</span>, ::AbstractString; kwargs...)
+<span class="sgr90">   @</span> <span class="sgr35">InfrastructureSystems</span> <span class="sgr90">~/.julia/packages/InfrastructureSystems/yetBs/src/Optimization/<span class="sgr4">optimization_problem_results.jl:471</span></span>
+  read_variable(<span class="sgr91">::InfrastructureSystems.Optimization.OptimizationProblemResults</span>, ::Any...; kwargs...)
+<span class="sgr90">   @</span> <span class="sgr35">InfrastructureSystems</span> <span class="sgr90">~/.julia/packages/InfrastructureSystems/yetBs/src/Optimization/<span class="sgr4">optimization_problem_results.jl:466</span></span>
+  ...</code></pre><p>Note that since we have ignored the energy targets in the reservoir model, the optimal solution decides to deplete the reservoir.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../hydro_with_marketbidcost/">« HydroDispatch with Market Bid Cost</a><a class="docs-footer-nextpage" href="../water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Wednesday 18 February 2026 02:56">Wednesday 18 February 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

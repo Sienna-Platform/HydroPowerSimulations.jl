@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Energy Hydro Reservoir Operation · HydroPowerSimulations.jl</title><meta name="title" content="Energy Hydro Reservoir Operation · HydroPowerSimulations.jl"/><meta property="og:title" content="Energy Hydro Reservoir Operation · HydroPowerSimulations.jl"/><meta property="twitter:title" content="Energy Hydro Reservoir Operation · HydroPowerSimulations.jl"/><meta name="description" content="Documentation for HydroPowerSimulations.jl."/><meta property="og:description" content="Documentation for HydroPowerSimulations.jl."/><meta property="twitter:description" content="Documentation for HydroPowerSimulations.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="HydroPowerSimulations.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">HydroPowerSimulations.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Welcome Page</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../generated_single_stage_model/">Operation problem with HydroDispatchRunOfRiver</a></li><li><a class="tocitem" href="../generated_hydro_with_marketbidcost/">HydroDispatch with Market Bid Cost</a></li><li class="is-active"><a class="tocitem" href>Energy Hydro Reservoir Operation</a><ul class="internal"><li><a class="tocitem" href="#Load-packages"><span>Load packages</span></a></li><li><a class="tocitem" href="#Data"><span>Data</span></a></li><li><a class="tocitem" href="#Decision-Model"><span>Decision Model</span></a></li><li><a class="tocitem" href="#Exploring-Results"><span>Exploring Results</span></a></li></ul></li><li><a class="tocitem" href="../generated_water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../generated_hydro_pump_turbine/">Hydro Pump Turbine Operation</a></li><li><a class="tocitem" href="../generated_hydro_energy_block/">HydroWaterFactorModel model usage</a></li></ul></li><li><span class="tocitem">How to...</span><ul><li><a class="tocitem" href="../../how_to/format_input_data/">...format input data for Hydro models</a></li><li><a class="tocitem" href="../../how_to/include_limits_and_targets/">...include budget limit and storage targets to Hydro models</a></li></ul></li><li><span class="tocitem">Explanation</span><ul><li><a class="tocitem" href="../../explanation/difference_between_energy_water_models/">Difference between Energy and Water models</a></li></ul></li><li><a class="tocitem" href="../../model_library/formulation/">Formulation Library</a></li><li><span class="tocitem">Reference</span><ul><li><a class="tocitem" href="../../api/public/">Public API Reference</a></li><li><a class="tocitem" href="../../api/internal/">Internal API Reference</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Tutorials</a></li><li class="is-active"><a href>Energy Hydro Reservoir Operation</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Energy Hydro Reservoir Operation</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl/blob/main/docs/src/tutorials/energy_model_hydroturbine_reservoir.jl" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="HydroTurbine-Reservoir-for-EnergyModel"><a class="docs-heading-anchor" href="#HydroTurbine-Reservoir-for-EnergyModel">HydroTurbine + Reservoir for EnergyModel</a><a id="HydroTurbine-Reservoir-for-EnergyModel-1"></a><a class="docs-heading-anchor-permalink" href="#HydroTurbine-Reservoir-for-EnergyModel" title="Permalink"></a></h1><p><em>To follow along, you can download this tutorial as a <a href="../energy_model_hydroturbine_reservoir.jl">Julia script (.jl)</a> or <a href="../generated_energy_model_hydroturbine_reservoir.ipynb">Jupyter notebook (.ipynb)</a>.</em></p><div class="admonition is-info" id="Note-6396b7bb1980626b"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-6396b7bb1980626b" title="Permalink"></a></header><div class="admonition-body"><p><code>HydroPowerSimulations.jl</code> is an extension library of <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/"><code>PowerSimulations.jl</code></a> for modeling hydro units. Users are encouraged to review the <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/tutorials/decision_problem/">single-step tutorial in <code>PowerSimulations.jl</code></a> before this tutorial.</p></div></div><h2 id="Load-packages"><a class="docs-heading-anchor" href="#Load-packages">Load packages</a><a id="Load-packages-1"></a><a class="docs-heading-anchor-permalink" href="#Load-packages" title="Permalink"></a></h2><pre><code class="language-julia hljs">using PowerSystems
+using PowerSimulations
+using HydroPowerSimulations
+using PowerSystemCaseBuilder
+using HiGHS ## solver</code></pre><h2 id="Data"><a class="docs-heading-anchor" href="#Data">Data</a><a id="Data-1"></a><a class="docs-heading-anchor-permalink" href="#Data" title="Permalink"></a></h2><div class="admonition is-info" id="Note-bd83ec24d30379fe"><header class="admonition-header">Note<a class="admonition-anchor" href="#Note-bd83ec24d30379fe" title="Permalink"></a></header><div class="admonition-body"><p><code>PowerSystemCaseBuilder.jl</code> is a helper library that makes it easier to reproduce examples in the documentation and tutorials. Normally you would pass your local files to create the system data instead of calling the function <code>build_system</code>. For more details visit <a href="https://github.com/NREL-Sienna/PowerSystemCaseBuilder.jl/blob/main/README.md">PowerSystemCaseBuilder README</a></p></div></div><pre><code class="language-julia hljs">sys = build_system(PSITestSystems, &quot;c_sys5_hy_turbine_energy&quot;)</code></pre><table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "2" style = "font-size: x-large; font-weight: bold; text-align: center;">System</td>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: left;">Property</th>
+      <th style = "font-weight: bold; text-align: left;">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Name</td>
+      <td style = "text-align: left;"></td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Description</td>
+      <td style = "text-align: left;"></td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">System Units Base</td>
+      <td style = "text-align: left;">SYSTEM_BASE</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Base Power</td>
+      <td style = "text-align: left;">100.0</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Base Frequency</td>
+      <td style = "text-align: left;">60.0</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Num Components</td>
+      <td style = "text-align: left;">27</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "2" style = "font-size: x-large; font-weight: bold; text-align: center;">Static Components</td>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: left;">Type</th>
+      <th style = "font-weight: bold; text-align: left;">Count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ACBus</td>
+      <td style = "text-align: left;">5</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Arc</td>
+      <td style = "text-align: left;">6</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroReservoir</td>
+      <td style = "text-align: left;">1</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroTurbine</td>
+      <td style = "text-align: left;">1</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">Line</td>
+      <td style = "text-align: left;">6</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">PowerLoad</td>
+      <td style = "text-align: left;">3</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ThermalStandard</td>
+      <td style = "text-align: left;">5</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "10" style = "font-size: x-large; font-weight: bold; text-align: center;">Forecast Summary</td>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: left;">owner_type</th>
+      <th style = "font-weight: bold; text-align: left;">owner_category</th>
+      <th style = "font-weight: bold; text-align: left;">name</th>
+      <th style = "font-weight: bold; text-align: left;">time_series_type</th>
+      <th style = "font-weight: bold; text-align: left;">initial_timestamp</th>
+      <th style = "font-weight: bold; text-align: left;">resolution</th>
+      <th style = "font-weight: bold; text-align: left;">count</th>
+      <th style = "font-weight: bold; text-align: left;">horizon</th>
+      <th style = "font-weight: bold; text-align: left;">interval</th>
+      <th style = "font-weight: bold; text-align: left;">window_count</th>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">String</th>
+      <th style = "text-align: left;">Dates.CompoundPeriod</th>
+      <th style = "text-align: left;">Int64</th>
+      <th style = "text-align: left;">Dates.CompoundPeriod</th>
+      <th style = "text-align: left;">Dates.CompoundPeriod</th>
+      <th style = "text-align: left;">Int64</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroReservoir</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">hydro_budget</td>
+      <td style = "text-align: left;">Deterministic</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">1</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">2</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroReservoir</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">inflow</td>
+      <td style = "text-align: left;">Deterministic</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">1</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">2</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroReservoir</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">storage_target</td>
+      <td style = "text-align: left;">Deterministic</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">1</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">2</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroTurbine</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">max_active_power</td>
+      <td style = "text-align: left;">Deterministic</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">1</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">2</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">PowerLoad</td>
+      <td style = "text-align: left;">Component</td>
+      <td style = "text-align: left;">max_active_power</td>
+      <td style = "text-align: left;">Deterministic</td>
+      <td style = "text-align: left;">2024-01-01T00:00:00</td>
+      <td style = "text-align: left;">1 hour</td>
+      <td style = "text-align: left;">3</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">1 day</td>
+      <td style = "text-align: left;">2</td>
+    </tr>
+  </tbody>
+</table>
+<p>With a single <a href="https://nrel-sienna.github.io/PowerSystems.jl/stable/model_library/generated_HydroTurbine/#PowerSystems.HydroTurbine"><code>PowerSystems.HydroTurbine</code></a> connected downstream to a <a href="https://nrel-sienna.github.io/PowerSystems.jl/stable/model_library/hydro_reservoir/#PowerSystems.HydroReservoir"><code>PowerSystems.HydroReservoir</code></a>:</p><pre><code class="language-julia hljs">hy = only(get_components(HydroTurbine, sys))
+
+res = only(get_components(HydroReservoir, sys))</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">HydroReservoir: HydroEnergyReservoir__reservoir:
+   name: HydroEnergyReservoir__reservoir
+   available: true
+   storage_level_limits: (min = 0.0, max = 5000.0)
+   initial_level: 0.5
+   spillage_limits: nothing
+   inflow: 4.0
+   outflow: 0.0
+   level_targets: 1.0
+   intake_elevation: 0.0
+   head_to_volume_factor: InfrastructureSystems.LinearCurve(0.0, 0.0)
+   upstream_turbines: 0-element Vector{PowerSystems.HydroUnit}
+   downstream_turbines: 1-element Vector{PowerSystems.HydroUnit}
+   upstream_reservoirs: 0-element Vector{PowerSystems.Device}
+   operation_cost: 
+   level_data_type: PowerSystems.ReservoirDataTypeModule.ReservoirDataType.ENERGY = 4
+   ext: Dict{String, Any}()
+   InfrastructureSystems.SystemUnitsSettings:
+      base_value: 100.0
+      unit_system: InfrastructureSystems.UnitSystemModule.UnitSystem.SYSTEM_BASE = 0
+   has_supplemental_attributes: false
+   has_time_series: true</code></pre><p>Note that the reservoir has a <code>level_data_type</code> of <code>ENERGY</code>, that implies its storage level limits data are in MWh. That means that its maximum capacity is 5000 MWh, and its initial energy capacity is <span>$0.5 \cdot 5000 = 2500$</span> MWh.</p><h2 id="Decision-Model"><a class="docs-heading-anchor" href="#Decision-Model">Decision Model</a><a id="Decision-Model-1"></a><a class="docs-heading-anchor-permalink" href="#Decision-Model" title="Permalink"></a></h2><p>Setting up the formulations based on <a href="https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/"><code>PowerSimulations.jl</code></a>:</p><pre><code class="language-julia hljs">template = ProblemTemplate(PTDFPowerModel)
+set_device_model!(template, ThermalStandard, ThermalBasicDispatch)
+set_device_model!(template, PowerLoad, StaticPowerLoad)
+set_device_model!(template, Line, StaticBranch)</code></pre><p>but, now we also include the HydroTurbine using <a href="../../model_library/formulation/#HydroTurbineEnergyDispatch"><code>HydroTurbineEnergyDispatch</code></a>:</p><pre><code class="language-julia hljs">set_device_model!(template, HydroTurbine, HydroTurbineEnergyDispatch)</code></pre><p>and we need to use the energy model for the HydroReservoir via <a href="../../model_library/formulation/#HydroEnergyModelReservoir"><code>HydroEnergyModelReservoir</code></a>. For this example we will ignore end targets of hydro budgets, but they can be included by setting up the attributes to <code>true</code>. It is not recommended to set both <code>energy_target</code> and <code>hydro_budget</code> to <code>true</code> simultaneously since it may create an infeasible problem:</p><pre><code class="language-julia hljs">reservoir_model = DeviceModel(
+    HydroReservoir,
+    HydroEnergyModelReservoir;
+    attributes = Dict{String, Any}(
+        &quot;energy_target&quot; =&gt; false,
+        &quot;hydro_budget&quot; =&gt; false,
+    ),
+)
+set_device_model!(template, reservoir_model)</code></pre><p>With the template properly set-up, we construct, build and solve the optimization problem:</p><pre><code class="language-julia hljs">model = DecisionModel(template, sys; optimizer = HiGHS.Optimizer)
+build!(model; output_dir = mktempdir())
+solve!(model)</code></pre><pre class="documenter-example-output"><code class="nohighlight hljs ansi">InfrastructureSystems.Simulation.RunStatusModule.RunStatus.SUCCESSFULLY_FINALIZED = 0</code></pre><h2 id="Exploring-Results"><a class="docs-heading-anchor" href="#Exploring-Results">Exploring Results</a><a id="Exploring-Results-1"></a><a class="docs-heading-anchor-permalink" href="#Exploring-Results" title="Permalink"></a></h2><p>Results can be explored using:</p><pre><code class="language-julia hljs">res = OptimizationProblemResults(model)</code></pre><p> Start: 2024-01-01T00:00:00</p>
+<p> End: 2024-01-01T23:00:00</p>
+<p> Resolution: 60 minutes</p>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "1" style = "font-size: x-large; font-weight: bold; text-align: center;">PowerSimulations Problem Auxiliary variables Results</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroEnergyOutput__HydroTurbine</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "1" style = "font-size: x-large; font-weight: bold; text-align: center;">PowerSimulations Problem Expressions Results</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ActivePowerBalance__ACBus</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">PTDFBranchFlow__Line</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ActivePowerBalance__System</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__HydroTurbine</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "1" style = "font-size: x-large; font-weight: bold; text-align: center;">PowerSimulations Problem Parameters Results</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">InflowTimeSeriesParameter__HydroReservoir</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ActivePowerTimeSeriesParameter__PowerLoad</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr class = "title">
+      <td colspan = "1" style = "font-size: x-large; font-weight: bold; text-align: center;">PowerSimulations Problem Variables Results</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroEnergySurplusVariable__HydroReservoir</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">EnergyVariable__HydroReservoir</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">WaterSpillageVariable__HydroReservoir</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ActivePowerVariable__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ActivePowerVariable__HydroTurbine</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">HydroEnergyShortageVariable__HydroReservoir</td>
+    </tr>
+  </tbody>
+</table>
+<p>Use <a href="https://nrel-sienna.github.io/InfrastructureSystems.jl/stable/InfrastructureSystems/#InfrastructureSystems.Optimization.read_variable-Tuple%7BInfrastructureSystems.Optimization.OptimizationProblemResults%2C%20Vararg%7BAny%7D%7D"><code>read_variable</code></a> to read in the dispatch variable results for the hydro:</p><pre><code class="language-julia hljs">var =
+    read_variable(res, &quot;ActivePowerVariable__HydroTurbine&quot;; table_format = TableFormat.WIDE)</code></pre><div>
+  <div style = "float: right; font-style: italic;">
+    <span>14 rows omitted</span>
+  </div>
+  <div style = "clear: both;"></div>
+</div>
+<table>
+  <thead>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: right;">DateTime</th>
+      <th style = "font-weight: bold; text-align: right;">HydroEnergyReservoir_turbine</th>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "text-align: right;">Dates.DateTime</th>
+      <th style = "text-align: right;">Float64?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T00:00:00</td>
+      <td style = "text-align: right;">235.66606480000002</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T01:00:00</td>
+      <td style = "text-align: right;">490.4349203000006</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T02:00:00</td>
+      <td style = "text-align: right;">70.22808049999992</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T03:00:00</td>
+      <td style = "text-align: right;">43.44897050000007</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T04:00:00</td>
+      <td style = "text-align: right;">649.1417221</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T05:00:00</td>
+      <td style = "text-align: right;">58.86620140000005</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T06:00:00</td>
+      <td style = "text-align: right;">88.01430319999994</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T07:00:00</td>
+      <td style = "text-align: right;">126.92800179999999</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T08:00:00</td>
+      <td style = "text-align: right;">176.18920650000013</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T09:00:00</td>
+      <td style = "text-align: right;">230.27531129999997</td>
+    </tr>
+    <tr>
+      <td style = "text-align: right;">&vellip;</td>
+      <td style = "text-align: right;">&vellip;</td>
+    </tr>
+  </tbody>
+</table>
+<p>or the energy capacity of the reservoir</p><pre><code class="language-julia hljs">energy =
+    read_variable(res, &quot;EnergyVariable__HydroReservoir&quot;; table_format = TableFormat.WIDE)</code></pre><div>
+  <div style = "float: right; font-style: italic;">
+    <span>14 rows omitted</span>
+  </div>
+  <div style = "clear: both;"></div>
+</div>
+<table>
+  <thead>
+    <tr class = "columnLabelRow">
+      <th style = "font-weight: bold; text-align: right;">DateTime</th>
+      <th style = "font-weight: bold; text-align: right;">HydroEnergyReservoir__reservoir</th>
+    </tr>
+    <tr class = "columnLabelRow">
+      <th style = "text-align: right;">Dates.DateTime</th>
+      <th style = "text-align: right;">Float64?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T00:00:00</td>
+      <td style = "text-align: right;">2390.0539352</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T01:00:00</td>
+      <td style = "text-align: right;">2054.2926148999995</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T02:00:00</td>
+      <td style = "text-align: right;">2075.4973344</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T03:00:00</td>
+      <td style = "text-align: right;">2122.7191639</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T04:00:00</td>
+      <td style = "text-align: right;">1562.7242417999996</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T05:00:00</td>
+      <td style = "text-align: right;">1555.6700403999996</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T06:00:00</td>
+      <td style = "text-align: right;">1525.5629371999996</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T07:00:00</td>
+      <td style = "text-align: right;">1544.9273353999995</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T08:00:00</td>
+      <td style = "text-align: right;">1451.7893288999994</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: right;">2024-01-01T09:00:00</td>
+      <td style = "text-align: right;">1470.6680175999995</td>
+    </tr>
+    <tr>
+      <td style = "text-align: right;">&vellip;</td>
+      <td style = "text-align: right;">&vellip;</td>
+    </tr>
+  </tbody>
+</table>
+<p>Note that since we have ignored the energy targets in the reservoir model, the optimal solution decides to deplete the reservoir.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_hydro_with_marketbidcost/">« HydroDispatch with Market Bid Cost</a><a class="docs-footer-nextpage" href="../generated_water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Tuesday 10 February 2026 20:48">Tuesday 10 February 2026</span>. Using Julia version 1.12.4.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
