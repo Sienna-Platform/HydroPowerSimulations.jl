@@ -37,7 +37,7 @@ set_head_to_volume_factor!(reservoir, LinearCurve(1.0))
 
 # ## Decision Model
 #
-# Setting up the formulations based on [`PowerSimulations.jl`](https://nrel-sienna.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
+# Setting up the formulations based on [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/latest/formulation_library/Introduction/):
 
 template = ProblemTemplate(CopperPlatePowerModel)
 set_device_model!(template, ThermalStandard, ThermalBasicDispatch)
