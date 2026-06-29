@@ -117,6 +117,7 @@ function PSI.construct_device!(
     )
 
     PSI.add_parameters!(container, PSI.ActivePowerTimeSeriesParameter, devices, model)
+    PSI.add_parameters!(container, PSI.MinActivePowerTimeSeriesParameter, devices, model)
     PSI.process_market_bid_parameters!(container, devices, model)
 
     PSI.add_expressions!(container, PSI.ProductionCostExpression, devices, model)
@@ -243,6 +244,7 @@ function PSI.construct_device!(
     )
 
     PSI.add_parameters!(container, PSI.ActivePowerTimeSeriesParameter, devices, model)
+    PSI.add_parameters!(container, PSI.MinActivePowerTimeSeriesParameter, devices, model)
     PSI.process_market_bid_parameters!(container, devices, model)
 
     PSI.add_to_expression!(
@@ -371,6 +373,7 @@ function PSI.construct_device!(
     )
 
     PSI.add_parameters!(container, PSI.ActivePowerTimeSeriesParameter, devices, model)
+    PSI.add_parameters!(container, PSI.MinActivePowerTimeSeriesParameter, devices, model)
     PSI.add_parameters!(container, EnergyBudgetTimeSeriesParameter, devices, model)
     if PSI.get_use_slacks(model)
         PSI.add_variables!(
@@ -505,6 +508,7 @@ function PSI.construct_device!(
     )
 
     PSI.add_parameters!(container, PSI.ActivePowerTimeSeriesParameter, devices, model)
+    PSI.add_parameters!(container, PSI.MinActivePowerTimeSeriesParameter, devices, model)
     PSI.add_parameters!(container, EnergyBudgetTimeSeriesParameter, devices, model)
     if PSI.get_use_slacks(model)
         PSI.add_variables!(

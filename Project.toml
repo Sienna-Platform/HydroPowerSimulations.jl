@@ -9,6 +9,9 @@ JuMP = "4076af6c-e467-56ae-b986-b466b2749572"
 PowerSimulations = "e690365d-45e2-57bb-ac84-44ba829e73c4"
 PowerSystems = "bcd98974-b02a-5e2f-9ee0-a103f5c450dd"
 
+[sources]
+PowerSimulations = {url = "https://github.com/Sienna-Platform/PowerSimulations.jl.git", rev = "lk/hydro-min-active-power-ts"}
+
 [compat]
 Dates = "1"
 InfrastructureSystems = "3"

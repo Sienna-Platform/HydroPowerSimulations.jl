@@ -192,6 +192,11 @@ PSI.get_multiplier_value(::InflowTimeSeriesParameter, d::PSY.HydroReservoir, ::H
 PSI.get_multiplier_value(::InflowTimeSeriesParameter, d::PSY.HydroReservoir, ::HydroWaterFactorModel) = PSY.get_inflow(d)
 PSI.get_multiplier_value(::PSI.TimeSeriesParameter, d::PSY.HydroGen, ::AbstractHydroFormulation) = PSY.get_max_active_power(d)
 PSI.get_multiplier_value(::PSI.TimeSeriesParameter, d::PSY.HydroGen, ::PSI.FixedOutput) = PSY.get_max_active_power(d)
+# Time series values are in component base, where 1.0 corresponds to `get_max_active_power`,
+# so the min-active-power series multiplies by `get_max_active_power` (NOT `get_min_active_power`).
+# This is covered by the generic `TimeSeriesParameter` fallback above, but is stated explicitly
+# to document the convention and prevent a well-intentioned switch to `get_min_active_power`.
+PSI.get_multiplier_value(::PSI.MinActivePowerTimeSeriesParameter, d::PSY.HydroGen, ::AbstractHydroFormulation) = PSY.get_max_active_power(d)
 # next 2 needed to avoid ambiguity errors
 PSI.get_multiplier_value(::PSI.AbstractPiecewiseLinearBreakpointParameter, d::PSY.HydroGen, ::PSI.FixedOutput) = PSY.get_max_active_power(d)
 PSI.get_multiplier_value(::PSI.AbstractPiecewiseLinearBreakpointParameter, d::PSY.HydroGen, ::AbstractHydroFormulation) = PSY.get_max_active_power(d)
@@ -332,6 +337,7 @@ function PSI.get_default_time_series_names(
 )
     return Dict{Type{<:PSI.TimeSeriesParameter}, String}(
         PSI.ActivePowerTimeSeriesParameter => "max_active_power",
+        PSI.MinActivePowerTimeSeriesParameter => "min_active_power",
         PSI.ReactivePowerTimeSeriesParameter => "max_active_power",
     )
 end
@@ -342,6 +348,7 @@ function PSI.get_default_time_series_names(
 )
     return Dict{Type{<:PSI.TimeSeriesParameter}, String}(
         PSI.ActivePowerTimeSeriesParameter => "max_active_power",
+        PSI.MinActivePowerTimeSeriesParameter => "min_active_power",
         PSI.ReactivePowerTimeSeriesParameter => "max_active_power",
         EnergyBudgetTimeSeriesParameter => "hydro_budget",
     )
@@ -594,6 +601,17 @@ function PSI.add_constraints!(
     if !PSI.has_semicontinuous_feedforward(model, U)
         PSI.add_range_constraints!(container, T, U, devices, model, X)
     end
+    # Optional lower bound from a min-active-power time series; only built for devices
+    # that actually carry the series (see `add_parameterized_lower_bound_range_constraints`).
+    PSI.add_parameterized_lower_bound_range_constraints(
+        container,
+        PSI.ActivePowerVariableTimeSeriesLowerLimitsConstraint,
+        U,
+        PSI.MinActivePowerTimeSeriesParameter,
+        devices,
+        model,
+        X,
+    )
     return
 end
 
