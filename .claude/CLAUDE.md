@@ -14,8 +14,8 @@ Supports both **energy-based** (simplified, MW/MWh) and **water-based** (detaile
 m³/s, volume in m³, hydraulic head in m) modeling, including nonlinear bilinear
 power–flow–head relationships.
 
-Dependencies (`Project.toml`): `PowerSimulations` (`^0.36`), `PowerSystems` (`5`),
-`InfrastructureSystems` (`3`), `JuMP` (`1`), `Dates`. Julia `^1.10`. Current version `0.17.0`.
+Dependencies (`Project.toml`): `PowerSimulations` (`^0.38`), `PowerSystems` (`5`),
+`InfrastructureSystems` (`3`), `JuMP` (`1`), `Dates`. Julia `^1.10`. Current version `0.19.0`.
 
 Note: there is **no `InfrastructureOptimizationModels` dependency**. The optimization
 interfaces (`add_variables!`, `add_constraints!`, containers, keys) are reached through PSI,
@@ -165,8 +165,8 @@ Default branch is `main`. Always use `julia --project=<env>`.
 ```sh
 # Tests — runner scans test/ and includes all test_*.jl via @includetests ARGS
 julia --project=test test/runtests.jl
-# Single test file (without the test_ prefix or .jl), e.g. test_hydro_simulations.jl:
-julia --project=test test/runtests.jl hydro_simulations
+# Single test file (drop only the .jl — the runner just appends ".jl" to each arg):
+julia --project=test test/runtests.jl test_hydro_simulations
 # Instantiate test env
 julia --project=test -e 'using Pkg; Pkg.instantiate()'
 
