@@ -165,8 +165,8 @@ Default branch is `main`. Always use `julia --project=<env>`.
 ```sh
 # Tests — runner scans test/ and includes all test_*.jl via @includetests ARGS
 julia --project=test test/runtests.jl
-# Single test file (without the test_ prefix or .jl), e.g. test_hydro_simulations.jl:
-julia --project=test test/runtests.jl hydro_simulations
+# Single test file (drop only the .jl — the runner just appends ".jl" to each arg):
+julia --project=test test/runtests.jl test_hydro_simulations
 # Instantiate test env
 julia --project=test -e 'using Pkg; Pkg.instantiate()'
 
