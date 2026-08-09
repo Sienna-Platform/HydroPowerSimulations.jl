@@ -846,7 +846,6 @@ function PSI.add_constraints!(
     names = [PSY.get_name(x) for x in devices]
     initial_conditions = PSI.get_initial_condition(container, PSI.InitialEnergyLevel(), V)
     energy_var = PSI.get_variable(container, PSI.EnergyVariable(), V)
-    power_var = PSI.get_variable(container, PSI.ActivePowerVariable(), PSY.HydroTurbine)
     spillage_var = PSI.get_variable(container, WaterSpillageVariable(), V)
     power_in_from_turbines =
         PSI.get_expression(container, TotalHydroPowerReservoirIncoming(), V)
