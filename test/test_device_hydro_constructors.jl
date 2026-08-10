@@ -619,6 +619,43 @@ end
     @test "ReactivePowerVariable__HydroPumpTurbine" in variable_keys
 end
 
+@testset "Solve HydroEnergyModelReservoir with HydroPumpTurbine" begin
+    output_dir = mktempdir(; cleanup = true)
+
+    sys =
+        PSB.build_system(
+            PSITestSystems,
+            "c_sys5_phes_ed";
+            add_reserves = false,
+            add_single_time_series = true,
+        )
+
+    @test isempty(collect(PSY.get_components(HydroTurbine, sys)))
+    transform_single_time_series!(sys, Hour(24), Hour(24))
+
+    template = ProblemTemplate()
+    set_device_model!(template, ThermalStandard, ThermalDispatchNoMin)
+    set_device_model!(template, RenewableDispatch, RenewableFullDispatch)
+    set_device_model!(template, RenewableNonDispatch, FixedOutput)
+    set_device_model!(template, PowerLoad, StaticPowerLoad)
+    set_device_model!(template, InterruptiblePowerLoad, PowerLoadDispatch)
+    set_device_model!(template, HydroPumpTurbine, HydroPumpEnergyDispatch)
+    set_device_model!(template, HydroReservoir, HydroEnergyModelReservoir)
+
+    model = DecisionModel(
+        template,
+        sys;
+        optimizer = HiGHS_optimizer,
+        store_variable_names = true,
+    )
+
+    @test build!(model; output_dir = output_dir) ==
+          PSI.ModelBuildStatus.BUILT
+
+    @test solve!(model; output_dir = output_dir) ==
+          IS.Simulation.RunStatus.SUCCESSFULLY_FINALIZED
+end
+
 #########################################
 ######## HydroBlock model Tests #########
 #########################################
