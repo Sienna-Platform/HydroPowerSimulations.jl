@@ -10,7 +10,8 @@ HYDRO_DEVICE_TO_FORMULATION =
 
 @testset "MBC HydroDispatch: no time series versus constant time series" begin
     sys_no_ts = load_sys_hydro()
-    sys_constant_ts = build_sys_hydro(false, false, false)
+    # Keep the constant time-series breakpoints identical to the fixed curve.
+    sys_constant_ts = build_sys_hydro(false, false, false; do_override_min_x = false)
 
     sel = make_selector(PSY.HydroDispatch, "HD1") # hard-coded. make global?
     hd = first(get_components(sel, sys_no_ts))
