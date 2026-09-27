@@ -191,19 +191,10 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
   </thead>
   <tbody>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
+      <td style = "text-align: left;">TotalHydroFlowRateReservoirIncoming__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ProductionCostExpression__HydroTurbine</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">ActivePowerBalance__System</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">FuelCostExpression__ThermalStandard</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">TotalHydroFlowRateTurbineOutgoing__HydroTurbine</td>
+      <td style = "text-align: left;">ShutDownCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">TotalHydroFlowRateReservoirOutgoing__HydroReservoir</td>
@@ -212,16 +203,25 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
       <td style = "text-align: left;">VOMCostExpression__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">FixedCostExpression__ThermalStandard</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">ShutDownCostExpression__ThermalStandard</td>
-    </tr>
-    <tr class = "dataRow">
-      <td style = "text-align: left;">TotalHydroFlowRateReservoirIncoming__HydroReservoir</td>
+      <td style = "text-align: left;">ActivePowerBalance__System</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">StartUpCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">FuelCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__HydroTurbine</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">FixedCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">ProductionCostExpression__ThermalStandard</td>
+    </tr>
+    <tr class = "dataRow">
+      <td style = "text-align: left;">TotalHydroFlowRateTurbineOutgoing__HydroTurbine</td>
     </tr>
   </tbody>
 </table>
@@ -253,22 +253,22 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
   </thead>
   <tbody>
     <tr class = "dataRow">
-      <td style = "text-align: left;">HydroReservoirVolumeVariable__HydroReservoir</td>
+      <td style = "text-align: left;">WaterSpillageVariable__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">ActivePowerVariable__HydroTurbine</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">WaterSpillageVariable__HydroReservoir</td>
+      <td style = "text-align: left;">HydroReservoirVolumeVariable__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">HydroWaterSurplusVariable__HydroReservoir</td>
+      <td style = "text-align: left;">ActivePowerVariable__ThermalStandard</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">HydroWaterShortageVariable__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
-      <td style = "text-align: left;">ActivePowerVariable__ThermalStandard</td>
+      <td style = "text-align: left;">HydroWaterSurplusVariable__HydroReservoir</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: left;">HydroReservoirHeadVariable__HydroReservoir</td>
@@ -296,7 +296,7 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
   <tbody>
     <tr class = "dataRow">
       <td style = "text-align: right;">2024-01-01T00:00:00</td>
-      <td style = "text-align: right;">53.73864962416116</td>
+      <td style = "text-align: right;">53.73864962416117</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: right;">2024-01-01T01:00:00</td>
@@ -304,11 +304,11 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: right;">2024-01-01T02:00:00</td>
-      <td style = "text-align: right;">53.60220981010811</td>
+      <td style = "text-align: right;">53.60220981010809</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: right;">2024-01-01T03:00:00</td>
-      <td style = "text-align: right;">53.53398989996738</td>
+      <td style = "text-align: right;">53.533989899967374</td>
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: right;">2024-01-01T04:00:00</td>
@@ -332,7 +332,7 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
     <tr class = "dataRow">
       <td style = "text-align: right;">2024-01-01T09:00:00</td>
-      <td style = "text-align: right;">53.12467046316206</td>
+      <td style = "text-align: right;">53.12467046316205</td>
     </tr>
     <tr>
       <td style = "text-align: right;">&vellip;</td>
@@ -476,4 +476,4 @@ solve!(model)</code></pre><pre class="documenter-example-output"><code class="no
     </tr>
   </tbody>
 </table>
-<p>Note that since the water outflow limit of the turbine is limited on 30 m³/s, the optimal solution decides to flow as much water as possible producing power around 190 MW with that flow and hydraulic head.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_energy_model_hydroturbine_reservoir/">« Energy Hydro Reservoir Operation</a><a class="docs-footer-nextpage" href="../generated_hydro_pump_turbine/">Hydro Pump Turbine Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.19.0 on <span class="colophon-date" title="Sunday 27 September 2026 22:36">Sunday 27 September 2026</span>. Using Julia version 1.13.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+<p>Note that since the water outflow limit of the turbine is limited on 30 m³/s, the optimal solution decides to flow as much water as possible producing power around 190 MW with that flow and hydraulic head.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../generated_energy_model_hydroturbine_reservoir/">« Energy Hydro Reservoir Operation</a><a class="docs-footer-nextpage" href="../generated_hydro_pump_turbine/">Hydro Pump Turbine Operation »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.19.0 on <span class="colophon-date" title="Sunday 27 September 2026 23:05">Sunday 27 September 2026</span>. Using Julia version 1.13.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
