@@ -2478,7 +2478,7 @@ function PSI.construct_device!(
     if PSI.get_attribute(model, "reservation")
         PSI.add_constraints!(
             container,
-            ActivePowerPumpReservationConstraint,
+            HydroPumpReservationCommitmentConstraint,
             devices,
             model,
             network_model,
@@ -2543,7 +2543,7 @@ function PSI.construct_device!(
     if PSI.get_attribute(model, "reservation")
         PSI.add_constraints!(
             container,
-            ActivePowerPumpReservationConstraint,
+            HydroPumpReservationCommitmentConstraint,
             devices,
             model,
             network_model,

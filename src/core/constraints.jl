@@ -79,6 +79,13 @@ p^\\text{pump}_t \\le P^\\text{max,pump} \\cdot (1 - \\text{ReservationVariable}
 struct ActivePowerPumpReservationConstraint <: PSI.ConstraintType end
 
 """
+Require `ReservationVariable` to be no greater than `OnVariable` for pump-turbine commitment.
+
+Together with pumping bounds based on `OnVariable - ReservationVariable`, this permits off, pumping and generating states in [`HydroPumpEnergyCommitment`](@ref).
+"""
+struct HydroPumpReservationCommitmentConstraint <: PSI.ConstraintType end
+
+"""
 Struct to create the constraint that limits the pump power  for hydro pump formulations.
 
 For more information check [HydroPowerSimulations Formulations](@ref HydroPowerSimulations-Formulations).
