@@ -515,8 +515,58 @@ end
 
     model = DecisionModel(MockOperationProblem, CopperPlatePowerModel, c_sys5_bat)
     mock_construct_device!(model, device_model)
-    moi_tests(model, 72, 0, 48, 24, 0, true)
+    moi_tests(model, 72, 0, 48, 48, 0, true)
     psi_checkobjfun_test(model, GAEVF)
+end
+
+@testset "Hydro Pump Energy Dispatch minimum limits" begin
+    sys = PSB.build_system(PSITestSystems, "c_sys5_hydro_pump_energy";
+        add_single_time_series = true)
+    transform_single_time_series!(sys, Hour(24), Hour(24))
+    pump = first(get_components(HydroPumpTurbine, sys))
+    set_active_power_limits!(pump, (min = 0.32, max = 0.43))
+    set_active_power_limits_pump!(pump, (min = 0.21, max = 0.37))
+    name = get_name(pump)
+
+    for reservation in (true, false)
+        device_model = DeviceModel(HydroPumpTurbine, HydroPumpEnergyDispatch;
+            attributes = Dict{String, Any}("reservation" => reservation))
+        model = DecisionModel(MockOperationProblem, CopperPlatePowerModel, sys)
+        mock_construct_device!(model, device_model)
+        container = PSI.get_optimization_container(model)
+        jump_model = PSI.get_jump_model(container)
+        generation =
+            PSI.get_variable(container, PSI.ActivePowerVariable(), HydroPumpTurbine)
+        pumping =
+            PSI.get_variable(container, HPS.ActivePowerPumpVariable(), HydroPumpTurbine)
+        time_steps = PSI.get_time_steps(container)
+        JuMP.set_optimizer(jump_model, HiGHS_optimizer)
+
+        for t in time_steps
+            @test JuMP.lower_bound(generation[name, t]) == 0.0
+            @test JuMP.lower_bound(pumping[name, t]) == 0.0
+        end
+
+        modes = reservation ? (0, 1) : (0,)
+        for mode in modes
+            if reservation
+                mode_variable =
+                    PSI.get_variable(container, PSI.ReservationVariable(), HydroPumpTurbine)
+                for t in time_steps
+                    JuMP.fix(mode_variable[name, t], mode; force = true)
+                end
+            end
+            psi_checksolve_test(model, [MOI.OPTIMAL])
+            gen_mode = reservation ? mode : 1
+            pump_mode = reservation ? 1 - mode : 1
+            for t in time_steps
+                @test 0.32 * gen_mode - 1e-6 <= JuMP.value(generation[name, t]) <=
+                      0.43 * gen_mode + 1e-6
+                @test 0.21 * pump_mode - 1e-6 <= JuMP.value(pumping[name, t]) <=
+                      0.37 * pump_mode + 1e-6
+            end
+        end
+    end
 end
 
 @testset "Test Hydro Pump Energy Dispatch Formulations 2" begin

@@ -2231,15 +2231,14 @@ function PSI.construct_device!(
         network_model,
     )
 
-    if PSI.get_attribute(model, "reservation")
-        PSI.add_constraints!(
-            container,
-            ActivePowerPumpReservationConstraint,
-            devices,
-            model,
-            network_model,
-        )
-    end
+    PSI.add_constraints!(
+        container,
+        PSI.InputActivePowerVariableLimitsConstraint,
+        ActivePowerPumpVariable,
+        devices,
+        model,
+        network_model,
+    )
 
     PSI.objective_function!(container, devices, model, S)
     PSI.add_event_constraints!(container, devices, model, network_model)
@@ -2287,15 +2286,14 @@ function PSI.construct_device!(
         network_model,
     )
 
-    if PSI.get_attribute(model, "reservation")
-        PSI.add_constraints!(
-            container,
-            ActivePowerPumpReservationConstraint,
-            devices,
-            model,
-            network_model,
-        )
-    end
+    PSI.add_constraints!(
+        container,
+        PSI.InputActivePowerVariableLimitsConstraint,
+        ActivePowerPumpVariable,
+        devices,
+        model,
+        network_model,
+    )
 
     PSI.objective_function!(container, devices, model, S)
     PSI.add_event_constraints!(container, devices, model, network_model)

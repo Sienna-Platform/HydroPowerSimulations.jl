@@ -95,11 +95,13 @@ PSI.get_variable_binary(::PSI.OnVariable, ::Type{<:PSY.HydroPumpTurbine}, ::Hydr
 # ActivePowerVariable
 PSI.get_variable_binary(::PSI.ActivePowerVariable, ::Type{<:PSY.HydroPumpTurbine}, ::AbstractHydroPumpFormulation) = false
 PSI.get_variable_lower_bound(::PSI.ActivePowerVariable, d::PSY.HydroPumpTurbine, ::AbstractHydroPumpFormulation) = PSY.get_active_power_limits(d).min
+PSI.get_variable_lower_bound(::PSI.ActivePowerVariable, d::PSY.HydroPumpTurbine, ::HydroPumpEnergyDispatch) = 0.0
 PSI.get_variable_lower_bound(::PSI.ActivePowerVariable, d::PSY.HydroPumpTurbine, ::HydroPumpEnergyCommitment) = 0.0
 PSI.get_variable_upper_bound(::PSI.ActivePowerVariable, d::PSY.HydroPumpTurbine, ::AbstractHydroPumpFormulation) = PSY.get_active_power_limits(d).max
 # ActivePowerPumpVariable
 PSI.get_variable_binary(::ActivePowerPumpVariable, ::Type{<:PSY.HydroPumpTurbine}, ::AbstractHydroPumpFormulation) = false
 PSI.get_variable_lower_bound(::ActivePowerPumpVariable, d::PSY.HydroPumpTurbine, ::AbstractHydroPumpFormulation) = PSY.get_active_power_limits_pump(d).min
+PSI.get_variable_lower_bound(::ActivePowerPumpVariable, d::PSY.HydroPumpTurbine, ::HydroPumpEnergyDispatch) = 0.0
 PSI.get_variable_lower_bound(::ActivePowerPumpVariable, d::PSY.HydroPumpTurbine, ::HydroPumpEnergyCommitment) = 0.0
 PSI.get_variable_upper_bound(::ActivePowerPumpVariable, d::PSY.HydroPumpTurbine, ::AbstractHydroPumpFormulation) = PSY.get_active_power_limits_pump(d).max
 # ReactivePowerVariable
@@ -2744,27 +2746,7 @@ function PSI.add_constraints!(
     if !PSI.get_attribute(model, "reservation")
         PSI.add_range_constraints!(container, T, U, devices, model, X)
     else
-        array = PSI.get_expression(container, U(), V)
-        reservation = PSI.get_variable(container, PSI.ReservationVariable(), V)
-        time_steps = PSI.get_time_steps(container)
-        device_names = [PSY.get_name(d) for d in devices]
-        con_lb = PSI.add_constraints_container!(
-            container,
-            T(),
-            V,
-            device_names,
-            time_steps;
-            meta = "lb",
-        )
-        for device in devices, t in time_steps
-            ci_name = PSY.get_name(device)
-            limits = PSI.get_min_max_limits(device, T, W)
-            con_lb[ci_name, t] =
-                JuMP.@constraint(
-                    PSI.get_jump_model(container),
-                    array[ci_name, t] >= limits.min * reservation[ci_name, t]
-                )
-        end
+        PSI.add_reserve_range_constraints!(container, T, U, devices, model, X)
     end
     return
 end
@@ -2787,27 +2769,27 @@ function PSI.add_constraints!(
     if !PSI.get_attribute(model, "reservation")
         PSI.add_range_constraints!(container, T, U, devices, model, X)
     else
-        array = PSI.get_expression(container, U(), V)
-        reservation = PSI.get_variable(container, PSI.ReservationVariable(), V)
-        time_steps = PSI.get_time_steps(container)
-        device_names = [PSY.get_name(d) for d in devices]
-        con_ub = PSI.add_constraints_container!(
-            container,
-            T(),
-            V,
-            device_names,
-            time_steps;
-            meta = "ub",
-        )
-        for device in devices, t in time_steps
-            ci_name = PSY.get_name(device)
-            limits = PSI.get_min_max_limits(device, T, W)
-            con_ub[ci_name, t] =
-                JuMP.@constraint(
-                    PSI.get_jump_model(container),
-                    array[ci_name, t] <= limits.max * reservation[ci_name, t]
-                )
-        end
+        PSI.add_reserve_range_constraints!(container, T, U, devices, model, X)
+    end
+    return
+end
+
+function PSI.add_constraints!(
+    container::PSI.OptimizationContainer,
+    T::Type{PSI.InputActivePowerVariableLimitsConstraint},
+    U::Type{ActivePowerPumpVariable},
+    devices::IS.FlattenIteratorWrapper{V},
+    model::PSI.DeviceModel{V, W},
+    ::PSI.NetworkModel{X},
+) where {
+    V <: PSY.HydroPumpTurbine,
+    W <: HydroPumpEnergyDispatch,
+    X <: PM.AbstractPowerModel,
+}
+    if PSI.get_attribute(model, "reservation")
+        PSI.add_reserve_range_constraints!(container, T, U, devices, model, X)
+    else
+        PSI.add_range_constraints!(container, T, U, devices, model, X)
     end
     return
 end
