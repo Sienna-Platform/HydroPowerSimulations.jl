@@ -1,9 +1,15 @@
 # HydroPowerSimulations.jl
 
-[![Main - CI](https://github.com/Sienna-Platform/HydroPowerSimulations.jl/actions/workflows/main-tests.yml/badge.svg)](https://github.com/Sienna-Platform/HydroPowerSimulations.jl/actions/workflows/main-tests.yml)
-[![codecov](https://codecov.io/gh/Sienna-Platform/HydroPowerSimulations.jl/branch/main/graph/badge.svg?token=4TAeajF0h6)](https://codecov.io/gh/Sienna-Platform/HydroPowerSimulations.jl)
-[![Documentation Build](https://github.com/Sienna-Platform/HydroPowerSimulations.jl/actions/workflows/docs.yml/badge.svg)](https://sienna-platform.github.io/HydroPowerSimulations.jl/stable/)
-[<img src="https://img.shields.io/badge/slack-@Sienna/HydroPowerSimulations-sienna.svg?logo=slack">](https://join.slack.com/t/core-sienna/shared_invite/zt-glam9vdu-o8A9TwZTZqqNTKHa7q3BpQ)
+| **Documentation** | **Build Status** |
+|:---:|:---:|
+| [![][docs-sienna-img]][docs-sienna-url] [![][docs-stable-img]][docs-stable-url] [![][docs-dev-img]][docs-dev-url] | [![Main - CI](https://github.com/Sienna-Platform/HydroPowerSimulations.jl/actions/workflows/main-tests.yml/badge.svg)](https://github.com/Sienna-Platform/HydroPowerSimulations.jl/actions/workflows/main-tests.yml) [![codecov](https://codecov.io/gh/Sienna-Platform/HydroPowerSimulations.jl/branch/main/graph/badge.svg?token=4TAeajF0h6)](https://codecov.io/gh/Sienna-Platform/HydroPowerSimulations.jl) [<img src="https://img.shields.io/badge/slack-@Sienna/HydroPowerSimulations-sienna.svg?logo=slack">](https://join.slack.com/t/core-sienna/shared_invite/zt-glam9vdu-o8A9TwZTZqqNTKHa7q3BpQ) |
+
+[docs-sienna-img]: https://img.shields.io/badge/Central_Sienna_docs-blue.svg
+[docs-sienna-url]: https://sienna-platform.github.io/Sienna/SiennaDocs/docs/build/index/
+[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
+[docs-stable-url]: https://sienna-platform.github.io/HydroPowerSimulations.jl/stable/
+[docs-dev-img]: https://img.shields.io/badge/docs-dev-blue.svg
+[docs-dev-url]: https://sienna-platform.github.io/HydroPowerSimulations.jl/dev/
 
 `HydroPowerSimulations.jl` is an extension package of [`PowerSimulations.jl`](https://sienna-platform.github.io/PowerSimulations.jl/stable/) for modeling of hydro generation technology.
 
