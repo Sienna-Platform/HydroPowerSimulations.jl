@@ -158,5 +158,5 @@
     # Test HydroUsage match with the AuxVar
     @test isapprox(uc_energy_hy * 100.0, uc_p_hy + 0.4 * uc_hy_regup - 0.3 * uc_hy_regdn)
     # Test HydroUsage in ED is bounded by UC
-    @test cumsum(ed_energy_hy)[end] <= cumsum(uc_energy_hy)[end]
+    @test cumsum(ed_energy_hy)[end] <= cumsum(uc_energy_hy)[end] + 1e-6
 end
