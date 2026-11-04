@@ -33,8 +33,8 @@ There are five main sections containing different information:
   - **Explanation** - Additional details and background information to help you *understand*
     `HydroPowerSimulations.jl`, its structure, and how it works behind the scenes
   - **Reference** - Technical references and API for a quick *look-up* during your work
-  - **Model Library** - Technical references of the data types and their functions that
-    `HydroPowerSimulations.jl` uses to model power system components
+  - **Formulation Library** - Technical references of the mathematical formulations that
+    `HydroPowerSimulations.jl` uses to model hydro behavior
 
 `HydroPowerSimulations.jl` strives to follow the [Diátaxis](https://diataxis.fr/) documentation
 framework.
