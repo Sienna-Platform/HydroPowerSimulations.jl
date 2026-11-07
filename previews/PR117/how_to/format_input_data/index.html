@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>...format input data for Hydro models · HydroPowerSimulations.jl</title><meta name="title" content="...format input data for Hydro models · HydroPowerSimulations.jl"/><meta property="og:title" content="...format input data for Hydro models · HydroPowerSimulations.jl"/><meta property="twitter:title" content="...format input data for Hydro models · HydroPowerSimulations.jl"/><meta name="description" content="Documentation for HydroPowerSimulations.jl."/><meta property="og:description" content="Documentation for HydroPowerSimulations.jl."/><meta property="twitter:description" content="Documentation for HydroPowerSimulations.jl."/><script data-outdated-warner src="../../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="../.."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../../assets/documenter.js"></script><script src="../../search_index.js"></script><script src="../../siteinfo.js"></script><script src="../../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><a class="docs-logo" href="../../"><img src="../../assets/logo.png" alt="HydroPowerSimulations.jl logo"/></a><div class="docs-package-name"><span class="docs-autofit"><a href="../../">HydroPowerSimulations.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../../">Welcome Page</a></li><li><span class="tocitem">Tutorials</span><ul><li><a class="tocitem" href="../../tutorials/single_stage_model/">Operation problem with HydroDispatchRunOfRiver</a></li><li><a class="tocitem" href="../../tutorials/hydro_with_marketbidcost/">HydroDispatch with Market Bid Cost</a></li><li><a class="tocitem" href="../../tutorials/energy_model_hydroturbine_reservoir/">Energy Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../../tutorials/water_model_hydroturbine_reservoir/">Water Hydro Reservoir Operation</a></li><li><a class="tocitem" href="../../tutorials/hydro_pump_turbine/">Hydro Pump Turbine Operation</a></li><li><a class="tocitem" href="../../tutorials/hydro_energy_block/">HydroEnergyBlock model usage</a></li></ul></li><li><span class="tocitem">How to...</span><ul><li class="is-active"><a class="tocitem" href>...format input data for Hydro models</a><ul class="internal"><li class="toplevel"><a class="tocitem" href="#Turbine-Data"><span>Turbine Data</span></a></li><li class="toplevel"><a class="tocitem" href="#Reservoir-Data"><span>Reservoir Data</span></a></li></ul></li><li><a class="tocitem" href="../include_limits_and_targets/">...include budget limit and storage targets to Hydro models</a></li></ul></li><li><span class="tocitem">Explanation</span><ul><li><a class="tocitem" href="../../explanation/difference_between_energy_water_models/">Difference between Energy and Water models</a></li></ul></li><li><a class="tocitem" href="../../model_library/formulation/">Formulation Library</a></li><li><span class="tocitem">Reference</span><ul><li><a class="tocitem" href="../../api/public/">Public API Reference</a></li><li><a class="tocitem" href="../../api/internal/">Internal API Reference</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">How to...</a></li><li class="is-active"><a href>...format input data for Hydro models</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>...format input data for Hydro models</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/NREL-Sienna/HydroPowerSimulations.jl/blob/main/docs/src/how_to/format_input_data.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="format_data"><a class="docs-heading-anchor" href="#format_data">Format input data for different turbine and reservoir models</a><a id="format_data-1"></a><a class="docs-heading-anchor-permalink" href="#format_data" title="Permalink"></a></h1><p>Many formulations require to properly specify the data models appropriately to be used correctly in the different available formulations</p><h1 id="Turbine-Data"><a class="docs-heading-anchor" href="#Turbine-Data">Turbine Data</a><a id="Turbine-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Turbine-Data" title="Permalink"></a></h1><p>Docstring provide good information on how to include data for turbines.</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSystems</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; @doc HydroTurbine</code><code class="nohighlight hljs ansi" style="display:block;">  <span class="sgr31">mutable</span><span class="sgr36"> </span><span class="sgr31">struct</span><span class="sgr36"> HydroTurbine &lt;: HydroUnit</span>
+  <span class="sgr36">    name::String</span>
+  <span class="sgr36">    available::Bool</span>
+  <span class="sgr36">    bus::ACBus</span>
+  <span class="sgr36">    active_power::Float64</span>
+  <span class="sgr36">    reactive_power::Float64</span>
+  <span class="sgr36">    rating::Float64</span>
+  <span class="sgr36">    active_power_limits::MinMax</span>
+  <span class="sgr36">    reactive_power_limits::Union{Nothing, MinMax}</span>
+  <span class="sgr36">    base_power::Float64</span>
+  <span class="sgr36">    operation_cost::Union{HydroGenerationCost, MarketBidCost}</span>
+  <span class="sgr36">    powerhouse_elevation::Float64</span>
+  <span class="sgr36">    ramp_limits::Union{Nothing, UpDown}</span>
+  <span class="sgr36">    time_limits::Union{Nothing, UpDown}</span>
+  <span class="sgr36">    outflow_limits::Union{Nothing, MinMax}</span>
+  <span class="sgr36">    efficiency::Float64</span>
+  <span class="sgr36">    turbine_type::HydroTurbineType</span>
+  <span class="sgr36">    conversion_factor::Float64</span>
+  <span class="sgr36">    prime_mover_type::PrimeMovers</span>
+  <span class="sgr36">    travel_time::Union{Nothing, Float64}</span>
+  <span class="sgr36">    services::Vector{Service}</span>
+  <span class="sgr36">    dynamic_injector::Union{Nothing, DynamicInjection}</span>
+  <span class="sgr36">    ext::Dict{String, Any}</span>
+  <span class="sgr36">    internal::InfrastructureSystemsInternal</span>
+  <span class="sgr31">end</span>
+
+  A hydropower generator that must have a <span class="sgr36"><span class="sgr4">HydroReservoir</span></span> attached, suitable
+  for modeling independent turbines and reservoirs.
+
+<span class="sgr1">  Arguments</span>
+  <span class="sgr1">≡≡≡≡≡≡≡≡≡</span>
+
+    <span class="sgr34">• </span> <span class="sgr36">name::String</span>: Name of the component. Components of the same type
+       (e.g., <span class="sgr36">PowerLoad</span>) must have unique names, but components of
+       different types (e.g., <span class="sgr36">PowerLoad</span> and <span class="sgr36">ACBus</span>) can have the same name
+    <span class="sgr34">• </span> <span class="sgr36">available::Bool</span>: Indicator of whether the component is connected
+       and online (<span class="sgr36">true</span>) or disconnected, offline, or down (<span class="sgr36">false</span>).
+       Unavailable components are excluded during simulations
+    <span class="sgr34">• </span> <span class="sgr36">bus::ACBus</span>: Bus that this component is connected to
+    <span class="sgr34">• </span> <span class="sgr36">active_power::Float64</span>: Initial active power set point of the unit
+       in MW. For power flow, this is the steady state operating point of
+       the system. For production cost modeling, this may or may not be
+       used as the initial starting point for the solver, depending on
+       the solver used
+    <span class="sgr34">• </span> <span class="sgr36">reactive_power::Float64</span>: Initial reactive power set point of the
+       unit (MVAR), validation range: <span class="sgr36">reactive_power_limits</span>
+    <span class="sgr34">• </span> <span class="sgr36">rating::Float64</span>: Maximum AC side output power rating of the unit.
+       Stored in per unit of the device and not to be confused with
+       base_power, validation range: <span class="sgr36">(0, nothing)</span>
+    <span class="sgr34">• </span> <span class="sgr36">active_power_limits::MinMax</span>: Minimum and maximum stable active
+       power levels (MW), validation range: <span class="sgr36">(0, nothing)</span>
+    <span class="sgr34">• </span> <span class="sgr36">reactive_power_limits::Union{Nothing, MinMax}</span>: Minimum and maximum
+       reactive power limits. Set to <span class="sgr36">Nothing</span> if not applicable
+    <span class="sgr34">• </span> <span class="sgr36">base_power::Float64</span>: Base power of the unit (MVA) for <span class="sgr4">per</span>
+       <span class="sgr4">unitization</span>, validation range: <span class="sgr36">(0.0001, nothing)</span>
+    <span class="sgr34">• </span> <span class="sgr36">operation_cost::Union{HydroGenerationCost, MarketBidCost}</span>:
+       (default: <span class="sgr36">HydroGenerationCost(nothing)</span>) <span class="sgr36"><span class="sgr4">OperationalCost</span></span> of
+       generation
+    <span class="sgr34">• </span> <span class="sgr36">powerhouse_elevation::Float64</span>: (default: <span class="sgr36">0.0</span>) Height level in
+       meters above the sea level of the powerhouse on which the turbine
+       is installed., validation range: <span class="sgr36">(0, nothing)</span>
+    <span class="sgr34">• </span> <span class="sgr36">ramp_limits::Union{Nothing, UpDown}</span>: (default: <span class="sgr36">nothing</span>) ramp up
+       and ramp down limits in MW/min, validation range: <span class="sgr36">(0, nothing)</span>
+    <span class="sgr34">• </span> <span class="sgr36">time_limits::Union{Nothing, UpDown}</span>: (default: <span class="sgr36">nothing</span>) Minimum up
+       and Minimum down time limits in hours, validation range: <span class="sgr36">(0,</span>
+       <span class="sgr36">nothing)</span>
+    <span class="sgr34">• </span> <span class="sgr36">outflow_limits::Union{Nothing, MinMax}</span>: (default: <span class="sgr36">nothing</span>) Turbine
+       outflow limits in m3/s. Set to <span class="sgr36">Nothing</span> if not applicable
+    <span class="sgr34">• </span> <span class="sgr36">efficiency::Float64</span>: (default: <span class="sgr36">1.0</span>) Turbine efficiency [0, 1.0],
+       validation range: <span class="sgr36">(0, 1)</span>
+    <span class="sgr34">• </span> <span class="sgr36">turbine_type::HydroTurbineType</span>: (default:
+       <span class="sgr36">HydroTurbineType.UNKNOWN</span>) Type of the turbine
+    <span class="sgr34">• </span> <span class="sgr36">conversion_factor::Float64</span>: (default: <span class="sgr36">1.0</span>) Conversion factor from
+       flow/volume to energy: m^3 -&gt; p.u-hr
+    <span class="sgr34">• </span> <span class="sgr36">prime_mover_type::PrimeMovers</span>: (default: <span class="sgr36">PrimeMovers.HY</span>) Prime
+       mover technology according to EIA 923. Options are listed <span class="sgr4">here</span>
+    <span class="sgr34">• </span> <span class="sgr36">travel_time::Union{Nothing, Float64}</span>: (default: <span class="sgr36">nothing</span>)
+       Downstream (from reservoir into turbine) travel time in hours.
+    <span class="sgr34">• </span> <span class="sgr36">services::Vector{Service}</span>: (default: <span class="sgr36">Device[]</span>) Services that this
+       device contributes to
+    <span class="sgr34">• </span> <span class="sgr36">dynamic_injector::Union{Nothing, DynamicInjection}</span>: (default:
+       <span class="sgr36">nothing</span>) corresponding dynamic injection device
+    <span class="sgr34">• </span> <span class="sgr36">ext::Dict{String, Any}</span>: (default: <span class="sgr36">Dict{String, Any}()</span>) An <span class="sgr4">extra</span>
+       <span class="sgr4">dictionary</span> for users to add metadata that are not used in
+       simulation.
+    <span class="sgr34">• </span> <span class="sgr36">internal::InfrastructureSystemsInternal</span>: (<span class="sgr1">Do not modify.</span>)
+       PowerSystems.jl internal reference</code></pre><h3 id="Energy-Models"><a class="docs-heading-anchor" href="#Energy-Models">Energy Models</a><a id="Energy-Models-1"></a><a class="docs-heading-anchor-permalink" href="#Energy-Models" title="Permalink"></a></h3><p>Energy models are characterized by their data is specified in power units (MW and per-unit) and energy units (MWh and per-unit-h). For turbines this is usually set-up with providing data in per-unit dependent on its <code>base_power</code>. <code>powerhouse_elevation</code> and <code>outflow_limits</code> are only relevant for water models.</p><h3 id="TimeSeries-data"><a class="docs-heading-anchor" href="#TimeSeries-data">TimeSeries data</a><a id="TimeSeries-data-1"></a><a class="docs-heading-anchor-permalink" href="#TimeSeries-data" title="Permalink"></a></h3><p>Energy models for turbine such as <a href="../../model_library/formulation/#HydroTurbineEnergyDispatch"><code>HydroTurbineEnergyDispatch</code></a> and <a href="../../api/public/#HydroPowerSimulations.HydroTurbineEnergyCommitment"><code>HydroTurbineEnergyCommitment</code></a> do not require time series input data.</p><h3 id="Water-Models"><a class="docs-heading-anchor" href="#Water-Models">Water Models</a><a id="Water-Models-1"></a><a class="docs-heading-anchor-permalink" href="#Water-Models" title="Permalink"></a></h3><p>Water models still have their data specified in power units, but the <code>powerhouse_elevation</code> must be specified in meters, and <code>outflow_limits</code> specified in m³/s, bounds the water flowing through the turbine.</p><h3 id="TimeSeries-data-2"><a class="docs-heading-anchor" href="#TimeSeries-data-2">TimeSeries data</a><a class="docs-heading-anchor-permalink" href="#TimeSeries-data-2" title="Permalink"></a></h3><p><a href="../../model_library/formulation/#HydroTurbineBilinearDispatch"><code>HydroTurbineBilinearDispatch</code></a> and <a href="../../model_library/formulation/#HydroWaterFactorModel"><code>HydroWaterFactorModel</code></a> models for turbine do not require time series input data.</p><h1 id="Reservoir-Data"><a class="docs-heading-anchor" href="#Reservoir-Data">Reservoir Data</a><a id="Reservoir-Data-1"></a><a class="docs-heading-anchor-permalink" href="#Reservoir-Data" title="Permalink"></a></h1><p>Docstring provide good information on how to include data for reservoirs.</p><pre><code class="language-julia-repl hljs" style="display:block;">julia&gt; using PowerSystems</code><br/><code class="language-julia-repl hljs" style="display:block;">julia&gt; @doc HydroReservoir</code><code class="nohighlight hljs ansi" style="display:block;">  <span class="sgr31">mutable</span><span class="sgr36"> </span><span class="sgr31">struct</span><span class="sgr36"> HydroReservoir &lt;: Device</span>
+  <span class="sgr36">    name::String</span>
+  <span class="sgr36">    available::Bool</span>
+  <span class="sgr36">    storage_level_limits::MinMax</span>
+  <span class="sgr36">    initial_level::Float64</span>
+  <span class="sgr36">    spillage_limits::Union{Nothing, MinMax}</span>
+  <span class="sgr36">    inflow::Float64</span>
+  <span class="sgr36">    outflow::Float64</span>
+  <span class="sgr36">    level_targets::Union{Nothing, Float64}</span>
+  <span class="sgr36">    intake_elevation::Float64</span>
+  <span class="sgr36">    head_to_volume_factor::ValueCurve</span>
+  <span class="sgr36">    upstream_turbines::Vector{HydroUnit}</span>
+  <span class="sgr36">    downstream_turbines::Vector{HydroUnit}</span>
+  <span class="sgr36">    upstream_reservoirs::Vector{Device}</span>
+  <span class="sgr36">    operation_cost::HydroReservoirCost</span>
+  <span class="sgr36">    level_data_type::ReservoirDataType</span>
+  <span class="sgr36">    ext::Dict{String, Any}</span>
+  <span class="sgr36">    internal::InfrastructureSystemsInternal</span>
+  <span class="sgr31">end</span>
+
+  A hydropower reservoir that have attached <span class="sgr36"><span class="sgr4">HydroTurbine</span></span>(s) or
+  <span class="sgr36"><span class="sgr4">HydroPumpTurbine</span></span>(s) used to generate power. See <span class="sgr4">How to Define Hydro</span>
+  <span class="sgr4">Generators with Reservoirs</span> for supported configurations.
+
+<span class="sgr1">  Arguments</span>
+  <span class="sgr1">≡≡≡≡≡≡≡≡≡</span>
+
+    <span class="sgr34">• </span> <span class="sgr36">name::String</span>: Name of the component. Components of the same type
+       (e.g., <span class="sgr36">PowerLoad</span>) must have unique names, but components of
+       different types (e.g., <span class="sgr36">PowerLoad</span> and <span class="sgr36">ACBus</span>) can have the same name
+    <span class="sgr34">• </span> <span class="sgr36">available::Bool</span>: Indicator of whether the component is connected
+       and online (<span class="sgr36">true</span>) or disconnected, offline, or down (<span class="sgr36">false</span>).
+       Unavailable components are excluded during simulations
+    <span class="sgr34">• </span> <span class="sgr36">storage_level_limits::MinMax</span>: Storage level limits for the
+       reservoir in m^3, m, or MWh, based on the <span class="sgr36"><span class="sgr4">ReservoirDataType</span></span>
+       selected for <span class="sgr36">level_data_type</span>
+    <span class="sgr34">• </span> <span class="sgr36">initial_level::Float64</span>: Initial level of the reservoir relative to
+       the <span class="sgr36">storage_level_limits.max</span>.
+    <span class="sgr34">• </span> <span class="sgr36">spillage_limits::Union{Nothing, MinMax}</span>: Amount of water allowed
+       to be spilled from the reservoir. If nothing, infinite spillage is
+       allowed.
+    <span class="sgr34">• </span> <span class="sgr36">inflow::Float64</span>: Amount of water refilling the reservoir in m^3/h
+       or MW (if <span class="sgr36">level_data_type</span> is <span class="sgr36"><span class="sgr4">ReservoirDataType</span>.ENERGY</span>).
+    <span class="sgr34">• </span> <span class="sgr36">outflow::Float64</span>: Amount of water naturally going out of the
+       reservoir in m^3/h or MW (if <span class="sgr36">level_data_type</span> is
+       <span class="sgr36"><span class="sgr4">ReservoirDataType</span>.ENERGY</span>).
+    <span class="sgr34">• </span> <span class="sgr36">level_targets::Union{Nothing, Float64}</span>: Reservoir level targets at
+       the end of a simulation as a fraction of the
+       <span class="sgr36">storage_level_limits.max</span>.
+    <span class="sgr34">• </span> <span class="sgr36">intake_elevation::Float64</span>: Height of the intake of the reservoir,
+       towards the downstream turbines, in meters above the sea level.
+    <span class="sgr34">• </span> <span class="sgr36">head_to_volume_factor::ValueCurve</span>: Head to volume relationship for
+       the reservoir.
+    <span class="sgr34">• </span> <span class="sgr36">upstream_turbines::Vector{HydroUnit}</span>: (default: <span class="sgr36">Device[]</span>) Vector
+       of <span class="sgr4">HydroUnit</span>(s) that are immediately upstream of this reservoir.
+       This reservoir is the tail reservoir for these units, and their
+       flow goes into this reservoir.
+    <span class="sgr34">• </span> <span class="sgr36">downstream_turbines::Vector{HydroUnit}</span>: (default: <span class="sgr36">Device[]</span>) Vector
+       of <span class="sgr4">HydroUnit</span>(s) that are immediately downstream of this reservoir.
+       This reservoir is the head reservoir for these units, and its feed
+       flow into these units.
+    <span class="sgr34">• </span> <span class="sgr36">upstream_reservoirs::Vector{Device}</span>: (default: <span class="sgr36">Device[]</span>) Vector of
+       <span class="sgr4">Device</span>(s) reservoirs that are immediately upstream of this
+       reservoir. This reservoir receives the spillage flow from
+       upstream_reservoirs.
+    <span class="sgr34">• </span> <span class="sgr36">operation_cost::HydroReservoirCost</span>: (default:
+       <span class="sgr36">HydroReservoirCost(nothing)</span>) <span class="sgr36"><span class="sgr4">OperationalCost</span></span> of reservoir.
+    <span class="sgr34">• </span> <span class="sgr36">level_data_type::ReservoirDataType</span>: (default:
+       <span class="sgr36">ReservoirDataType.USABLE_VOLUME</span>) Reservoir level data type. See
+       <span class="sgr4">ReservoirDataType</span> for reference.
+    <span class="sgr34">• </span> <span class="sgr36">ext::Dict{String, Any}</span>: (default: <span class="sgr36">Dict{String, Any}()</span>) An <span class="sgr4">extra</span>
+       <span class="sgr4">dictionary</span> for users to add metadata that are not used in
+       simulation.
+    <span class="sgr34">• </span> <span class="sgr36">internal::InfrastructureSystemsInternal</span>: (<span class="sgr1">Do not modify.</span>)
+       PowerSystems.jl internal reference</code></pre><p>Reservoir store which turbines are upstream and downstream via their <code>upstream_turbines</code> and <code>downstream_turbines</code> field.</p><h3 id="Energy-Models-2"><a class="docs-heading-anchor" href="#Energy-Models-2">Energy Models</a><a class="docs-heading-anchor-permalink" href="#Energy-Models-2" title="Permalink"></a></h3><p>To specify a reservoir to use data in energy format, on which their inflows/outflows are in MW, and their capacity is in MWh, the user must specify the <code>level_data_type = ReservoirDataType.ENERGY</code>. The field <code>storage_level_limits</code> must be added in MWh, while the inflow/outflow should be specified in system base per-unit. For example if the system base is 100 MW, and the inflow is 400 MW, then <code>set_inflow!(reservoir, 4.0)</code> will be set correctly the multiplier for the inflow timeseries.</p><h3 id="Timeseries-data"><a class="docs-heading-anchor" href="#Timeseries-data">Timeseries data</a><a id="Timeseries-data-1"></a><a class="docs-heading-anchor-permalink" href="#Timeseries-data" title="Permalink"></a></h3><p>The <a href="../../model_library/formulation/#HydroEnergyModelReservoir"><code>HydroEnergyModelReservoir</code></a> can set-up three different timeseries:</p><ul><li><p>The <code>inflow</code> timeseries is used as a fraction of the <code>inflow</code> field to add energy into the reservoir storage at every time step. The term <span>$\text{inflow} \cdot \text{inflowTimeSeries}_t \cdot \text{resolution in hours} \cdot \text{system basepower}$</span> represents how much MWh are added per time to the reservoir storage.</p></li><li><p>The <code>storage_target</code> timeseries is used as a fraction of the <code>level_targets • storage_level_limits.max</code> to include a target at any specified hour. The user must provide a timeseries for every hour, but the constraint is only generated for the last time step of the decision model.</p></li><li><p>The <code>hydro_budget</code> timeseries is used as a fraction of the <code>storage_level_limits.max</code> to specify an hourly energy budget at any specified hour. The user must provide a timeseries for every hour, but a single constraint is generated for the sum of all time steps of the decision model.</p></li></ul><h3 id="Water-Models-2"><a class="docs-heading-anchor" href="#Water-Models-2">Water Models</a><a class="docs-heading-anchor-permalink" href="#Water-Models-2" title="Permalink"></a></h3><p>To specify a reservoir data in water format, on which their inflows/outflows are in m³/s, the user must must specify the <code>level_data_type</code> as the following options:</p><ul><li><p><code>ReservoirDataType.HEAD</code> if the data is provided for the hydraulic head in meters. The <code>storage_level_limits</code> must specify the minimum and maximum hydraulic head in meters above the sea level. The <code>intake_elevation</code> must be specified in meters, and the <code>head_to_volume_factor</code> must be specified to transform the head into the effective available volume for the reservoir in m³.</p></li><li><p><code>ReservoirDataType.USABLE_VOLUME</code> if the data is provided in usable volume in cubic meters. The <code>storage_level_limits</code> must specify the minimum and maximum effective volume of the reservoir in cubic meters. Typically the usable volume is relative to the minimum allowed volume in the reservoir, such that that total volume is represented as a zero usable volume. The <code>intake_elevation</code> must be specified in meters, and the <code>head_to_volume_factor</code> must be specified to transform the effective usable volume for the reservoir in m³ into the absolute hydraulic head in meters.</p></li><li><p><code>ReservoirDataType.TOTAL_VOLUME</code> if the data is provided in usable volume in cubic meters. The <code>storage_level_limits</code> must specify the minimum and maximum  volume of the reservoir in cubic meters. The total volume must specify the minimum volume in cubic meters for operation. The <code>intake_elevation</code> must be specified in meters, and the <code>head_to_volume_factor</code> must be specified to transform the total volume for the reservoir in m³ into the absolute hydraulic head in meters.</p></li></ul><p>The inflow and outflow fields are not necessary to be specified since the mandatory timeseries data must be specified in m³/s.</p><h3 id="Timeseries-data-2"><a class="docs-heading-anchor" href="#Timeseries-data-2">Timeseries data</a><a class="docs-heading-anchor-permalink" href="#Timeseries-data-2" title="Permalink"></a></h3><p>As mentioned, the <a href="../../model_library/formulation/#HydroWaterModelReservoir"><code>HydroWaterModelReservoir</code></a> must set-up two different timeseries:</p><ul><li><p>The <code>inflow</code> timeseries is added in average m³/s external water inflow. The term <span>$\text{inflowTimeSeries}_t \cdot \text{resolution in hours} \cdot \text{Seconds in 1 hour}$</span> represents how much m³ are added per time to the reservoir storage.</p></li><li><p>The <code>inflow</code> timeseries is added in average m³/s external water outflow. The term <span>$\text{outflowTimeSeries}_t \cdot \text{resolution in hours} \cdot \text{Seconds in 1 hour}$</span> represents how much m³ is lost per time to the reservoir storage. It is typically used to represent evaporation or filtration losses.</p></li></ul></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../../tutorials/hydro_energy_block/">« HydroEnergyBlock model usage</a><a class="docs-footer-nextpage" href="../include_limits_and_targets/">...include budget limit and storage targets to Hydro models »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.16.1 on <span class="colophon-date" title="Wednesday 18 February 2026 02:56">Wednesday 18 February 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
